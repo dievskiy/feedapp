@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+  ~ Copyright (c) 2020 Ruslan Potekhin
+  -->
+
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.feedapp.app">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+
+    <application
+        android:name=".AppDelegate"
+        android:allowBackup="false"
+        android:icon="@drawable/icon"
+        android:label="@string/app_name"
+        android:supportsRtl="true"
+        android:theme="@style/MainTheme"
+        tools:ignore="LockedOrientationActivity"
+        tools:replace="android:allowBackup">
+
+        <activity
+            android:exported="false"
+            android:name=".ui.activities.StatisticsActivity">
+
+        </activity>
+        <activity
+            android:exported="false"
+            android:name=".ui.activities.DetailedRecipeActivity">
+
+        </activity>
+        <activity android:name=".ui.activities.MyMealsSearchActivity" />
+        <activity
+            android:exported="false"
+            android:name=".ui.activities.AddCustomProductActivity"
+            android:label="@string/add_product" />
+        <activity
+            android:screenOrientation="sensorPortrait"
+            android:name=".ui.activities.IntroductionActivity"
+            android:label="@string/title_activity_intro"
+            android:theme="@style/MainTheme" />
+        <activity
+            android:name=".ui.activities.HomeActivity"
+            android:label="@string/app_name"
+            android:theme="@style/MainTheme">
+
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:exported="false"
+            android:name=".ui.activities.SearchActivity"
+            android:label="@string/search"
+            android:theme="@style/MainTheme" />
+        <activity
+            android:exported="false"
+            android:name=".ui.activities.DetailedFoodActivity"
+            android:label="@string/detailed"
+            android:theme="@style/MainTheme" />
+    </application>
+
+</manifest>

@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="mealsVM"
+            type="com.feedapp.app.viewModels.MyMealsViewModel" />
+    </data>
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            style="@style/TextUsual"
+            android:id="@+id/fragment_products_no_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_below="@id/fragment_products_title"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="10dp"
+            android:textAlignment="center"
+            android:text="@{mealsVM.textNoMeals}"
+            android:visibility="@{mealsVM.isTextNoMealsVisible() ? View.VISIBLE : View.GONE}" />
+
+        <TextView
+            android:id="@+id/fragment_products_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:paddingTop="20dp"
+            android:paddingBottom="20dp"
+            android:paddingStart="20dp"
+            style="@style/Title"
+            android:text="@string/title_my_meals"
+            android:textAlignment="viewStart"
+            android:textSize="18sp"/>
+
+        <TextView
+            android:id="@+id/fragment_my_meals_100g"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/fragment_products_no_text"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="35dp"
+            android:gravity="end|center_vertical"
+            android:text="@string/per_100g"
+            android:visibility="@{(!mealsVM.isTextNoMealsVisible() &amp;&amp; !mealsVM.isProgressBarVisible()) ? View.VISIBLE : View.GONE}" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_below="@id/fragment_my_meals_100g"
+            android:paddingBottom="56dp"
+            android:layout_height="wrap_content">
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/fragment_my_meals_rv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
+            android:overScrollMode="never" />
+        </RelativeLayout>
+
+        <ProgressBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:indeterminate="true"
+            android:paddingTop="200dp"
+            android:visibility="@{mealsVM.isProgressBarVisible() ? View.VISIBLE : View.GONE}" />
+
+    </RelativeLayout>
+</layout>

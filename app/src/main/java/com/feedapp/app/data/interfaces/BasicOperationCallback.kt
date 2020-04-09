@@ -1,0 +1,1 @@
+/* * Copyright (c) 2020 Ruslan Potekhin */package com.feedapp.app.data.interfacesinterface BasicOperationCallback {    fun onSuccess()    fun onFailure()}

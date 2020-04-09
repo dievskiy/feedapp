@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    style="@style/CardViewUsual"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:outlineSpotShadowColor="@color/white"
+    app:cardBackgroundColor="@color/home_card_color"
+    app:cardCornerRadius="20dp">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="16dp">
+
+        <TextView
+            android:id="@+id/item_title"
+            style="@style/TextUsual"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:text="@string/breakfast"
+            android:textStyle="bold" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/day_item_rv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/item_title"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="10dp"
+            android:isScrollContainer="false" />
+
+        <TextView
+            android:id="@+id/item_total"
+            style="@style/TextUsual"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/day_item_rv"
+            android:layout_alignParentEnd="true"
+            android:textStyle="bold" />
+    </RelativeLayout>
+
+
+</androidx.cardview.widget.CardView>

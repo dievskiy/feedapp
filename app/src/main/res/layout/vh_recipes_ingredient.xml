@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <ImageView
+        android:id="@+id/vh_recipes_ing_image"
+        android:layout_width="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:paddingTop="3dp"
+        android:layout_marginStart="4dp"
+        android:src="@drawable/bullet_8dp" />
+
+    <TextView
+        android:id="@+id/vh_ing_name"
+        style="@style/TextUsual"
+        android:layout_width="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_height="wrap_content"
+        android:layout_toStartOf="@id/vh_ing_amount"
+        android:layout_toEndOf="@id/vh_recipes_ing_image"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="80dp"
+        android:maxLines="2"
+        android:text="garlic asasad"/>
+
+    <TextView
+        android:id="@+id/vh_ing_amount"
+        style="@style/TextUsual"
+        android:layout_width="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_alignParentEnd="true"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:text="1" />
+
+</RelativeLayout>

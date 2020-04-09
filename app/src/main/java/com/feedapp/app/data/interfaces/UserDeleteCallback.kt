@@ -1,0 +1,1 @@
+/* * Copyright (c) 2020 Ruslan Potekhin */package com.feedapp.app.data.interfacesinterface UserDeleteCallback{    fun onDeletionSuccess()    fun onDeletionError()    fun reauthRequired()}

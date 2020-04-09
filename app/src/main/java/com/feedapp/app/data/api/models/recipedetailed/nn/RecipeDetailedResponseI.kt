@@ -1,0 +1,1 @@
+package com.feedapp.app.data.api.models.recipedetailed.nninterface RecipeDetailedResponseI {    var nutrition: Nutrition    var title: String}

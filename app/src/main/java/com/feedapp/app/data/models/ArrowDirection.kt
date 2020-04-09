@@ -1,0 +1,1 @@
+package com.feedapp.app.data.modelsenum class ArrowDirection(val code: Int) {    LEFT(-1),    RIGHT(1)}

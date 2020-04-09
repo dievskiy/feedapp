@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="viewmodel"
+            type="com.feedapp.app.viewModels.HomeViewModel" />
+
+        <import type="android.view.View" />
+    </data>
+
+
+    <RelativeLayout
+        android:id="@+id/home_rl_parent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <androidx.core.widget.NestedScrollView
+            android:id="@+id/activity_main_nsv"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignParentTop="true"
+            android:layout_marginBottom="55dp"
+            android:descendantFocusability="beforeDescendants"
+            android:focusableInTouchMode="true"
+            android:overScrollMode="never"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <fragment
+                    android:id="@+id/nav_host_fragment"
+                    android:name="androidx.navigation.fragment.NavHostFragment"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:defaultNavHost="true"
+                    app:enterAnim="@anim/nav_default_enter_anim"
+                    app:exitAnim="@anim/nav_default_exit_anim"
+                    app:navGraph="@navigation/mobile_navigation"
+                    app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+                    app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+            </RelativeLayout>
+        </androidx.core.widget.NestedScrollView>
+
+        <com.google.android.material.bottomnavigation.BottomNavigationView
+            android:id="@+id/nav_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:background="?android:attr/windowBackground"
+            android:duplicateParentState="true"
+            app:menu="@menu/bottom_nav_menu" />
+
+        <com.leinardi.android.speeddial.SpeedDialView
+            android:id="@+id/fab_add_meal"
+            style="@style/FloatingActionButtonStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@id/nav_view"
+            android:layout_alignParentEnd="true"
+            android:layout_marginBottom="56dp"
+            app:sdMainFabAnimationRotateAngle="90"
+            app:sdMainFabClosedSrc="@drawable/ic_add_black_24dp"
+            app:sdMainFabOpenedSrc="@drawable/ic_add_black_24dp"
+            app:sdUseReverseAnimationOnClose="true" />
+
+        <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+            android:id="@+id/fab_add_product"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_alignBottom="@id/nav_view"
+            android:textAlignment="center"
+            android:layout_marginBottom="72dp"
+            android:elevation="1dp"
+            android:text="@string/create"
+            android:textColor="@color/white"
+            style="@style/ExtendedFab"
+            android:visibility="invisible" />
+
+    </RelativeLayout>
+
+</layout>

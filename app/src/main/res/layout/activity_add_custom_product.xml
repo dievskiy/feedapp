@@ -1,0 +1,605 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:id="@+id/activity_add_cl"
+        style="@style/CollapsingToolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fitsSystemWindows="false"
+        android:theme="@style/CollapsingToolbar">
+
+        <com.google.android.material.appbar.AppBarLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true">
+
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/activity_add_toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:theme="@style/ToolBarTheme"
+                app:layout_scrollFlags="scroll"
+                app:title="@string/add_product"
+                app:titleTextAppearance="@style/TextUsualBold" />
+        </com.google.android.material.appbar.AppBarLayout>
+
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@id/activity_add_cl"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentEnd="true"
+            android:overScrollMode="never"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="80dp"
+                tools:context=".ui.activities.AddCustomProductActivity">
+
+                <RelativeLayout
+                    android:id="@+id/activity_add_card_main"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <androidx.cardview.widget.CardView
+                        style="@style/CardViewUsual"
+                        app:cardBackgroundColor="@color/statusBar"
+                        app:cardPreventCornerOverlap="false"
+                        app:cardUseCompatPadding="true"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                            <RelativeLayout
+                                android:id="@+id/activity_add_name"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentStart="true"
+                                android:layout_alignParentEnd="true"
+                                android:layout_marginTop="0dp">
+
+                                <com.google.android.material.textview.MaterialTextView
+
+                                    android:id="@+id/activity_add_name_txt"
+                                    style="@style/TextUsualBlackSmall"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_alignParentStart="true"
+                                    android:layout_centerVertical="true"
+                                    android:layout_marginStart="16dp"
+                                    android:text="@string/name" />
+
+                                <com.google.android.material.textfield.TextInputEditText
+                                    android:id="@+id/activity_add_name_edt"
+                                    style="@style/TextUsualBlackSmall"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_alignParentEnd="true"
+                                    android:layout_centerVertical="true"
+                                    android:layout_marginEnd="16dp"
+                                    android:hint="@string/example_chicken"
+                                    android:inputType="text"
+                                    android:maxWidth="230dp"
+                                    android:maxLength="40"
+                                    android:selectAllOnFocus="true"
+                                    android:textAlignment="center"
+                                    android:textDirection="ltr" />
+                            </RelativeLayout>
+
+                            <RelativeLayout
+                                android:id="@+id/activity_add_rl_portion"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_below="@id/activity_add_name"
+                                android:layout_alignParentStart="true"
+                                android:layout_alignParentEnd="true"
+                                android:layout_marginTop="15dp">
+
+                                <com.google.android.material.textview.MaterialTextView
+                                    android:id="@+id/activity_add_portion_text"
+                                    style="@style/TextUsualBlackSmall"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_alignParentStart="true"
+                                    android:layout_centerVertical="true"
+                                    android:layout_marginStart="16dp"
+                                    android:text="@string/in_one_portion" />
+
+                                <com.google.android.material.textfield.TextInputLayout
+                                    android:id="@+id/activity_add_quantity_edt"
+                                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_alignParentEnd="true"
+                                    android:layout_centerVertical="true"
+                                    android:layout_marginEnd="16dp"
+                                    android:minWidth="80dp"
+                                    app:suffixText="g">
+
+                                    <AutoCompleteTextView
+                                        android:id="@+id/activity_add_quantity_edt_text"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:hapticFeedbackEnabled="false"
+                                        android:inputType="numberDecimal"
+                                        android:maxLength="5"
+                                        android:padding="6dp"
+                                        android:selectAllOnFocus="true"
+                                        android:text="@string/_100"
+                                        android:textAlignment="center" />
+
+                                </com.google.android.material.textfield.TextInputLayout>
+
+                            </RelativeLayout>
+
+                            <RelativeLayout
+                                android:id="@+id/activity_add_rl_kcal"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_below="@id/activity_add_rl_portion"
+                                android:layout_alignParentStart="true"
+                                android:layout_alignParentEnd="true"
+                                android:layout_marginTop="5dp"
+                                android:layout_marginBottom="10dp">
+
+                                <com.google.android.material.textfield.TextInputLayout
+                                    android:id="@+id/activity_add_calories_edt"
+                                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_alignParentEnd="true"
+                                    android:layout_centerVertical="true"
+                                    android:layout_marginEnd="16dp"
+                                    android:minWidth="100dp"
+                                    app:suffixText="@string/kcal">
+
+                                    <AutoCompleteTextView
+                                        android:id="@+id/activity_add_calories_edt_text"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:hapticFeedbackEnabled="false"
+                                        android:inputType="numberDecimal"
+                                        android:maxLength="5"
+                                        android:padding="6dp"
+                                        android:selectAllOnFocus="true"
+                                        android:text="@string/_150"
+                                        android:textAlignment="center" />
+
+                                </com.google.android.material.textfield.TextInputLayout>
+                            </RelativeLayout>
+                        </RelativeLayout>
+                    </androidx.cardview.widget.CardView>
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/activity_add_card_main"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentEnd="true">
+
+                    <androidx.cardview.widget.CardView
+                        android:id="@+id/activity_add_card_required"
+                        style="@style/CardViewUsual"
+                        app:cardBackgroundColor="@color/statusBar"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentTop="true">
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentStart="true"
+                            android:layout_alignParentEnd="true">
+
+
+                            <TextView
+                                android:id="@+id/activity_add_title_require"
+                                style="@style/TitleBold"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentStart="true"
+                                android:layout_alignParentTop="true"
+                                android:layout_marginStart="16dp"
+                                android:layout_marginTop="10dp"
+                                android:text="@string/nutrients" />
+
+                            <TextView
+                                android:id="@+id/activity_add_title_required"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentTop="true"
+                                android:layout_alignParentEnd="true"
+                                android:layout_marginTop="14dp"
+                                android:layout_marginEnd="16dp"
+                                android:text="@string/required_small" />
+
+                            <RelativeLayout
+                                android:id="@+id/activity_add_rl_proteins"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_below="@id/activity_add_title_require"
+                                android:layout_alignParentStart="true"
+                                android:layout_alignParentEnd="true"
+                                android:layout_marginTop="10dp">
+
+                                <com.google.android.material.textview.MaterialTextView
+                                    android:id="@+id/activity_add_title_proteins"
+                                    style="@style/TextUsualBlackSmall"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_alignParentStart="true"
+                                    android:layout_centerVertical="true"
+                                    android:layout_marginStart="16dp"
+                                    android:text="@string/proteins" />
+
+                                <com.google.android.material.textfield.TextInputLayout
+                                    android:id="@+id/activity_add_title_proteins_edt"
+                                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_alignParentEnd="true"
+                                    android:layout_centerVertical="true"
+                                    android:layout_marginStart="180dp"
+                                    android:layout_marginEnd="16dp"
+                                    android:minWidth="80dp"
+                                    app:suffixText="g">
+
+                                    <AutoCompleteTextView
+                                        android:id="@+id/activity_add_title_proteins_edt_text"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:hapticFeedbackEnabled="false"
+                                        android:inputType="numberDecimal"
+                                        android:maxLength="5"
+                                        android:padding="6dp"
+                                        android:selectAllOnFocus="true"
+                                        android:text="@string/_0"
+                                        android:textAlignment="center" />
+
+                                </com.google.android.material.textfield.TextInputLayout>
+
+                            </RelativeLayout>
+
+                            <RelativeLayout
+                                android:id="@+id/activity_add_rl_fats"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_below="@id/activity_add_rl_proteins"
+                                android:layout_alignParentStart="true"
+                                android:layout_alignParentEnd="true"
+                                android:layout_marginTop="10dp">
+
+                                <com.google.android.material.textview.MaterialTextView
+                                    style="@style/TextUsualBlackSmall"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_alignParentStart="true"
+                                    android:layout_centerVertical="true"
+                                    android:layout_marginStart="16dp"
+                                    android:text="@string/fats" />
+
+                                <com.google.android.material.textfield.TextInputLayout
+                                    android:id="@+id/activity_add_title_fats_edt"
+                                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_alignParentEnd="true"
+                                    android:layout_centerVertical="true"
+                                    android:layout_marginEnd="16dp"
+                                    android:minWidth="80dp"
+                                    app:suffixText="g">
+
+                                    <AutoCompleteTextView
+                                        android:id="@+id/activity_add_title_fats_edt_text"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:hapticFeedbackEnabled="false"
+                                        android:inputType="numberDecimal"
+                                        android:maxLength="5"
+                                        android:padding="6dp"
+                                        android:selectAllOnFocus="true"
+                                        android:text="@string/_0"
+                                        android:textAlignment="center" />
+
+                                </com.google.android.material.textfield.TextInputLayout>
+                            </RelativeLayout>
+
+                            <RelativeLayout
+                                android:id="@+id/activity_add_rl_carbs"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_below="@id/activity_add_rl_fats"
+                                android:layout_alignParentStart="true"
+                                android:layout_alignParentEnd="true"
+                                android:layout_marginTop="10dp"
+                                android:layout_marginBottom="20dp">
+
+                                <com.google.android.material.textview.MaterialTextView
+                                    style="@style/TextUsualBlackSmall"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_alignParentStart="true"
+                                    android:layout_centerVertical="true"
+                                    android:layout_marginStart="16dp"
+                                    android:text="@string/carbs" />
+
+                                <com.google.android.material.textfield.TextInputLayout
+                                    android:id="@+id/activity_add_title_carbs_edt"
+                                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_alignParentEnd="true"
+                                    android:layout_centerVertical="true"
+                                    android:layout_marginEnd="16dp"
+                                    android:minWidth="80dp"
+                                    app:suffixText="g">
+
+                                    <AutoCompleteTextView
+                                        android:id="@+id/activity_add_title_carbs_edt_text"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:hapticFeedbackEnabled="false"
+                                        android:inputType="numberDecimal"
+                                        android:maxLength="5"
+                                        android:padding="6dp"
+                                        android:selectAllOnFocus="true"
+                                        android:text="@string/_0"
+                                        android:textAlignment="center" />
+
+                                </com.google.android.material.textfield.TextInputLayout>
+                            </RelativeLayout>
+                        </RelativeLayout>
+                    </androidx.cardview.widget.CardView>
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/activity_add_card_required"
+                        android:layout_alignParentStart="true"
+                        android:layout_alignParentEnd="true">
+
+                        <androidx.cardview.widget.CardView
+                            android:id="@+id/activity_add_card_optional"
+                            style="@style/CardViewUsual"
+                            android:backgroundTint="@color/statusBar"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                            <RelativeLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content">
+
+                                <TextView
+                                    android:id="@+id/activity_add_title_additional"
+                                    style="@style/TitleBold"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_alignParentStart="true"
+                                    android:layout_alignParentTop="true"
+                                    android:layout_marginStart="16dp"
+                                    android:layout_marginTop="10dp"
+                                    android:text="@string/additional_info" />
+
+                                <TextView
+                                    android:id="@+id/activity_add_title_optional"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_alignParentTop="true"
+                                    android:layout_alignParentEnd="true"
+                                    android:layout_marginTop="14dp"
+                                    android:layout_marginEnd="16dp"
+                                    android:text="@string/optional" />
+
+                                <RelativeLayout
+                                    android:id="@+id/activity_add_rl_sugar"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_below="@id/activity_add_title_additional"
+                                    android:layout_alignParentStart="true"
+                                    android:layout_alignParentEnd="true"
+                                    android:layout_marginTop="10dp">
+
+                                    <com.google.android.material.textview.MaterialTextView
+                                        style="@style/TextUsualBlackSmall"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_alignParentStart="true"
+                                        android:layout_centerVertical="true"
+                                        android:layout_marginStart="16dp"
+                                        android:text="@string/sugar" />
+
+                                    <com.google.android.material.textfield.TextInputLayout
+                                        android:id="@+id/activity_add_sugar_edt"
+                                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_alignParentEnd="true"
+                                        android:layout_centerVertical="true"
+                                        android:layout_marginStart="180dp"
+                                        android:layout_marginEnd="16dp"
+                                        android:minWidth="80dp"
+                                        app:suffixText="g">
+
+                                        <AutoCompleteTextView
+                                            android:id="@+id/activity_add_sugar_edt_text"
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:hapticFeedbackEnabled="false"
+                                            android:inputType="numberDecimal"
+                                            android:maxLength="5"
+                                            android:padding="6dp"
+                                            android:selectAllOnFocus="true"
+                                            android:text="@string/_0"
+                                            android:textAlignment="center" />
+
+                                    </com.google.android.material.textfield.TextInputLayout>
+                                </RelativeLayout>
+
+                                <RelativeLayout
+                                    android:id="@+id/activity_add_rl_s_fats"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_below="@id/activity_add_rl_sugar"
+                                    android:layout_alignParentStart="true"
+                                    android:layout_alignParentEnd="true"
+                                    android:layout_marginTop="10dp">
+
+                                    <com.google.android.material.textview.MaterialTextView
+                                        style="@style/TextUsualBlackSmall"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_alignParentStart="true"
+                                        android:layout_centerVertical="true"
+                                        android:layout_marginStart="16dp"
+                                        android:text="@string/saturated_fats" />
+
+                                    <com.google.android.material.textfield.TextInputLayout
+                                        android:id="@+id/activity_add_s_fats_edt"
+                                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_alignParentEnd="true"
+                                        android:layout_centerVertical="true"
+                                        android:layout_marginStart="180dp"
+                                        android:layout_marginEnd="16dp"
+                                        android:minWidth="80dp"
+                                        app:suffixText="g">
+
+                                        <AutoCompleteTextView
+                                            android:id="@+id/activity_add_s_fats_edt_text"
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:hapticFeedbackEnabled="false"
+                                            android:inputType="numberDecimal"
+                                            android:maxLength="5"
+                                            android:padding="6dp"
+                                            android:selectAllOnFocus="true"
+                                            android:text="@string/_0"
+                                            android:textAlignment="center" />
+                                    </com.google.android.material.textfield.TextInputLayout>
+                                </RelativeLayout>
+
+                                <RelativeLayout
+                                    android:id="@+id/activity_add_rl_u_fats"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_below="@id/activity_add_rl_s_fats"
+                                    android:layout_alignParentStart="true"
+                                    android:layout_alignParentEnd="true"
+                                    android:layout_marginTop="10dp">
+
+                                    <com.google.android.material.textview.MaterialTextView
+                                        style="@style/TextUsualBlackSmall"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_alignParentStart="true"
+                                        android:layout_centerVertical="true"
+                                        android:layout_marginStart="16dp"
+                                        android:text="@string/unsaturated_fats" />
+
+                                    <com.google.android.material.textfield.TextInputLayout
+                                        android:id="@+id/activity_add_u_fats_edt"
+                                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_alignParentEnd="true"
+                                        android:layout_centerVertical="true"
+                                        android:layout_marginStart="180dp"
+                                        android:layout_marginEnd="16dp"
+                                        android:minWidth="80dp"
+                                        app:suffixText="g">
+
+                                        <AutoCompleteTextView
+                                            android:id="@+id/activity_add_u_fats_edt_text"
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:hapticFeedbackEnabled="false"
+                                            android:inputType="numberDecimal"
+                                            android:maxLength="5"
+                                            android:padding="6dp"
+                                            android:selectAllOnFocus="true"
+                                            android:text="@string/_0"
+                                            android:textAlignment="center" />
+                                    </com.google.android.material.textfield.TextInputLayout>
+                                </RelativeLayout>
+
+                                <RelativeLayout
+                                    android:id="@+id/activity_add_rl_t_fats"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_below="@id/activity_add_rl_u_fats"
+                                    android:layout_alignParentStart="true"
+                                    android:layout_alignParentEnd="true"
+                                    android:layout_marginTop="10dp"
+                                    android:layout_marginBottom="20dp">
+
+                                    <com.google.android.material.textview.MaterialTextView
+                                        style="@style/TextUsualBlackSmall"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_alignParentStart="true"
+                                        android:layout_centerVertical="true"
+                                        android:layout_marginStart="16dp"
+                                        android:text="@string/trans_fats" />
+
+                                    <com.google.android.material.textfield.TextInputLayout
+                                        android:id="@+id/activity_add_t_fats_edt"
+                                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_alignParentEnd="true"
+                                        android:layout_centerVertical="true"
+                                        android:layout_marginStart="180dp"
+                                        android:layout_marginEnd="16dp"
+                                        android:minWidth="80dp"
+                                        app:suffixText="g">
+
+                                        <AutoCompleteTextView
+                                            android:id="@+id/activity_add_t_fats_edt_text"
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:hapticFeedbackEnabled="false"
+                                            android:inputType="numberDecimal"
+                                            android:maxLength="5"
+                                            android:padding="6dp"
+                                            android:selectAllOnFocus="true"
+                                            android:text="@string/_0"
+                                            android:textAlignment="center" />
+                                    </com.google.android.material.textfield.TextInputLayout>
+                                </RelativeLayout>
+                            </RelativeLayout>
+                        </androidx.cardview.widget.CardView>
+                    </RelativeLayout>
+                </RelativeLayout>
+            </RelativeLayout>
+        </androidx.core.widget.NestedScrollView>
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/activity_add_fab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end|bottom"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="16dp"
+            android:backgroundTint="@color/colorSecondary300"
+            android:src="@drawable/ic_check_24"
+            android:tint="@color/white"
+            app:backgroundTint="@color/colorSecondary300" />
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+</RelativeLayout>

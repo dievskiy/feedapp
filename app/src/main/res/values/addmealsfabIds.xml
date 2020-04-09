@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="fab_meals_breakfast" type="id" />
+    <item name="fab_meals_lunch" type="id" />
+    <item name="fab_meals_snack" type="id" />
+    <item name="fab_meals_dinner" type="id" />
+</resources>

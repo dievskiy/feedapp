@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="viewmodel"
+            type="com.feedapp.app.viewModels.SearchViewModel" />
+    </data>
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <com.google.android.material.appbar.AppBarLayout
+                        android:id="@+id/activity_search_appbar"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentStart="true"
+                        android:layout_alignParentTop="true"
+                        android:layout_alignParentEnd="true">
+
+                        <com.google.android.material.appbar.MaterialToolbar
+                            android:id="@+id/activity_search_mtoolbar"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:theme="@style/ToolBarTheme"
+                            app:title="@string/search"
+                            app:titleTextAppearance="@style/TextUsualBold" />
+                    </com.google.android.material.appbar.AppBarLayout>
+
+                    <RelativeLayout
+                        android:id="@+id/activity_search_rl"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/activity_search_appbar"
+                        android:layout_alignParentStart="true"
+                        android:layout_alignParentEnd="true"
+                        android:visibility="@{viewmodel.hasSearched ? View.GONE : View.VISIBLE}">
+
+                        <RelativeLayout
+                            android:id="@+id/activity_search_text_choose_ll"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentStart="true"
+                            android:layout_alignParentTop="true"
+                            android:layout_alignParentEnd="true"
+                            android:background="?android:attr/selectableItemBackground"
+                            android:clickable="true"
+                            android:focusable="true">
+
+                            <TextView
+                                style="@style/SearchActivityTextOptions"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentStart="true"
+                                android:layout_alignParentTop="true"
+                                android:layout_alignParentEnd="true"
+                                android:layout_marginStart="16dp"
+                                android:padding="10dp"
+                                android:paddingStart="0dp"
+                                android:text="@string/choose_from_my_meals"
+                                tools:ignore="RtlSymmetry" />
+                        </RelativeLayout>
+
+                        <RelativeLayout
+                            android:id="@+id/activity_search_text_create_ll"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/activity_search_text_choose_ll"
+                            android:layout_alignParentStart="true"
+                            android:layout_alignParentEnd="true"
+                            android:background="?android:attr/selectableItemBackground"
+                            android:clickable="true"
+                            android:focusable="true">
+
+                            <TextView
+                                android:id="@+id/activity_search_text_create"
+                                style="@style/SearchActivityTextOptions"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentStart="true"
+                                android:layout_alignParentTop="true"
+                                android:layout_alignParentEnd="true"
+                                android:layout_marginStart="16dp"
+                                android:padding="10dp"
+                                android:paddingStart="0dp"
+                                android:text="@string/create_new_custom_product"
+                                tools:ignore="RtlSymmetry" />
+                        </RelativeLayout>
+
+                        <RelativeLayout
+                            android:id="@+id/activity_search_rl_recent"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/activity_search_text_create_ll"
+                            android:layout_alignParentStart="true"
+                            android:layout_alignParentEnd="true"
+                            android:visibility="@{(viewmodel.isConnected() &amp;&amp; !viewmodel.recentProducts.empty &amp;&amp; !viewmodel.hasSearched &amp;&amp; !viewmodel.recentProducts.empty) ? View.VISIBLE : View.GONE}">
+
+                            <TextView
+                                android:id="@+id/activity_search_text_recent"
+                                style="@style/TextUsualSmall"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentStart="true"
+                                android:layout_alignParentTop="true"
+                                android:layout_alignParentEnd="true"
+                                android:layout_marginStart="16dp"
+                                android:layout_marginTop="10dp"
+                                android:layout_marginBottom="10dp"
+                                android:text="@string/recent" />
+
+                            <androidx.recyclerview.widget.RecyclerView
+                                android:id="@+id/activity_search_rv_recent"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_below="@id/activity_search_text_recent"
+                                android:layout_alignParentStart="true"
+                                android:layout_alignParentEnd="true"
+                                android:overScrollMode="@{viewmodel.hasSearched ? View.OVER_SCROLL_ALWAYS : View.OVER_SCROLL_NEVER}"
+                                android:visibility="@{viewmodel.hasSearched ? View.GONE : View.VISIBLE}" />
+                        </RelativeLayout>
+
+                    </RelativeLayout>
+
+                    <TextView
+                        android:id="@+id/activity_search_nofound"
+                        style="@style/TextUsual"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/activity_search_rl"
+                        android:layout_alignParentStart="true"
+                        android:layout_alignParentEnd="true"
+                        android:layout_marginTop="10dp"
+                        android:text="@string/no_products_found"
+                        android:textAlignment="center"
+                        android:visibility="gone" />
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/activity_search_rv"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_below="@id/activity_search_rl"
+                        android:layout_alignParentStart="true"
+                        android:layout_alignParentEnd="true"
+                        android:overScrollMode="@{viewmodel.hasSearched ? View.OVER_SCROLL_NEVER : View.OVER_SCROLL_ALWAYS}"
+                        android:visibility="@{viewmodel.hasSearched ? View.VISIBLE : View.GONE}" />
+
+                </RelativeLayout>
+
+        </androidx.core.widget.NestedScrollView>
+
+        <ProgressBar
+            android:id="@+id/activity_search_pb"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:elevation="10dp"
+            android:visibility="@{viewmodel.isSearching() ? View.VISIBLE : View.INVISIBLE}" />
+
+    </RelativeLayout>
+
+
+</layout>

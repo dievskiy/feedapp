@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="viewmodel"
+            type="com.feedapp.app.viewModels.StatisticsViewModel" />
+    </data>
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/activity_history_chart_container"
+                style="@style/CardViewUsual"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+
+                <com.github.mikephil.charting.charts.BarChart
+                    android:id="@+id/chart"
+                    android:layout_width="match_parent"
+                    android:layout_height="300dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp" />
+
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                style="@style/CardViewUsual"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/activity_history_chart_container">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="6dp">
+
+                    <RelativeLayout
+                        android:id="@+id/dropdown_container"
+                        android:layout_width="match_parent"
+                        android:layout_marginBottom="10dp"
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            android:id="@+id/title_month"
+                            style="@style/TitleBold"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentStart="true"
+                            android:layout_marginStart="16dp"
+                            android:layout_marginTop="10dp"
+                            android:text="Month" />
+
+                        <TextView
+                            android:id="@+id/title_nutrient"
+                            style="@style/TitleBold"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentEnd="true"
+                            android:layout_marginStart="2dp"
+                            android:layout_marginTop="10dp"
+                            android:layout_marginEnd="16dp"
+                            android:layout_toEndOf="@+id/month_til"
+                            android:text="Nutrient" />
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:id="@+id/month_til"
+                            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+                            android:layout_width="140dp"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/title_month"
+                            android:layout_alignParentStart="true"
+                            android:layout_marginStart="16dp"
+                            android:layout_marginEnd="10dp"
+                            android:layout_toStartOf="@id/nutrient_til">
+
+                            <AutoCompleteTextView
+                                android:id="@+id/month_dropdown"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:editable="false"
+                                android:hapticFeedbackEnabled="false"
+                                android:paddingTop="0dp"
+                                android:paddingBottom="0dp"
+                                android:popupTheme="@android:style/ThemeOverlay.Material.Light" />
+                        </com.google.android.material.textfield.TextInputLayout>
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:id="@+id/nutrient_til"
+                            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+                            android:layout_width="140dp"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/title_nutrient"
+                            android:layout_alignParentEnd="true"
+                            android:layout_marginEnd="16dp">
+
+                            <AutoCompleteTextView
+                                android:id="@+id/nutrient_dropdown"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:editable="false"
+                                android:hapticFeedbackEnabled="false"
+                                android:paddingTop="0dp"
+                                android:paddingBottom="0dp"
+                                android:popupTheme="@android:style/ThemeOverlay.Material.Light" />
+                        </com.google.android.material.textfield.TextInputLayout>
+                    </RelativeLayout>
+
+                </RelativeLayout>
+
+            </androidx.cardview.widget.CardView>
+        </RelativeLayout>
+    </androidx.core.widget.NestedScrollView>
+
+
+</layout>

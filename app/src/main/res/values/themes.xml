@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="MainTheme" parent="@style/_MainTheme"/>
+
+    <style name="_MainTheme" parent="Theme.MaterialComponents.Light">
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimary</item>
+        <item name="colorAccent">@color/colorSecondary300</item>
+        <item name="android:fontFamily">@font/montserrat</item>
+        <item name="android:actionBarTheme">@style/ToolBar</item>
+        <item name="actionBarStyle">@style/ToolBar</item>
+        <item name="windowActionBarOverlay">true</item>
+        <item name="android:windowDrawsSystemBarBackgrounds">true</item>
+        <item name="android:statusBarColor">@color/statusBar</item>
+
+        <item name="android:windowBackground">@color/background</item>
+        <item name="android:colorBackground">@color/background</item>
+        <item name="alertDialogTheme">@style/AlertDialogTheme</item>
+
+        <item name="colorControlNormal">#c5c5c5</item>
+        <item name="colorControlActivated">@color/colorSecondary400</item>
+        <item name="colorControlHighlight">#40000000</item>
+
+<!--        App Bar             -->
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <item name="appBarLayoutStyle">@style/ToolBar</item>
+
+
+        <!--        Progress Bar-->
+        <item name="android:progressDrawable">@drawable/progressbar</item>
+
+<!--        FAB-->
+        <item name="floatingActionButtonStyle">@style/FloatingActionButtonStyle</item>
+    </style>
+
+</resources>

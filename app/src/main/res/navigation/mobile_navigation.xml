@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (c) 2020 Ruslan Potekhin
+  -->
+
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@+id/navigation_home">
+
+    <fragment
+        android:id="@+id/navigation_my_products"
+        android:name="com.feedapp.app.ui.fragments.home.MyMealsFragment"
+        android:label="@string/title_my_meals"
+        tools:layout="@layout/fragment_my_meals" />
+    <fragment
+        android:id="@+id/navigation_home"
+        android:name="com.feedapp.app.ui.fragments.home.HomeFragment"
+        android:label="@string/title_home" />
+    <fragment
+        android:id="@+id/navigation_recipes"
+        android:name="com.feedapp.app.ui.fragments.home.RecipesFragment"
+        android:label="@string/title_recipes" />
+
+    <fragment
+        android:id="@+id/navigation_settings"
+        android:name="com.feedapp.app.ui.fragments.home.Settings"
+        android:label="@string/settings" />
+</navigation>

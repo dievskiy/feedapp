@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+
+    <EditText
+        android:id="@+id/dialog_recipes_servings"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginStart="26dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="26dp"
+        android:inputType="numberDecimal"
+        android:hint="@string/servings"
+        android:maxLength="3"
+        android:minWidth="30dp"
+        android:selectAllOnFocus="true"
+        android:text="1"
+        android:textAlignment="center" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/dialog_recipes_mealType"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/dialog_recipes_servings"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="26dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="26dp">
+
+        <AutoCompleteTextView
+            android:id="@+id/dialog_recipes_dropdown"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:editable="false"
+            android:hapticFeedbackEnabled="false"
+            android:popupTheme="@android:style/ThemeOverlay.Material.Light" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+</RelativeLayout>

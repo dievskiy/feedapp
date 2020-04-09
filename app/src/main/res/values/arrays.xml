@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (c) 2020 Ruslan Potekhin
+  -->
+
+<resources>
+    <array name="Exercises">
+        <item>Little or no</item>
+        <item>Light exercise</item>
+        <item>Moderate exercise</item>
+        <item>Hard exercise</item>
+        <item>Very hard exercise</item>
+    </array>
+    <array name="Sex">
+        <item>Male</item>
+        <item>Female</item>
+    </array>
+
+    <array name="MealTypeArray">
+        <item>Breakfast</item>
+        <item>Lunch</item>
+        <item>Snack</item>
+        <item>Dinner</item>
+    </array>
+
+
+    <!-- Measure Preference -->
+    <string-array name="measure_system">
+        <item>Metric system (kg)</item>
+        <item>U.S. unit system (oz, pound)</item>
+    </string-array>
+
+    <string-array name="measure_values">
+        <item>metric</item>
+        <item>us</item>
+    </string-array>
+
+    <string-array name="Intolerance">
+        <item>Dairy</item>
+        <item>Egg</item>
+        <item>Gluten</item>
+        <item>Grain</item>
+        <item>Peanut</item>
+        <item>Seafood</item>
+        <item>Sesame</item>
+        <item>Shellfish</item>
+        <item>Soy</item>
+        <item>Sulfite</item>
+        <item>Tree Nut</item>
+        <item>Wheat</item>
+    </string-array>
+
+    <string-array name="Diet">
+        <item>Gluten Free</item>
+        <item>Ketogenic</item>
+        <item>Vegetarian</item>
+        <item>Lacto-Vegetarian</item>
+        <item>Ovo-Vegetarian</item>
+        <item>Vegan</item>
+        <item>Pescetarian</item>
+        <item>Paleo</item>
+        <item>Primal</item>
+        <item>Whole30</item>
+    </string-array>
+
+</resources>

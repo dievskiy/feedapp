@@ -1,0 +1,1 @@
+/* * Copyright (c) 2020 Ruslan Potekhin */package com.feedapp.app.data.models.userenum class UserDeleteOperation{    SUCCESS, FAILED, REAUTH}

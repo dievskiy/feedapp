@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (c) 2020 Ruslan Potekhin
+  -->
+
+<resources>
+<!--    Theme colors -->
+    <color name="colorPrimary">#6bb5ff</color>
+    <color name="colorPrimaryDark">#2c86cb</color>
+    <color name="colorPrimaryLight">#a2e7ff</color>
+    <color name="colorSecondary">#b7dbff</color>
+    <color name="colorSecondaryDark">#86a9cc</color>
+    <color name="colorSecondaryLight">#eaffff</color>
+    <color name="colorText">#000000</color>
+    <color name="colorText_desc">#4D4D4D</color>
+
+    <color name="colorPrimary900">#3144a6</color>
+    <color name="colorPrimary800">#3663c7</color>
+    <color name="colorPrimary700">#3974da</color>
+    <color name="colorPrimary600">#3c87ed</color>
+    <color name="colorPrimary500">#3e95fc</color>
+    <color name="colorPrimary400">#4fa5ff</color>
+    <color name="colorPrimary200">#94caff</color>
+    <color name="colorPrimary100">#bedeff</color>
+    <color name="colorPrimary50">#e4f2ff</color>
+
+    <color name="colorSecondary900">#243c9c</color>
+    <color name="colorSecondary800">#285bbc</color>
+    <color name="colorSecondary700">#2a6ccf</color>
+    <color name="colorSecondary600">#2c7ee3</color>
+    <color name="colorSecondary500">#2d8cf1</color>
+    <color name="colorSecondary400">#439cf5</color>
+    <color name="colorSecondary300">#60aef8</color>
+    <color name="colorSecondary200">#8bc5fd</color>
+    <color name="colorSecondary50">#e1f1ff</color>
+
+<!--    Common-->
+    <color name="black">#000</color>
+    <color name="white">#fff</color>
+    <color name="statusBar">#FFFCF7</color>
+    <color name="arrow_ripple">#8E8E8E</color>
+    <color name="delete_ripple">#8E8E8E</color>
+    <color name="cardViewColor">#F7F7F7</color>
+    <color name="green">#00FF00</color>
+    <color name="fab_background">#888888</color>
+    <color name="detailed_card">#F9F8F8</color>
+    <color name="background">#FFFCF7</color>
+    <color name="recipesSearchBarColor">#6E6E6E</color>
+    <color name="home_card_color">#FFF5DD</color>
+    <color name="water_card">#FFFCF1</color>
+    <color name="search_bar_color">#FFD59E</color>
+    <color name="preference_title">#53B4DF</color>
+    <color name="delete_account">#FF5722</color>
+
+
+</resources>

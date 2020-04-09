@@ -1,0 +1,564 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (c) 2020 Ruslan Potekhin
+  -->
+
+<layout>
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="viewmodel"
+            type="com.feedapp.app.viewModels.DetailedViewModel" />
+    </data>
+
+    <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        style="@style/CollapsingToolbar"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fitsSystemWindows="false"
+        android:theme="@style/CollapsingToolbar"
+        tools:context=".ui.activities.DetailedFoodActivity">
+
+        <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/app_bar_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fitsSystemWindows="true"
+            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+
+            <com.google.android.material.appbar.CollapsingToolbarLayout
+                android:id="@+id/activity_detailed_collapsing_toolbar"
+                style="@style/CollapsingToolbar"
+                android:layout_width="match_parent"
+                android:layout_height="250dp">
+
+                <androidx.appcompat.widget.Toolbar
+                    android:id="@+id/activity_detailed_toolbar"
+                    android:layout_width="match_parent"
+                    android:layout_height="?attr/actionBarSize"
+                    android:theme="@style/ToolBar"
+                    android:title="@string/search"
+                    app:layout_collapseMode="pin"
+                    app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
+
+
+            </com.google.android.material.appbar.CollapsingToolbarLayout>
+
+
+        </com.google.android.material.appbar.AppBarLayout>
+
+        <ProgressBar
+            android:id="@+id/detailed_progress"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:elevation="1dp"
+            android:visibility="@{viewmodel.isSearching() ? View.VISIBLE : View.GONE}" />
+
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:clipToPadding="false"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/detailed_cardview1"
+                    style="@style/CardViewUsual"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentEnd="true"
+                    android:backgroundTint="@color/detailed_card"
+                    app:cardCornerRadius="8dp">
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="16dp">
+
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/detailed_add_product"
+                            style="@style/MaterialButtonStyle"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/activity_detailed_rl3"
+                            android:layout_centerHorizontal="true"
+                            android:layout_marginTop="15dp"
+                            android:text="@string/track" />
+
+                        <RelativeLayout
+                            android:id="@+id/activity_detailed_rl3"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                            <androidx.constraintlayout.widget.ConstraintLayout
+                                android:id="@+id/activity_detailed_rl2"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentStart="true"
+                                android:layout_alignParentTop="true"
+                                android:layout_alignParentEnd="true"
+                                android:layout_marginTop="16dp">
+
+                                <RelativeLayout
+                                    android:id="@+id/activity_detailed_info_kcal"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    app:layout_constraintEnd_toStartOf="@id/activity_detailed_info_proteins"
+                                    app:layout_constraintStart_toStartOf="parent"
+                                    app:layout_constraintTop_toTopOf="parent">
+
+                                    <TextView
+                                        android:id="@+id/detailed_kcal_value"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_centerHorizontal="true"
+                                        android:text="@string/_0"
+                                        android:textColor="@color/colorText"
+                                        android:textStyle="bold"
+                                        app:layout_constraintStart_toStartOf="parent"
+                                        app:layout_constraintTop_toTopOf="parent" />
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_below="@+id/detailed_kcal_value"
+                                        android:layout_centerHorizontal="true"
+                                        android:text="@string/kcal"
+                                        android:textColor="@color/colorText"
+                                        app:layout_constraintStart_toStartOf="parent"
+                                        app:layout_constraintTop_toTopOf="parent" />
+
+                                </RelativeLayout>
+
+                                <RelativeLayout
+                                    android:id="@+id/activity_detailed_info_proteins"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    app:layout_constraintEnd_toStartOf="@id/activity_detailed_info_fats"
+                                    app:layout_constraintStart_toEndOf="@id/activity_detailed_info_kcal"
+                                    app:layout_constraintTop_toTopOf="parent">
+
+                                    <TextView
+                                        android:id="@+id/detailed_proteins_value"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_alignParentTop="true"
+                                        android:layout_centerHorizontal="true"
+                                        android:text="@string/_0_g"
+                                        android:textColor="@color/colorText"
+                                        android:textStyle="bold"
+                                        app:layout_constraintTop_toTopOf="parent" />
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_below="@id/detailed_proteins_value"
+                                        android:layout_centerHorizontal="true"
+                                        android:text="@string/proteinsSmall"
+                                        android:textColor="@color/colorText" />
+                                </RelativeLayout>
+
+                                <RelativeLayout
+                                    android:id="@+id/activity_detailed_info_fats"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    app:layout_constraintEnd_toStartOf="@+id/activity_detailed_info_carbs"
+                                    app:layout_constraintStart_toEndOf="@id/activity_detailed_info_proteins"
+                                    app:layout_constraintTop_toTopOf="parent">
+
+                                    <TextView
+                                        android:id="@+id/detailed_fats_value"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_alignParentTop="true"
+                                        android:layout_centerHorizontal="true"
+                                        android:text="@string/_0_g"
+                                        android:textColor="@color/colorText"
+                                        android:textStyle="bold"
+                                        app:layout_constraintTop_toTopOf="parent" />
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_below="@id/detailed_fats_value"
+                                        android:layout_centerHorizontal="true"
+                                        android:text="@string/fatsSmall"
+                                        android:textColor="@color/colorText" />
+
+                                </RelativeLayout>
+
+                                <RelativeLayout
+                                    android:id="@+id/activity_detailed_info_carbs"
+
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    app:layout_constraintEnd_toEndOf="parent"
+                                    app:layout_constraintStart_toEndOf="@id/activity_detailed_info_fats"
+                                    app:layout_constraintTop_toTopOf="parent">
+
+                                    <TextView
+                                        android:id="@+id/detailed_carbs_value"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_alignParentTop="true"
+                                        android:layout_centerHorizontal="true"
+                                        android:text="@string/_0_g"
+                                        android:textColor="@color/colorText"
+                                        android:textStyle="bold"
+                                        app:layout_constraintEnd_toEndOf="parent" />
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_below="@id/detailed_carbs_value"
+                                        android:layout_centerHorizontal="true"
+                                        android:layout_marginEnd="16dp"
+                                        android:text="@string/carbs"
+                                        android:textColor="@color/colorText" />
+                                </RelativeLayout>
+
+                            </androidx.constraintlayout.widget.ConstraintLayout>
+
+                            <RelativeLayout
+                                android:id="@+id/activity_detailed_rl1"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_below="@id/activity_detailed_rl2"
+                                android:layout_alignParentStart="true"
+                                android:layout_alignParentEnd="true"
+                                android:layout_marginTop="20dp">
+
+
+                                <com.google.android.material.textfield.TextInputLayout
+                                    android:id="@+id/detailed_quantity"
+                                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+                                    android:layout_width="180dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_alignParentEnd="true"
+                                    android:layout_centerVertical="true"
+                                    android:layout_marginTop="20dp"
+                                    android:layout_marginEnd="16dp">
+
+                                    <AutoCompleteTextView
+                                        android:id="@+id/detailed_quantity_dropdown"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:editable="false"
+                                        android:hapticFeedbackEnabled="false"
+                                        android:popupTheme="@android:style/ThemeOverlay.Material.Light" />
+
+                                </com.google.android.material.textfield.TextInputLayout>
+
+
+                                <EditText
+                                    android:id="@+id/detailed_quantity_edit"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_alignParentStart="true"
+                                    android:layout_centerVertical="true"
+                                    android:layout_marginStart="32dp"
+                                    android:inputType="numberDecimal"
+                                    android:maxLength="4"
+                                    android:minWidth="65dp"
+                                    android:selectAllOnFocus="true"
+                                    android:text="@string/_100"
+                                    android:textAlignment="center"
+                                    android:textDirection="ltr"
+                                    android:visibility="visible" />
+
+
+                            </RelativeLayout>
+
+                        </RelativeLayout>
+
+                    </RelativeLayout>
+
+                </androidx.cardview.widget.CardView>
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/detailed_cardview2"
+                    style="@style/CardViewUsual"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/detailed_cardview1"
+                    android:backgroundTint="@color/detailed_card"
+                    app:cardCornerRadius="8dp">
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="30dp">
+
+                        <TextView
+                            android:id="@+id/detailed_nutrition_title"
+                            style="@style/TitleBold"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentStart="true"
+                            android:layout_alignParentTop="true"
+                            android:layout_marginStart="16dp"
+                            android:layout_marginTop="16dp"
+                            android:text="@string/nutrition_info"
+                            android:textSize="20sp" />
+
+                        <TextView
+                            android:id="@+id/detailed_nutrition_calories"
+                            style="@style/TextUsual"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/detailed_nutrition_title"
+                            android:layout_alignParentStart="true"
+                            android:layout_marginStart="16dp"
+                            android:layout_marginTop="16dp"
+                            android:text="@string/Calories"
+                            android:textColor="@color/colorText" />
+
+                        <TextView
+                            android:id="@+id/detailed_nutrition_proteins"
+                            style="@style/TextUsual"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/detailed_nutrition_calories"
+                            android:layout_alignParentStart="true"
+                            android:layout_marginStart="16dp"
+                            android:layout_marginTop="16dp"
+                            android:text="@string/proteins"
+                            android:textColor="@color/colorText" />
+
+                        <TextView
+                            android:id="@+id/detailed_nutrition_fats"
+                            style="@style/TextUsual"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/detailed_nutrition_proteins"
+                            android:layout_alignParentStart="true"
+                            android:layout_marginStart="16dp"
+                            android:layout_marginTop="16dp"
+                            android:text="@string/fats"
+                            android:textColor="@color/colorText" />
+
+                        <TextView
+                            android:id="@+id/detailed_nutrition_carbs"
+                            style="@style/TextUsual"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/detailed_nutrition_fats"
+                            android:layout_alignParentStart="true"
+                            android:layout_marginStart="16dp"
+                            android:layout_marginTop="16dp"
+                            android:text="@string/carbs"
+                            android:textColor="@color/colorText" />
+
+                        <TextView
+                            android:id="@+id/detailed_nutrition_sugars"
+                            style="@style/TextUsual"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/detailed_nutrition_carbs"
+                            android:layout_alignParentStart="true"
+                            android:layout_marginStart="16dp"
+                            android:layout_marginTop="16dp"
+                            android:text="@string/sugar"
+                            android:textColor="@color/colorText" />
+
+                        <TextView
+                            android:id="@+id/detailed_nutrition_fiber"
+                            style="@style/TextUsual"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/detailed_nutrition_sugars"
+                            android:layout_alignParentStart="true"
+                            android:layout_marginStart="16dp"
+                            android:layout_marginTop="16dp"
+                            android:text="@string/fiber"
+                            android:textColor="@color/colorText" />
+
+                        <TextView
+                            android:id="@+id/detailed_nutrition_cholesterol"
+                            style="@style/TextUsual"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/detailed_nutrition_fiber"
+                            android:layout_alignParentStart="true"
+                            android:layout_marginStart="16dp"
+                            android:layout_marginTop="16dp"
+                            android:text="@string/cholesterol"
+                            android:textColor="@color/colorText" />
+
+                        <TextView
+                            android:id="@+id/detailed_nutrition_s"
+                            style="@style/TextUsual"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/detailed_nutrition_cholesterol"
+                            android:layout_alignParentStart="true"
+                            android:layout_marginStart="16dp"
+                            android:layout_marginTop="16dp"
+                            android:text="@string/saturated_fats"
+                            android:textColor="@color/colorText" />
+
+                        <TextView
+                            android:id="@+id/detailed_nutrition_mono"
+                            style="@style/TextUsual"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/detailed_nutrition_s"
+                            android:layout_alignParentStart="true"
+                            android:layout_marginStart="16dp"
+                            android:layout_marginTop="16dp"
+                            android:text="@string/monounsaturated_fats"
+                            android:textColor="@color/colorText" />
+
+                        <TextView
+                            android:id="@+id/detailed_nutrition_poly"
+                            style="@style/TextUsual"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/detailed_nutrition_mono"
+                            android:layout_alignParentStart="true"
+                            android:layout_marginStart="16dp"
+                            android:layout_marginTop="16dp"
+                            android:text="@string/polyunsaturated_fats"
+                            android:textColor="@color/colorText" />
+
+                        <TextView
+                            android:id="@+id/detailed_nutrition_calories_value"
+                            style="@style/TextUsual"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/detailed_nutrition_title"
+                            android:layout_alignParentEnd="true"
+                            android:layout_marginTop="16dp"
+                            android:layout_marginEnd="16dp"
+                            android:text="@string/_0_kcal"
+                            android:textColor="@color/colorText" />
+
+                        <TextView
+                            android:id="@+id/detailed_nutrition_proteins_value"
+                            style="@style/TextUsual"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/detailed_nutrition_calories_value"
+                            android:layout_alignParentEnd="true"
+                            android:layout_marginTop="16dp"
+                            android:layout_marginEnd="16dp"
+                            android:text="@string/_0_g"
+                            android:textColor="@color/colorText" />
+
+                        <TextView
+                            android:id="@+id/detailed_nutrition_fats_value"
+                            style="@style/TextUsual"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/detailed_nutrition_proteins_value"
+                            android:layout_alignParentEnd="true"
+                            android:layout_marginTop="16dp"
+                            android:layout_marginEnd="16dp"
+                            android:text="@string/_0_g"
+                            android:textColor="@color/colorText" />
+
+                        <TextView
+                            android:id="@+id/detailed_nutrition_carbs_value"
+                            style="@style/TextUsual"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/detailed_nutrition_fats_value"
+                            android:layout_alignParentEnd="true"
+                            android:layout_marginTop="16dp"
+                            android:layout_marginEnd="16dp"
+                            android:text="@string/_0_g"
+                            android:textColor="@color/colorText" />
+
+                        <TextView
+                            android:id="@+id/detailed_nutrition_sugars_value"
+                            style="@style/TextUsual"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/detailed_nutrition_carbs_value"
+                            android:layout_alignParentEnd="true"
+                            android:layout_marginTop="16dp"
+                            android:layout_marginEnd="16dp"
+                            android:text="@string/_0_g"
+                            android:textColor="@color/colorText" />
+
+                        <TextView
+                            android:id="@+id/detailed_nutrition_fiber_value"
+                            style="@style/TextUsual"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/detailed_nutrition_sugars_value"
+                            android:layout_alignParentEnd="true"
+                            android:layout_marginTop="16dp"
+                            android:layout_marginEnd="16dp"
+                            android:text="@string/_0_g"
+                            android:textColor="@color/colorText" />
+
+                        <TextView
+                            android:id="@+id/detailed_nutrition_cholesterol_value"
+                            style="@style/TextUsual"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/detailed_nutrition_fiber_value"
+                            android:layout_alignParentEnd="true"
+                            android:layout_marginTop="16dp"
+                            android:layout_marginEnd="16dp"
+                            android:text="@string/_0_g"
+                            android:textColor="@color/colorText" />
+
+                        <TextView
+                            android:id="@+id/detailed_nutrition_s_value"
+                            style="@style/TextUsual"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/detailed_nutrition_cholesterol_value"
+                            android:layout_alignParentEnd="true"
+                            android:layout_marginTop="16dp"
+                            android:layout_marginEnd="16dp"
+                            android:text="@string/_0_g"
+                            android:textColor="@color/colorText" />
+
+                        <TextView
+                            android:id="@+id/detailed_nutrition_mono_value"
+                            style="@style/TextUsual"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/detailed_nutrition_s_value"
+                            android:layout_alignParentEnd="true"
+                            android:layout_marginTop="16dp"
+                            android:layout_marginEnd="16dp"
+                            android:text="@string/_0_g"
+                            android:textColor="@color/colorText" />
+
+                        <TextView
+                            android:id="@+id/detailed_nutrition_poly_value"
+                            style="@style/TextUsual"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/detailed_nutrition_mono_value"
+                            android:layout_alignParentEnd="true"
+                            android:layout_marginTop="16dp"
+                            android:layout_marginEnd="16dp"
+                            android:text="@string/_0_g"
+                            android:textColor="@color/colorText" />
+                    </RelativeLayout>
+                </androidx.cardview.widget.CardView>
+
+            </RelativeLayout>
+
+
+        </androidx.core.widget.NestedScrollView>
+
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+</layout>

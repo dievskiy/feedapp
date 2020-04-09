@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (c) 2020 Ruslan Potekhin
+  -->
+
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".ui.fragments.intro.FirstIntroductionFragment">
+
+
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/intro_lose_weight"
+        android:layout_width="200dp"
+        android:layout_height="60dp"
+        android:layout_above="@id/intro_eat_healthier"
+        android:layout_centerHorizontal="true"
+        android:text="@string/lose_weight"
+        android:textSize="15sp"
+        app:cornerRadius="25dp" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/intro_eat_healthier"
+        android:layout_width="200dp"
+        android:layout_height="60dp"
+        android:layout_centerInParent="true"
+        android:text="@string/eat_healthier"
+        android:textSize="15sp"
+        app:cornerRadius="25dp" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/intro_gain_weight"
+        android:layout_width="200dp"
+        android:layout_height="60dp"
+        android:layout_below="@id/intro_eat_healthier"
+        android:layout_centerHorizontal="true"
+        android:text="@string/gain_weight"
+        android:textSize="15sp"
+        app:cornerRadius="25dp" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="100dp"
+        android:fontFamily="@font/montserrat"
+        android:text="@string/intro_goal"
+        android:textAlignment="center"
+        android:textColor="@color/black"
+        android:textSize="30sp"
+        android:typeface="normal" />
+
+
+    <ProgressBar
+        android:id="@+id/activity_intro_progressBar"
+        android:layout_centerInParent="true"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="wrap_content"
+        android:visibility="invisible"
+        android:elevation="10dp"
+        android:layout_height="wrap_content" />
+
+
+
+</RelativeLayout>

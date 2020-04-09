@@ -1,0 +1,78 @@
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <PreferenceCategory
+        android:icon="@drawable/ic_account_circle_black_24dp"
+        app:icon="@drawable/ic_account_circle_black_24dp"
+        app:title="@string/personal_data">
+
+        <EditTextPreference
+            android:defaultValue="0"
+            android:inputType="number"
+            android:key="calories"
+            android:selectable="true"
+            app:defaultValue="0"
+            app:key="calories"
+            app:title="@string/Daily_calories" />
+
+        <EditTextPreference
+            android:inputType="number"
+            android:key="proteins"
+            android:selectable="true"
+            app:key="proteins"
+            app:title="@string/Daily_proteins" />
+
+        <EditTextPreference
+            android:inputType="number"
+            android:key="fats"
+            android:selectable="true"
+            app:key="fats"
+            app:title="@string/Daily_fats" />
+
+        <EditTextPreference
+            android:inputType="number"
+            android:key="carbs"
+            android:selectable="true"
+            app:key="carbs"
+            app:title="@string/Daily_carbs" />
+
+        <Preference
+            android:key="delete"
+            app:key="delete"
+            app:title="@string/delete_all" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:icon="@drawable/ic_bowl"
+        app:icon="@drawable/ic_bowl"
+        app:title="@string/title_recipes">
+
+        <ListPreference
+            app:defaultValue="metric"
+            app:entries="@array/measure_system"
+            app:entryValues="@array/measure_values"
+            app:key="measure"
+            app:title="@string/measure_system"
+            app:useSimpleSummaryProvider="true" />
+
+        <MultiSelectListPreference
+            app:dialogTitle="Select intolerance"
+            app:entries="@array/Intolerance"
+            app:entryValues="@array/Intolerance"
+            app:key="intolerance"
+            app:summary="Select intolerance"
+            app:title="Intolerance" />
+
+        <MultiSelectListPreference
+            app:dialogTitle="Select Diet"
+            app:entries="@array/Diet"
+            app:entryValues="@array/Diet"
+            app:key="diet"
+            app:summary="Select diet"
+            app:title="Diet" />
+
+
+    </PreferenceCategory>
+
+</PreferenceScreen>

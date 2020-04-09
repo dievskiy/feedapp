@@ -1,0 +1,468 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="viewmodel"
+            type="com.feedapp.app.viewModels.DetailedRecipeViewModel" />
+    </data>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".ui.activities.DetailedRecipeActivity">
+
+        <androidx.coordinatorlayout.widget.CoordinatorLayout
+            android:id="@+id/detailedRecipes_cl"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:descendantFocusability="blocksDescendants"
+            android:fitsSystemWindows="false">
+
+            <com.google.android.material.appbar.AppBarLayout
+                android:id="@+id/detailedRecipes_collapsing_appbar"
+                android:layout_width="match_parent"
+                android:layout_height="350dp"
+                android:fitsSystemWindows="true"
+                android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+
+                <com.google.android.material.appbar.CollapsingToolbarLayout
+                    android:id="@+id/detailedRecipes_collapsing_toolbar"
+                    style="@style/CollapsingToolbar"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <ImageView
+                        android:contentDescription="@string/image_of_the_recipe"
+                        android:id="@+id/detailedRecipes_ct_image"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent" />
+
+                    <androidx.appcompat.widget.Toolbar
+                        android:id="@+id/detailedRecipes_toolbar"
+                        android:layout_width="match_parent"
+                        android:layout_height="?attr/actionBarSize"
+                        android:theme="@style/ToolBar"
+                        app:layout_collapseMode="pin" />
+
+                </com.google.android.material.appbar.CollapsingToolbarLayout>
+
+            </com.google.android.material.appbar.AppBarLayout>
+
+
+            <ProgressBar
+                android:id="@+id/detailedRecipes_progress"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:elevation="10dp"
+                android:visibility="@{viewmodel.isSearching() ? View.VISIBLE : View.GONE}" />
+
+            <androidx.core.widget.NestedScrollView
+                android:id="@+id/nsv"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@id/detailedRecipes_cl"
+                app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <androidx.cardview.widget.CardView
+                        android:id="@+id/detailed_cardview1"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentStart="true"
+                        android:layout_alignParentTop="true"
+                        android:layout_alignParentEnd="true"
+                        android:layout_marginTop="2dp"
+                        android:backgroundTint="@color/detailed_card">
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="20dp">
+
+                            <TextView
+                                android:id="@+id/detailed_recipe_title"
+                                style="@style/TitleBold"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentStart="true"
+                                android:layout_alignParentTop="true"
+                                android:layout_alignParentEnd="true"
+                                android:layout_marginStart="16dp"
+                                android:layout_marginTop="16dp"
+                                android:layout_marginEnd="16dp"
+                                android:text="@string/recipe" />
+
+                            <RelativeLayout
+                                android:id="@+id/detailed_recipe_credit_rl"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_below="@id/detailed_recipe_title"
+                                android:layout_alignParentStart="true"
+                                android:layout_alignParentEnd="true"
+                                android:background="?android:attr/selectableItemBackground"
+                                android:clickable="true"
+                                android:focusable="true">
+
+                                <TextView
+                                    android:id="@+id/detailed_recipe_credit"
+                                    style="@style/TextUsual"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginStart="16dp"
+                                    android:layout_marginEnd="16dp"
+                                    android:text="@string/Credits"
+                                    android:textSize="14sp" />
+                            </RelativeLayout>
+
+                            <RelativeLayout
+                                android:id="@+id/detailed_recipe_time_rl"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_below="@id/detailed_recipe_credit_rl"
+                                android:layout_alignParentStart="true"
+                                android:layout_alignParentEnd="true"
+                                android:layout_marginTop="10dp">
+
+                                <ImageView
+                                    android:contentDescription="@string/content_d_time_icon"
+                                    android:id="@+id/detailed_recipe_time_image"
+                                    android:layout_width="24dp"
+                                    android:layout_height="24dp"
+                                    android:layout_alignParentStart="true"
+                                    android:layout_centerVertical="true"
+                                    android:layout_marginStart="16dp"
+                                    android:src="@drawable/ic_timer_black_24dp" />
+
+                                <TextView
+                                    android:id="@+id/detailed_recipe_time_text"
+                                    style="@style/TextUsualBlack"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_centerVertical="true"
+                                    android:layout_marginStart="6dp"
+                                    android:layout_toEndOf="@+id/detailed_recipe_time_image"
+                                    android:text="@string/__min"
+                                    android:textSize="14sp" />
+                            </RelativeLayout>
+
+
+                        </RelativeLayout>
+
+                    </androidx.cardview.widget.CardView>
+
+                    <androidx.cardview.widget.CardView
+                        android:id="@+id/detailed_cardview2"
+                        style="@style/CardViewUsual"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/detailed_cardview1"
+                        android:layout_marginTop="3dp"
+                        android:backgroundTint="@color/detailed_card"
+                        app:cardCornerRadius="8dp">
+
+                            <RelativeLayout
+                                android:id="@+id/detailed_recipe_nutrition_rl"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content">
+
+                                <TextView
+                                    android:id="@+id/detailed_recipe_info_title"
+                                    style="@style/TitleBold"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginStart="16dp"
+                                    android:layout_marginTop="10dp"
+                                    android:text="@string/nutrition_info" />
+
+                                <TextView
+                                    android:id="@+id/detailed_recipe_info_inOne"
+                                    style="@style/TextUsual"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_below="@id/detailed_recipe_info_title"
+                                    android:layout_alignParentStart="true"
+                                    android:layout_marginStart="16dp"
+                                    android:text="@string/daily_norm_in_portion"
+                                    android:textSize="12sp" />
+
+
+                                <RelativeLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_below="@id/detailed_recipe_info_inOne"
+                                    android:layout_marginBottom="20dp">
+
+                                    <androidx.constraintlayout.widget.ConstraintLayout
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_alignParentStart="true"
+                                        android:layout_alignParentTop="true"
+                                        android:layout_marginStart="8dp"
+                                        android:layout_toStartOf="@id/detailed_recipe_proteins_cl"
+                                        android:layout_marginTop="10dp">
+
+                                        <ProgressBar
+                                            android:id="@+id/detailed_recipe_info_carbs_bar"
+                                            style="?android:attr/progressBarStyleHorizontal"
+                                            android:layout_width="120dp"
+                                            android:layout_height="100dp"
+                                            android:progress="0"
+                                            android:progressDrawable="@drawable/circleprogressbar"
+                                            app:layout_constraintEnd_toEndOf="parent"
+                                            app:layout_constraintStart_toStartOf="parent"
+                                            app:layout_constraintTop_toTopOf="parent" />
+
+                                        <TextView
+                                            android:id="@+id/detailed_recipe_info_carbs_text"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:layout_centerHorizontal="true"
+                                            android:layout_marginStart="4dp"
+                                            android:text="@string/_0percent"
+                                            android:textColor="@color/colorText"
+                                            android:textStyle="bold"
+                                            app:layout_constraintBottom_toBottomOf="@id/detailed_recipe_info_carbs_bar"
+                                            app:layout_constraintEnd_toEndOf="parent"
+                                            app:layout_constraintStart_toStartOf="parent"
+                                            app:layout_constraintTop_toTopOf="@id/detailed_recipe_info_carbs_bar" />
+
+                                        <TextView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:layout_centerHorizontal="true"
+                                            android:text="@string/carbs"
+                                            android:textColor="@color/colorText"
+                                            android:textStyle="bold"
+                                            app:layout_constraintEnd_toEndOf="parent"
+                                            app:layout_constraintStart_toStartOf="parent"
+                                            app:layout_constraintTop_toBottomOf="@id/detailed_recipe_info_carbs_bar" />
+                                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                                    <androidx.constraintlayout.widget.ConstraintLayout
+                                        android:id="@+id/detailed_recipe_fats_cl"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_alignParentTop="true"
+                                        android:layout_alignParentEnd="true"
+                                        android:layout_toEndOf="@id/detailed_recipe_proteins_cl"
+                                        android:layout_marginTop="10dp"
+                                        android:layout_marginEnd="8dp">
+
+                                        <ProgressBar
+                                            android:id="@+id/detailed_recipe_info_fats_bar"
+                                            style="?android:attr/progressBarStyleHorizontal"
+                                            android:layout_width="120dp"
+                                            android:layout_height="100dp"
+                                            android:progress="0"
+                                            android:progressDrawable="@drawable/circleprogressbar"
+                                            app:layout_constraintEnd_toEndOf="parent"
+                                            app:layout_constraintStart_toStartOf="parent"
+                                            app:layout_constraintTop_toTopOf="parent" />
+
+                                        <TextView
+                                            android:id="@+id/detailed_recipe_info_fats_text"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:layout_centerHorizontal="true"
+                                            android:layout_marginStart="4dp"
+                                            android:text="@string/_0percent"
+                                            android:textColor="@color/colorText"
+                                            android:textStyle="bold"
+                                            app:layout_constraintBottom_toBottomOf="@id/detailed_recipe_info_fats_bar"
+                                            app:layout_constraintEnd_toEndOf="parent"
+                                            app:layout_constraintStart_toStartOf="parent"
+                                            app:layout_constraintTop_toTopOf="@id/detailed_recipe_info_fats_bar" />
+
+                                        <TextView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:layout_centerHorizontal="true"
+                                            android:text="@string/fats"
+                                            android:textColor="@color/colorText"
+                                            android:textStyle="bold"
+                                            app:layout_constraintEnd_toEndOf="parent"
+                                            app:layout_constraintStart_toStartOf="parent"
+                                            app:layout_constraintTop_toBottomOf="@id/detailed_recipe_info_fats_bar" />
+                                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+                                    <androidx.constraintlayout.widget.ConstraintLayout
+                                        android:id="@+id/detailed_recipe_proteins_cl"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_alignParentTop="true"
+                                        android:layout_centerHorizontal="true"
+                                        android:layout_marginTop="10dp">
+
+                                        <ProgressBar
+                                            android:id="@+id/detailed_recipe_info_proteins_bar"
+                                            style="?android:attr/progressBarStyleHorizontal"
+                                            android:layout_width="120dp"
+                                            android:layout_height="100dp"
+                                            android:progress="0"
+                                            android:progressDrawable="@drawable/circleprogressbar"
+                                            app:layout_constraintEnd_toEndOf="parent"
+                                            app:layout_constraintStart_toStartOf="parent"
+                                            app:layout_constraintTop_toTopOf="parent" />
+
+                                        <TextView
+                                            android:id="@+id/detailed_recipe_info_proteins_text"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:layout_centerHorizontal="true"
+                                            android:layout_marginStart="4dp"
+                                            android:text="@string/_0percent"
+                                            android:textColor="@color/colorText"
+                                            android:textStyle="bold"
+                                            app:layout_constraintBottom_toBottomOf="@id/detailed_recipe_info_proteins_bar"
+                                            app:layout_constraintEnd_toEndOf="parent"
+                                            app:layout_constraintStart_toStartOf="parent"
+                                            app:layout_constraintTop_toTopOf="@id/detailed_recipe_info_proteins_bar" />
+
+                                        <TextView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:layout_centerHorizontal="true"
+                                            android:text="@string/proteins"
+                                            android:textColor="@color/colorText"
+                                            android:textStyle="bold"
+                                            app:layout_constraintEnd_toEndOf="parent"
+                                            app:layout_constraintStart_toStartOf="parent"
+                                            app:layout_constraintTop_toBottomOf="@id/detailed_recipe_info_proteins_bar" />
+                                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+                                </RelativeLayout>
+                            </RelativeLayout>
+
+                    </androidx.cardview.widget.CardView>
+
+                    <androidx.cardview.widget.CardView
+                        android:id="@+id/detailed_cardview3"
+                        style="@style/CardViewUsual"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/detailed_cardview4"
+                        android:layout_marginBottom="72dp"
+                        android:backgroundTint="@color/detailed_card"
+                        app:cardCornerRadius="8dp">
+
+                        <RelativeLayout
+                            android:id="@+id/detailed_recipe_ins_rl"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="10dp">
+
+                            <TextView
+                                android:id="@+id/detailed_recipe_ins_title"
+                                style="@style/TitleBold"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentStart="true"
+                                android:layout_alignParentTop="true"
+                                android:layout_marginStart="16dp"
+                                android:layout_marginTop="10dp"
+                                android:text="@string/instructoins" />
+
+                            <androidx.recyclerview.widget.RecyclerView
+                                android:id="@+id/detailed_recipe_step_rv"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_below="@id/detailed_recipe_ins_title"
+                                android:layout_marginTop="10dp"
+                                android:isScrollContainer="false"
+                                android:overScrollMode="never" />
+
+
+                        </RelativeLayout>
+                    </androidx.cardview.widget.CardView>
+
+                    <androidx.cardview.widget.CardView
+                        android:id="@+id/detailed_cardview4"
+                        style="@style/CardViewUsual"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/detailed_cardview2"
+                        android:backgroundTint="@color/detailed_card"
+                        app:cardCornerRadius="8dp">
+
+                        <RelativeLayout
+                            android:id="@+id/detailed_recipe_ing_rl"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="10dp">
+
+                            <TextView
+                                android:id="@+id/detailed_recipe_ing_title"
+                                style="@style/TitleBold"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentStart="true"
+                                android:layout_alignParentTop="true"
+                                android:layout_marginStart="16dp"
+                                android:layout_marginTop="10dp"
+                                android:text="@string/ingredients" />
+
+                            <TextView
+                                android:id="@+id/detailed_recipe_ing_perServings"
+                                style="@style/TextUsual"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_below="@id/detailed_recipe_ing_title"
+                                android:layout_alignParentStart="true"
+                                android:layout_marginStart="16dp"
+                                android:layout_marginTop="5dp"
+                                android:text="@string/per_2_servings"
+                                android:textSize="12sp" />
+
+                            <androidx.recyclerview.widget.RecyclerView
+                                android:id="@+id/detailed_recipe_ing_rv"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_below="@id/detailed_recipe_ing_perServings"
+                                android:layout_marginTop="10dp"
+                                android:isScrollContainer="false"
+                                android:overScrollMode="never" />
+
+                            <TextView
+                                android:id="@+id/detailed_recipe_ing_no"
+                                style="@style/TextUsualBlack"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_below="@id/detailed_recipe_ing_rv"
+                                android:layout_centerHorizontal="true"
+                                android:text="@string/there_is_no_ingredients"
+                                android:visibility="gone" />
+                        </RelativeLayout>
+                    </androidx.cardview.widget.CardView>
+
+                </RelativeLayout>
+
+            </androidx.core.widget.NestedScrollView>
+
+            <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+                android:id="@+id/detailed_recipe_fab"
+                style="@style/ExtendedFab"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom|center_horizontal"
+                android:layout_marginBottom="16dp"
+                android:text="@string/track"
+                android:textAlignment="center"
+                android:textColor="@color/white" />
+        </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+    </RelativeLayout>
+
+
+</layout>

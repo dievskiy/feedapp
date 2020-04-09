@@ -1,0 +1,258 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="viewmodel"
+            type="com.feedapp.app.viewModels.RecipeSearchViewModel" />
+    </data>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            style="@style/TextUsual"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/fragment_recipes_sResult_rl"
+            android:text="@string/error_recipes_no_found"
+            android:textAlignment="center"
+            android:visibility="@{(viewmodel.isRecipesEmpty &amp;&amp; viewmodel.hasSearched &amp;&amp; viewmodel.isConnected()) ? View.VISIBLE : View.GONE}" />
+
+        <ProgressBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="300dp"
+            android:elevation="10dp"
+            android:visibility="@{viewmodel.isSearching() ? View.VISIBLE : View.GONE}" />
+
+        <TextView
+            style="@style/TextUsual"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/fragment_recipes_sResult_rl"
+            android:text="@string/error_connection"
+            android:textAlignment="center"
+            android:visibility="@{viewmodel.isConnected() ? View.GONE : View.VISIBLE}" />
+
+
+        <RelativeLayout
+            android:id="@+id/fragment_recipes_vp_rl"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/fragment_recipes_sResult_rl"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentEnd="true"
+            android:visibility="@{(viewmodel.isConnected() &amp;&amp; !viewmodel.hasSearched) ? View.VISIBLE : View.GONE}">
+
+            <RelativeLayout
+                android:id="@+id/fragment_recipes_breakfast_rl"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentEnd="true">
+
+                <com.facebook.shimmer.ShimmerFrameLayout
+                    android:id="@+id/fragment_recipes_breakfast_shimmer"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <androidx.viewpager.widget.ViewPager
+                            android:id="@+id/fragment_recipes_breakfast_viewpager"
+                            android:layout_width="match_parent"
+                            android:layout_height="220dp"
+                            android:layout_below="@id/activity_recipes_breakfast_title"
+                            android:layout_alignParentStart="true"
+                            android:layout_alignParentEnd="true"
+                            android:clipToPadding="false"
+                            android:paddingStart="16dp"
+                            android:paddingEnd="16dp" />
+
+                        <TextView
+                            android:id="@+id/activity_recipes_breakfast_title"
+                            style="@style/Title"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentStart="true"
+                            android:layout_alignParentTop="true"
+                            android:layout_marginStart="20dp"
+                            android:text="@string/breakfast" />
+                    </RelativeLayout>
+                </com.facebook.shimmer.ShimmerFrameLayout>
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/fragment_recipes_lunch_rl"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/fragment_recipes_breakfast_rl"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentEnd="true"
+                android:layout_marginTop="16dp">
+
+                <com.facebook.shimmer.ShimmerFrameLayout
+                    android:id="@+id/fragment_recipes_lunch_shimmer"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <androidx.viewpager.widget.ViewPager
+                            android:id="@+id/fragment_recipes_lunch_viewpager"
+                            android:layout_width="match_parent"
+                            android:layout_height="220dp"
+                            android:layout_below="@id/activity_recipes_lunch_title"
+                            android:layout_alignParentStart="true"
+                            android:layout_alignParentEnd="true"
+                            android:clipToPadding="false"
+                            android:paddingStart="16dp"
+                            android:paddingEnd="16dp" />
+
+                        <TextView
+                            android:id="@+id/activity_recipes_lunch_title"
+                            style="@style/Title"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentStart="true"
+                            android:layout_alignParentTop="true"
+                            android:layout_marginStart="20dp"
+                            android:text="@string/lunch" />
+                    </RelativeLayout>
+                </com.facebook.shimmer.ShimmerFrameLayout>
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/fragment_recipes_snack_rl"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/fragment_recipes_lunch_rl"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentEnd="true"
+                android:layout_marginTop="16dp">
+
+                <com.facebook.shimmer.ShimmerFrameLayout
+                    android:id="@+id/fragment_recipes_snack_shimmer"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <androidx.viewpager.widget.ViewPager
+                            android:id="@+id/fragment_recipes_snack_viewpager"
+                            android:layout_width="match_parent"
+                            android:layout_height="220dp"
+                            android:layout_below="@id/activity_recipes_snack_title"
+                            android:layout_alignParentStart="true"
+                            android:layout_alignParentEnd="true"
+                            android:clipToPadding="false"
+                            android:paddingStart="16dp"
+                            android:paddingEnd="16dp" />
+
+                        <TextView
+                            android:id="@+id/activity_recipes_snack_title"
+                            style="@style/Title"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentStart="true"
+                            android:layout_alignParentTop="true"
+                            android:layout_marginStart="20dp"
+                            android:text="@string/snack" />
+                    </RelativeLayout>
+                </com.facebook.shimmer.ShimmerFrameLayout>
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/fragment_recipes_snack_rl"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentEnd="true"
+                android:layout_marginTop="16dp">
+
+                <com.facebook.shimmer.ShimmerFrameLayout
+                    android:id="@+id/fragment_recipes_dinner_shimmer"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <androidx.viewpager.widget.ViewPager
+                            android:id="@+id/fragment_recipes_dinner_viewpager"
+                            android:layout_width="match_parent"
+                            android:layout_height="220dp"
+                            android:layout_below="@id/activity_recipes_dinner_title"
+                            android:layout_alignParentStart="true"
+                            android:layout_alignParentEnd="true"
+                            android:clipToPadding="false"
+                            android:paddingStart="16dp"
+                            android:paddingEnd="16dp" />
+
+                        <TextView
+                            android:id="@+id/activity_recipes_dinner_title"
+                            style="@style/Title"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentStart="true"
+                            android:layout_alignParentTop="true"
+                            android:layout_marginStart="20dp"
+                            android:text="@string/dinner" />
+                    </RelativeLayout>
+                </com.facebook.shimmer.ShimmerFrameLayout>
+            </RelativeLayout>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/fragment_recipes_sResult_rl"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true">
+
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/fragment_recipes_sResult_rv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/fragment_recipes_searchBar"
+                android:clipToPadding="false"
+                android:paddingBottom="10dp"
+                android:visibility="@{(viewmodel.isConnected() &amp;&amp; viewmodel.hasSearched) ? View.VISIBLE : View.GONE}" />
+
+            <com.mancj.materialsearchbar.MaterialSearchBar
+                android:id="@+id/fragment_recipes_searchBar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentEnd="true"
+                android:layout_margin="8dp"
+                app:mt_hint="@string/hint_carbonara"
+                app:mt_maxSuggestionsCount="0"
+                app:mt_placeholder="@string/search"
+                app:mt_roundedSearchBarEnabled="true"
+                app:mt_searchBarColor="@color/search_bar_color"
+                app:mt_speechMode="false" />
+
+        </RelativeLayout>
+
+    </RelativeLayout>
+</layout>
