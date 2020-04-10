@@ -21,3 +21,6 @@
 #-renamesourcefileattribute SourceFile
 -keepclassmembers enum * { *; }
 -keep class com.feedapp.app.data.api.*
+-keep class com.feedapp.app.util.*
+-keep class com.feedapp.app.data.models*
+-dontwarn com.google.errorprone.annotations.**

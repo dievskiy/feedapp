@@ -41,8 +41,8 @@ android {
         applicationId "com.feedapp.app"
         minSdkVersion 21
         targetSdkVersion 29
-        versionCode 3
-        versionName "1.0.2"
+        versionCode 5
+        versionName "1.0.4"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
@@ -180,6 +180,10 @@ dependencies {
 
     // lottie
     implementation 'com.airbnb.android:lottie:3.0.3-support'
+
+    // facebook login
+    implementation 'com.facebook.android:facebook-login:[5,6)'
+
 
     // test
     testImplementation 'androidx.test:core:1.2.0'

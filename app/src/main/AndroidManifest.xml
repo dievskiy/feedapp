@@ -22,25 +22,42 @@
         tools:ignore="LockedOrientationActivity"
         tools:replace="android:allowBackup">
 
+
         <activity
-            android:exported="false"
-            android:name=".ui.activities.StatisticsActivity">
+            android:name="com.facebook.FacebookActivity"
+            android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
+            android:label="@string/app_name" />
+        <activity
+            android:name="com.facebook.CustomTabActivity"
+            android:exported="true">
+            <intent-filter><action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data android:scheme="@string/fb_login_protocol_scheme" />
+            </intent-filter>
+        </activity>
+
+        <activity
+            android:name=".ui.activities.StatisticsActivity"
+            android:exported="false">
 
         </activity>
         <activity
-            android:exported="false"
-            android:name=".ui.activities.DetailedRecipeActivity">
+            android:name=".ui.activities.DetailedRecipeActivity"
+            android:exported="false">
 
         </activity>
         <activity android:name=".ui.activities.MyMealsSearchActivity" />
         <activity
-            android:exported="false"
             android:name=".ui.activities.AddCustomProductActivity"
+            android:exported="false"
             android:label="@string/add_product" />
         <activity
-            android:screenOrientation="sensorPortrait"
             android:name=".ui.activities.IntroductionActivity"
             android:label="@string/title_activity_intro"
+            android:screenOrientation="sensorPortrait"
             android:theme="@style/MainTheme" />
         <activity
             android:name=".ui.activities.HomeActivity"
@@ -55,13 +72,13 @@
             </intent-filter>
         </activity>
         <activity
-            android:exported="false"
             android:name=".ui.activities.SearchActivity"
+            android:exported="false"
             android:label="@string/search"
             android:theme="@style/MainTheme" />
         <activity
-            android:exported="false"
             android:name=".ui.activities.DetailedFoodActivity"
+            android:exported="false"
             android:label="@string/detailed"
             android:theme="@style/MainTheme" />
     </application>

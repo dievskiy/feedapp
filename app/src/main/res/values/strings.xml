@@ -206,5 +206,9 @@
     <string name="paleo">Paleo</string>
     <string name="primal">Primal</string>
     <string name="whole_30">Whole30</string>
+
+<!--    facebook id -->
+    <string name="facebook_app_id">225570008693546</string> <string name="fb_login_protocol_scheme">fb225570008693546</string>
+    <string name="facebook_application_id">225570008693546</string>
 </resources>
 
