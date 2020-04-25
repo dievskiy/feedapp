@@ -31,13 +31,14 @@ class RecentProductsRecyclerAdapter(
         val defaultColor = Color.rgb(253, 245, 230)
         val DIFF_CALLBACK = object : DiffUtil.ItemCallback<RecentProduct>() {
             override fun areItemsTheSame(oldItem: RecentProduct, newItem: RecentProduct): Boolean {
-                return oldItem.recentFdcId == newItem.recentFdcId
+                return oldItem.recentId == newItem.recentId
             }
+
             override fun areContentsTheSame(
                 oldItem: RecentProduct,
                 newItem: RecentProduct
             ): Boolean {
-                return oldItem.recentFdcId == newItem.recentFdcId
+                return oldItem.recentId == newItem.recentId
             }
 
         }
@@ -47,17 +48,15 @@ class RecentProductsRecyclerAdapter(
     override fun onBindViewHolder(holder: RecentProductsViewHolder, position: Int) {
         val food = getItem(position)
         food.run {
-            product.let {
-                holder.textTitle.text = it.name
-                // set Color to image
-                holder.image.setColorFilter(defaultColor)
-                val letter = it.name.getOrNull(0).toString().getValidLetter()
-                holder.imageLetter.text = letter
-            }
+            holder.textTitle.text = name
+            // set Color to image
+            holder.image.setColorFilter(defaultColor)
+            val letter = name.getOrNull(0).toString().getValidLetter()
+            holder.imageLetter.text = letter
 
         }
         holder.mainLayout.setOnClickListener {
-            recentProductResult.startDetailedActivity(food.recentFdcId, food.product.name)
+            recentProductResult.startDetailedActivity(food.foodProductId, food.name)
         }
 
     }

@@ -9,7 +9,7 @@ import androidx.room.PrimaryKey
 import com.feedapp.app.util.CALORIES_TO_ENERGY_MULTIPLICATOR
 import com.feedapp.app.util.round
 
-/*
+/**
  * all fields are counted with respect to consumed grams.
  * class used for saved foodproduct with grams consumed
  */

@@ -48,6 +48,10 @@ class HomeActivity : ClassicActivity(), BottomNavigationValuesUpdate {
 
     companion object {
         const val REQUEST_CODE_ADD_MEAL = 100
+        const val RESULT_CODE_SEARCH_IN_RECIPES = 101
+        const val RESULT_CODE_UPDATE_DAY = 102
+        const val EXTRAS_UPDATE_DAY = "updateDay"
+        const val EXTRAS_RECIPES_QUERY = "recipesName"
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -79,7 +83,7 @@ class HomeActivity : ClassicActivity(), BottomNavigationValuesUpdate {
             TapTargetView.showFor(this,
                 TapTarget.forView(
                     findViewById(R.id.fab_add_meal),
-                    "Click this button to add consumed meals",
+                    getString(R.string.introduction_add_meals),
                     ""
                 )
                     .outerCircleAlpha(0.96f)
@@ -260,26 +264,20 @@ class HomeActivity : ClassicActivity(), BottomNavigationValuesUpdate {
         when (actionItem.id) {
             R.id.fab_meals_breakfast -> {
                 intent.putExtra(intentMealType, MealType.BREAKFAST.code)
-                startActivityForResult(intent, REQUEST_CODE_ADD_MEAL)
-                return@OnActionSelectedListener true
             }
             R.id.fab_meals_lunch -> {
                 intent.putExtra(intentMealType, MealType.LUNCH.code)
-                startActivityForResult(intent, REQUEST_CODE_ADD_MEAL)
-                return@OnActionSelectedListener true
             }
             R.id.fab_meals_snack -> {
                 intent.putExtra(intentMealType, MealType.SNACK.code)
-                startActivityForResult(intent, REQUEST_CODE_ADD_MEAL)
-                return@OnActionSelectedListener true
             }
             R.id.fab_meals_dinner -> {
                 intent.putExtra(intentMealType, MealType.DINNER.code)
-                startActivityForResult(intent, REQUEST_CODE_ADD_MEAL)
-                return@OnActionSelectedListener true
             }
-
         }
+
+        startActivityForResult(intent, REQUEST_CODE_ADD_MEAL)
+
         false
     }
 
@@ -289,8 +287,28 @@ class HomeActivity : ClassicActivity(), BottomNavigationValuesUpdate {
             // if user has added products to the day or deleted product in statistics activity ->
             // update day in VM
             REQUEST_CODE_ADD_MEAL, REQUEST_CODE_STATISTICS -> {
-                viewModel.updateDayAndDate()
+                when (resultCode) {
+                    RESULT_CODE_UPDATE_DAY -> {
+                        viewModel.updateDayAndDate()
+                    }
+                    RESULT_CODE_SEARCH_IN_RECIPES -> {
+                        // if user has added a product and then clicked "search in recipes", update day
+                        if (data?.getBooleanExtra(EXTRAS_UPDATE_DAY, false) == true) {
+                            viewModel.updateDayAndDate()
+                        }
+
+                        // navigate to recipes and search by query
+                        val query = data?.getStringExtra(EXTRAS_RECIPES_QUERY)
+                        query?.let {
+                            val bundle = Bundle()
+                            bundle.putString(EXTRAS_RECIPES_QUERY, it)
+                            navController.navigate(R.id.navigation_recipes, bundle)
+                        }
+                    }
+                }
+
             }
+
         }
     }
 

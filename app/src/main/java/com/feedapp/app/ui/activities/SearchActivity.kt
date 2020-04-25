@@ -10,28 +10,24 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.View
-import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.SearchView
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.feedapp.app.R
-import com.feedapp.app.data.api.models.usdafoodsearch.FoodApiModel
 import com.feedapp.app.data.interfaces.RecentProductResult
 import com.feedapp.app.data.interfaces.SearchMealsResult
-import com.feedapp.app.data.models.ConnectionMode
 import com.feedapp.app.data.models.FoodProduct
-import com.feedapp.app.data.models.connection.ConnectionLiveData
 import com.feedapp.app.data.models.day.DayDate
 import com.feedapp.app.databinding.ActivitySearchBinding
+import com.feedapp.app.ui.activities.HomeActivity.Companion.RESULT_CODE_UPDATE_DAY
 import com.feedapp.app.ui.adapters.FoodProductRecyclerAdapter
-import com.feedapp.app.ui.adapters.MealsApiRecyclerAdapter
 import com.feedapp.app.ui.adapters.RecentProductsRecyclerAdapter
 import com.feedapp.app.ui.viewclasses.ClassicItemDecoration
 import com.feedapp.app.util.intentDate
 import com.feedapp.app.util.intentMealType
-import com.feedapp.app.util.toastLong
+import com.feedapp.app.util.toast
 import com.feedapp.app.viewModels.SearchViewModel
 import javax.inject.Inject
 
@@ -46,7 +42,6 @@ class SearchActivity @Inject constructor() : ClassicActivity(), SearchMealsResul
     }
     private lateinit var binding: ActivitySearchBinding
     private lateinit var recentAdapter: RecentProductsRecyclerAdapter
-    private lateinit var onlineAdapter: MealsApiRecyclerAdapter
     private lateinit var offlineAdapter: FoodProductRecyclerAdapter
 
     private var dateString: DayDate? = null
@@ -75,9 +70,22 @@ class SearchActivity @Inject constructor() : ClassicActivity(), SearchMealsResul
         setViews()
         setUpListeners()
 
+
     }
 
     private fun setUpListeners() {
+        binding.activitySearchNotFound.setOnClickListener {
+            viewModel.searchQuery.value?.run {
+                if (this.length < 3) return@setOnClickListener
+                val intent = Intent()
+                intent.putExtra(HomeActivity.EXTRAS_RECIPES_QUERY, this)
+                intent.putExtra(HomeActivity.EXTRAS_UPDATE_DAY, viewModel.hasAdded.value)
+                setResult(HomeActivity.RESULT_CODE_SEARCH_IN_RECIPES, intent)
+                finish()
+            } ?: toast(getString(R.string.no_query))
+
+        }
+
         binding.activitySearchMtoolbar.setNavigationOnClickListener {
             onBackPressed()
         }
@@ -86,7 +94,7 @@ class SearchActivity @Inject constructor() : ClassicActivity(), SearchMealsResul
     private fun setViews() {
         binding.activitySearchRv.run {
             layoutManager = LinearLayoutManager(applicationContext)
-            adapter = onlineAdapter
+            adapter = offlineAdapter
             addItemDecoration(ClassicItemDecoration(context))
         }
 
@@ -100,7 +108,6 @@ class SearchActivity @Inject constructor() : ClassicActivity(), SearchMealsResul
     private fun setAdapters() {
         dateString = intent.extras?.getSerializable(intentDate) as DayDate?
         mealTypeCode = intent.extras?.getInt(intentMealType)
-        onlineAdapter = MealsApiRecyclerAdapter(this, this)
         recentAdapter = RecentProductsRecyclerAdapter(this, this)
         offlineAdapter = FoodProductRecyclerAdapter(this, this)
     }
@@ -132,74 +139,21 @@ class SearchActivity @Inject constructor() : ClassicActivity(), SearchMealsResul
         } else finish()
     }
 
-    private fun showConnectionErrorDialog() {
-        AlertDialog.Builder(this)
-            .setTitle(getString(R.string.dialog_no_connection_title))
-            .setMessage(getString(R.string.dialog_no_connection_message))
-            .setPositiveButton(getString(R.string.ok)) { _, _ -> finish() }
-            .setNegativeButton(R.string.cancel, null)
-            .show()
-    }
 
     private fun subscribeObservers() {
-        val connectionLiveData = ConnectionLiveData(this)
-
-        connectionLiveData.observe(this, Observer {
-            it?.let {
-                viewModel.setConnected(it.isConnected)
-            }
-        })
 
         viewModel.recentProducts.observe(this, Observer {
-            if (viewModel.isConnected.value != true) {
-                return@Observer
-            }
-            recentAdapter.submitList(viewModel.getRecentSublist())
+            it?.let { recentAdapter.submitList(it) }
         })
 
-        viewModel.isConnected.observe(this, Observer {
-            if (!it && viewModel.canShowNoInternetToast.value == true) {
-                toastLong(getString(R.string.error_search_no_connection))
-                viewModel.canShowNoInternetToast.postValue(false)
-            }
-            if (!it) {
-                binding.activitySearchRv.adapter = offlineAdapter
-            } else {
-                binding.activitySearchRv.adapter = onlineAdapter
-            }
-        })
-
-        viewModel.observeRecipe().observe(this, Observer {
-            viewModel.setMealsOnline(it)
-        })
-
-        viewModel.mealsOnline.observe(this, Observer {
-            if (viewModel.isConnected.value == true) {
-                onlineAdapter.colorList.addAll(viewModel.generateColors(it?.foodApiModels?.size))
-                onlineAdapter.submitList(it.foodApiModels)
-
-                viewModel.hasSearched.value?.let { isSearched ->
-                    if (it.foodApiModels.isNullOrEmpty() && isSearched) {
-                        binding.activitySearchNofound.visibility = View.VISIBLE
-                        binding.activitySearchRv.overScrollMode = View.OVER_SCROLL_NEVER
-                    } else {
-                        binding.activitySearchRv.overScrollMode = View.OVER_SCROLL_ALWAYS
-                        binding.activitySearchNofound.visibility = View.GONE
-                    }
-                }
-            }
-
-        })
-        viewModel.mealsOffline.observe(this, Observer {
+        viewModel.meals.observe(this, Observer {
             offlineAdapter.colorList.addAll(viewModel.generateColors(it?.size))
             offlineAdapter.submitList(it)
             viewModel.hasSearched.value?.let { isSearched ->
                 if (it.isNullOrEmpty() && isSearched) {
-                    binding.activitySearchNofound.visibility = View.VISIBLE
                     binding.activitySearchRv.overScrollMode = View.OVER_SCROLL_NEVER
                 } else {
                     binding.activitySearchRv.overScrollMode = View.OVER_SCROLL_ALWAYS
-                    binding.activitySearchNofound.visibility = View.GONE
                 }
             }
         })
@@ -218,7 +172,7 @@ class SearchActivity @Inject constructor() : ClassicActivity(), SearchMealsResul
 
             it.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
                 override fun onQueryTextSubmit(query: String?): Boolean {
-                    if (query == null) return true
+                    if (query == null || query.length < 3) return true
                     searchByQuery(query)
                     it.clearFocus()
                     it.setQuery("", false)
@@ -238,46 +192,36 @@ class SearchActivity @Inject constructor() : ClassicActivity(), SearchMealsResul
         viewModel.searchByQuery(q)
     }
 
-    override fun isConnected(): Boolean {
-        if (viewModel.isConnected.value == true) return true
-        else showConnectionErrorDialog()
-        return false
-    }
-
-    override fun startDetailedActivity(
-        mode: ConnectionMode,
-        foodOffline: FoodProduct?,
-        foodOnline: FoodApiModel?
-    ) {
+    override fun startDetailedActivity(foodOffline: FoodProduct) {
         val intent = Intent(this, DetailedFoodActivity::class.java)
         intent.putExtra(intentDate, dateString)
         intent.putExtra(intentMealType, mealTypeCode)
-        intent.putExtra("connectionMode", mode)
-        when (mode) {
-            ConnectionMode.ONLINE -> {
-                foodOnline?.let {
-                    intent.putExtra("fdcId", it.fdcId)
-                    intent.putExtra("title", it.description)
-                    startActivityForResult(intent, HomeActivity.REQUEST_CODE_ADD_MEAL)
-                }
-            }
-            ConnectionMode.OFFLINE -> {
-                foodOffline?.let {
-                    intent.putExtra("id", foodOffline.id)
-                    intent.putExtra("title", foodOffline.name)
-                    startActivityForResult(intent, HomeActivity.REQUEST_CODE_ADD_MEAL)
+        intent.putExtra("id", foodOffline.id)
+        intent.putExtra("title", foodOffline.name)
+        startActivityForResult(intent, HomeActivity.REQUEST_CODE_ADD_MEAL)
+    }
+
+    override fun startDetailedActivity(recentFdcId: Int, name: String) {
+        val intent = Intent(this, DetailedFoodActivity::class.java)
+        intent.putExtra(intentDate, dateString)
+        intent.putExtra(intentMealType, mealTypeCode)
+        intent.putExtra("id", recentFdcId)
+        intent.putExtra("title", name)
+        startActivityForResult(intent, HomeActivity.REQUEST_CODE_ADD_MEAL)
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        when (requestCode) {
+            // pass update code from DetailedActivity to the HomeActivity
+            HomeActivity.REQUEST_CODE_ADD_MEAL -> {
+                if (resultCode == RESULT_CODE_UPDATE_DAY) {
+                    viewModel.hasAdded.postValue(true)
+                    setResult(RESULT_CODE_UPDATE_DAY)
                 }
             }
         }
     }
 
-    override fun startDetailedActivity(recentFdcId: Int, name: String) {
-        val intent = Intent(this, DetailedFoodActivity::class.java)
-        intent.putExtra("connectionMode", ConnectionMode.ONLINE)
-        intent.putExtra("fdcId", recentFdcId)
-        intent.putExtra("title", name)
-        intent.putExtra(intentDate, dateString)
-        intent.putExtra(intentMealType, mealTypeCode)
-        startActivity(intent)
-    }
+
 }

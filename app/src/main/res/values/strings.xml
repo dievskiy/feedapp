@@ -210,5 +210,12 @@
 <!--    facebook id -->
     <string name="facebook_app_id">225570008693546</string> <string name="fb_login_protocol_scheme">fb225570008693546</string>
     <string name="facebook_application_id">225570008693546</string>
+
+    <string name="db_search_not_found">Not found… Tap to search in recipes</string>
+    <string name="no_query">Query is null</string>
+    <string name="dialog_search_limit_title">Search limit</string>
+    <string name="error_dialog_deletion">Failed to delete. Check your internet connection. If problem still persists, please contact with us through email.</string>
+    <string name="dialog_sign_in_again">Please log into your account again to delete it</string>
+    <string name="introduction_add_meals">Click this button to add consumed meals</string>
 </resources>
 

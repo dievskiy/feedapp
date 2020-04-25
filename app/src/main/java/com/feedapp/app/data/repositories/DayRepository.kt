@@ -6,7 +6,6 @@ package com.feedapp.app.data.repositories
 
 import androidx.lifecycle.MutableLiveData
 import com.feedapp.app.data.api.models.recipedetailed.nn.RecipeDetailedResponse
-import com.feedapp.app.data.api.models.usdafooddetailed.USDAFoodModel
 import com.feedapp.app.data.databases.daos.DayDao
 import com.feedapp.app.data.interfaces.BasicOperationCallback
 import com.feedapp.app.data.models.ConverterToProduct
@@ -112,25 +111,16 @@ class DayRepository @Inject internal constructor(
     fun saveSearchProductToDay(
         dateString: DayDate,
         mealType: Int,
-        apiProduct: USDAFoodModel?,
         offlineProduct: FoodProduct?,
         grams: Float
-    ): Product? {
-        var product: Product? = null
+    ) =
         try {
-            val converterToProduct = ConverterToProduct()
-            if (apiProduct != null) {
-                product = converterToProduct.convertUSDAModel(apiProduct, grams)
-            } else if (offlineProduct != null) {
-                product = converterToProduct.convertFoodProduct(offlineProduct, grams)
-            }
+            val converter = ConverterToProduct()
+            val product = offlineProduct?.let { converter.convertFoodProduct(it, grams) }
             product?.let { addProductToDay(dateString, mealType, product) }
-        } catch (e: java.lang.Exception) {
+        } catch (e: Exception) {
             e.printStackTrace()
         }
-
-        return product
-    }
 
 
     /**
@@ -241,7 +231,7 @@ class DayRepository @Inject internal constructor(
             Firebase.firestore.document("/users/$userId/days/${receivedDay.date.year}/${receivedDay.date.month}/${receivedDay.date.day}")
                 .get()
                 .await().toObject(Day::class.java)
-        }catch (e: Exception){
+        } catch (e: Exception) {
             e.printStackTrace()
             null
         }

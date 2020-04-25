@@ -20,6 +20,7 @@ import androidx.core.widget.NestedScrollView
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.bumptech.glide.RequestManager
 import com.bumptech.glide.load.DataSource
@@ -34,6 +35,7 @@ import com.feedapp.app.data.models.day.MealType
 import com.feedapp.app.data.repositories.RecipeSearchRepository
 import com.feedapp.app.databinding.FragmentRecipesBinding
 import com.feedapp.app.ui.activities.DetailedRecipeActivity
+import com.feedapp.app.ui.activities.HomeActivity
 import com.feedapp.app.ui.adapters.OnSearchLimit
 import com.feedapp.app.ui.adapters.RecipesRecyclerAdapter
 import com.feedapp.app.ui.fragments.recipesbox.CardItem
@@ -46,7 +48,7 @@ import com.mancj.materialsearchbar.MaterialSearchBar
 import dagger.android.support.DaggerFragment
 import javax.inject.Inject
 
-class RecipesFragment() : DaggerFragment(), OnSearchLimit, SearchRecipeLoadException {
+class RecipesFragment : DaggerFragment(), OnSearchLimit, SearchRecipeLoadException {
 
     @Inject
     lateinit var modelFactory: ViewModelProvider.Factory
@@ -69,6 +71,7 @@ class RecipesFragment() : DaggerFragment(), OnSearchLimit, SearchRecipeLoadExcep
     private val cardAdapterL = CardPagerAdapter()
     private val cardAdapterS = CardPagerAdapter()
     private val cardAdapterD = CardPagerAdapter()
+
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -96,14 +99,25 @@ class RecipesFragment() : DaggerFragment(), OnSearchLimit, SearchRecipeLoadExcep
         return binding.root
     }
 
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setUpView()
         setObservers()
 
+        try {
+            // set up listener for receiving query from SearchActivity
+            findNavController().addOnDestinationChangedListener { _, _, arguments ->
+                val query = arguments?.getString(HomeActivity.EXTRAS_RECIPES_QUERY)
+                query?.let {
+                    search(it)
+                }
+            }
+
+        } catch (e: Exception) {
+        }
 
     }
+
 
     private fun setUpView() {
         scrollActivityToTop()
@@ -117,7 +131,8 @@ class RecipesFragment() : DaggerFragment(), OnSearchLimit, SearchRecipeLoadExcep
 
     private fun scrollActivityToTop() =
         try {
-            requireActivity().findViewById<NestedScrollView>(R.id.activity_main_nsv).smoothScrollTo(0, 0)
+            requireActivity().findViewById<NestedScrollView>(R.id.activity_main_nsv)
+                .smoothScrollTo(0, 0)
         } catch (e: java.lang.Exception) {
         }
 
@@ -136,20 +151,24 @@ class RecipesFragment() : DaggerFragment(), OnSearchLimit, SearchRecipeLoadExcep
             }
             activity?.hideKeyboard()
             binding.fragmentRecipesSearchBar.clearFocus()
-            if (viewModel.isConnected()) {
-                if (!viewModel.areRecipesLimitReached()) {
-                    viewModel.searchRecipe(text.toString())
-                } else searchLimitReached()
-            } else {
-                activity?.toast(activity!!.getString(R.string.error_toast_connection))
-            }
+            search(text.toString())
         }
 
     }
 
+    private fun search(query: String) {
+        if (viewModel.isConnected()) {
+            if (!viewModel.areRecipesLimitReached()) {
+                viewModel.searchRecipe(query)
+            } else searchLimitReached()
+        } else {
+            activity?.toast(requireActivity().getString(R.string.error_toast_connection))
+        }
+    }
+
     private fun searchLimitReached() {
         AlertDialog.Builder(requireActivity())
-            .setTitle("Search limit")
+            .setTitle(getString(R.string.dialog_search_limit_title))
             .setMessage(getString(R.string.dialog_search_limit))
             .setPositiveButton(R.string.ok, null)
             .setNegativeButton(R.string.cancel, null)
@@ -306,7 +325,6 @@ class RecipesFragment() : DaggerFragment(), OnSearchLimit, SearchRecipeLoadExcep
             recipesDinner.observe(viewLifecycleOwner, Observer {
                 for (i in 0 until cardAdapterD.count) {
                     setUpCard(i, cardAdapterD.getCardViewAt(i), it, MealType.DINNER)
-
                 }
             })
 

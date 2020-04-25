@@ -224,4 +224,12 @@
         <item name="android:background">?android:attr/selectableItemBackground</item>
     </style>
 
+    <style name="TextNotFound">
+        <item name="android:textColor">@color/colorPrimary600</item>
+        <item name="android:textAlignment">center</item>
+        <item name="android:textSize">17sp</item>
+        <item name="android:padding">20dp</item>
+
+    </style>
+
 </resources>

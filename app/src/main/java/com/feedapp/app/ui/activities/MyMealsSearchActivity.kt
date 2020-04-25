@@ -13,7 +13,6 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.feedapp.app.R
 import com.feedapp.app.data.interfaces.MyProductsSearchResult
-import com.feedapp.app.data.models.ConnectionMode
 import com.feedapp.app.data.models.day.DayDate
 import com.feedapp.app.databinding.ActivityMyMealsSearchBinding
 import com.feedapp.app.ui.adapters.MyProductsSearchRecyclerAdapter
@@ -79,7 +78,6 @@ class MyMealsSearchActivity @Inject constructor() : ClassicActivity(), MyProduct
         val mealType: Int = intent?.extras?.getInt(intentMealType) ?: 0
         val date: DayDate? = intent?.extras?.getSerializable(intentDate) as DayDate?
         val intent = Intent(this, DetailedFoodActivity::class.java)
-        intent.putExtra("connectionMode", ConnectionMode.OFFLINE)
         intent.putExtra("id", id)
         intent.putExtra("title", title)
         intent.putExtra(intentDate, date)

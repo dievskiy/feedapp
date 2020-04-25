@@ -66,7 +66,7 @@ class StatisticsDayFragment : DaggerFragment(), StatisticsProductDeletion {
 
     private fun setUpAdapter() {
         binding.rv.apply {
-            layoutManager = LinearLayoutManager(activity!!)
+            layoutManager = LinearLayoutManager(requireActivity())
             adapter = productsAdapter
         }
     }
@@ -129,11 +129,13 @@ class StatisticsDayFragment : DaggerFragment(), StatisticsProductDeletion {
                 onDeleteProduct()
             }
         }
+
     }
 
     private fun onDeleteProduct() {
         viewModel.getNewPieData(dayDate)
         viewModel.dataChanged.postValue(true)
+
 
     }
 

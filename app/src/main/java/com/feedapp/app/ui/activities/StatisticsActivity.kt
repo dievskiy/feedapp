@@ -67,5 +67,11 @@ class StatisticsActivity : ClassicActivity() {
         }
     }
 
+    override fun onBackPressed() {
+        // update day in the HomeActivity if data has been changed
+        if (viewModel.dataChanged.value == true) setResult(HomeActivity.RESULT_CODE_UPDATE_DAY)
+        super.onBackPressed()
+    }
+
 
 }

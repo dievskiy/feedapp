@@ -17,8 +17,6 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.feedapp.app.R
 import com.feedapp.app.data.models.ColorGenerator
-import com.feedapp.app.data.models.ConnectionMode
-import com.feedapp.app.data.models.RegexDescriptionChecker
 import com.feedapp.app.data.models.day.DayDate
 import com.feedapp.app.databinding.ActivityDetailedFoodBinding
 import com.feedapp.app.util.hideKeyboard
@@ -36,14 +34,13 @@ class DetailedFoodActivity @Inject constructor() : ClassicActivity() {
     private val viewModel by lazy {
         ViewModelProvider(this, modelFactory).get(DetailedViewModel::class.java)
     }
-    private val regexDescriptionChecker = RegexDescriptionChecker()
+
     private lateinit var binding: ActivityDetailedFoodBinding
 
     companion object {
         private const val nutritionInformationScale = 1
     }
 
-    private var connectionMode: ConnectionMode? = ConnectionMode.ONLINE
     private val dropdownMultipliers = arrayListOf(1.0)
     var title: String? = null
 
@@ -62,39 +59,15 @@ class DetailedFoodActivity @Inject constructor() : ClassicActivity() {
 
     }
 
-    private fun loadDetailedData(fdcId: Int?, foodProductId: Int?) {
-        // get data about specific product from API
-        when (connectionMode) {
-            ConnectionMode.ONLINE -> {
-                fdcId?.let {
-                    viewModel.getInfoAboutProduct(it)
-                }
-            }
-            ConnectionMode.OFFLINE -> {
-                foodProductId?.let { viewModel.searchFoodProduct(it) }
-            }
-        }
+    private fun loadDetailedData(foodProductId: Int?) {
+        // get data about specific product
+        foodProductId?.let { viewModel.searchFoodProduct(it) }
     }
 
 
     private fun prepareDetailedData() {
-        connectionMode = intent.extras?.getSerializable("connectionMode") as? ConnectionMode
-        when (connectionMode) {
-            ConnectionMode.ONLINE -> {
-                val fdcId = intent.extras?.getInt("fdcId")
-                loadDetailedData(fdcId, null)
-
-            }
-            ConnectionMode.OFFLINE -> {
-                val foodProductId = intent.extras?.getInt("id")
-                loadDetailedData(null, foodProductId)
-            }
-            null -> {
-                val foodProductId: Int? = intent.extras?.getInt("id")
-                connectionMode = ConnectionMode.ONLINE
-                loadDetailedData(null, foodProductId)
-            }
-        }
+        val foodProductId = intent.extras?.getInt("id")
+        loadDetailedData(foodProductId)
         title = intent.extras?.getString("title").toString()
     }
 
@@ -135,11 +108,7 @@ class DetailedFoodActivity @Inject constructor() : ClassicActivity() {
             if (it.isNullOrBlank()) {
                 return@addTextChangedListener
             }
-            if (connectionMode == ConnectionMode.ONLINE) {
-                updateValuesApi()
-            } else {
-                updateValuesOffline()
-            }
+            updateValues()
         }
 
         // hide keyboard if user presses OK
@@ -155,7 +124,9 @@ class DetailedFoodActivity @Inject constructor() : ClassicActivity() {
         // change multiplier according to dropdown menu
         binding.detailedQuantityDropdown.setOnItemClickListener { _, _, position, _ ->
             if (!editText.error.isNullOrEmpty()) editText.error = null
-            if (position != 0 && !editText.text.isNullOrBlank() && editText.text.toString().toDouble() > 10) {
+            if (position != 0 && !editText.text.isNullOrBlank() && editText.text.toString()
+                    .toDouble() > 10
+            ) {
                 // change editText's value to 1 if not grams
                 editText.setText("1")
             }
@@ -189,6 +160,7 @@ class DetailedFoodActivity @Inject constructor() : ClassicActivity() {
         val dateString: DayDate? = intent.extras?.getSerializable(intentDate) as DayDate?
         val mealType: Int? = intent.extras?.getInt(intentMealType)
         viewModel.saveConsumedFoodToDB(dateString, mealType, grams).invokeOnCompletion {
+            setResult(HomeActivity.RESULT_CODE_UPDATE_DAY)
             finish()
         }
 
@@ -196,32 +168,15 @@ class DetailedFoodActivity @Inject constructor() : ClassicActivity() {
 
     private fun setObservers() {
 
-        viewModel.multiplier.observe(this, Observer {
-            updateValuesApi()
+        viewModel.foodInfo.observe(this, Observer {
+            updateValues()
         })
-
-        viewModel.observeFoodInfo().observe(this, Observer {
-            viewModel.setFoodOnline(it)
-        })
-
-        viewModel.foodInfoOnline.observe(this, Observer {
-            updateValuesApi()
-        })
-
-        if (connectionMode == ConnectionMode.OFFLINE) {
-            viewModel.foodInfoOffline.observe(this, Observer {
-                updateValuesOffline()
-            })
-
-        }
-
-
     }
 
-    private fun updateValuesOffline() {
+    private fun updateValues() {
         if (binding.detailedQuantityEdit.text.isNullOrEmpty()) return
         // get model from LiveData
-        val foodInfo = viewModel.foodInfoOffline.value
+        val foodInfo = viewModel.foodInfo.value
         val multiplier = viewModel.multiplier.value
         if (foodInfo != null && multiplier != null) {
             try {
@@ -299,126 +254,6 @@ class DetailedFoodActivity @Inject constructor() : ClassicActivity() {
                 e.printStackTrace()
             }
         }
-    }
-
-    private fun updateValuesApi() {
-        if (binding.detailedQuantityEdit.text.isNullOrEmpty()) return
-        // get model from liveData
-        val foodInfo = viewModel.foodInfoOnline.value
-        // get multiplier with respect to 100 grams
-        val multiplier = viewModel.multiplier.value
-        if (foodInfo != null && multiplier != null) {
-            try {
-                var multiplierBD = (multiplier / 100).toBigDecimal()
-                multiplierBD *= detailed_quantity_edit.text.toString().toBigDecimal()
-
-                val protein =
-                    foodInfo.foodNutrients?.find { it.nutrient?.name == getString(R.string.Protein) }
-                        ?.amount?.toBigDecimal()?.times(multiplierBD)
-                        ?.setScale(nutritionInformationScale, RoundingMode.HALF_UP).toString()
-                        .plus(getString(R.string.g))
-                val fats =
-                    foodInfo.foodNutrients?.find { it.nutrient?.name == "Total lipid (fat)" }
-                        ?.amount?.toBigDecimal()?.times(multiplierBD)
-                        ?.setScale(nutritionInformationScale, RoundingMode.HALF_UP).toString()
-                        .plus(getString(R.string.g))
-                val carbs =
-                    foodInfo.foodNutrients?.find { it.nutrient?.name == "Carbohydrate, by difference" }
-                        ?.amount?.toBigDecimal()?.times(multiplierBD)
-                        ?.setScale(nutritionInformationScale, RoundingMode.HALF_UP).toString()
-                        .plus(getString(R.string.g))
-
-                val calories =
-                    foodInfo.foodNutrients?.find { it.nutrient?.name == "Energy" }
-                        ?.amount?.toBigDecimal()?.times(multiplierBD)
-                        ?.setScale(nutritionInformationScale, RoundingMode.HALF_UP).toString()
-
-                val sugars =
-                    foodInfo.foodNutrients?.find { it.nutrient?.name == "Sugars, total including NLEA" }
-                        ?.amount?.toBigDecimal()?.times(multiplierBD)
-                        ?.setScale(nutritionInformationScale, RoundingMode.HALF_UP).toString()
-                        .plus(getString(R.string.g))
-
-                val fiber =
-                    foodInfo.foodNutrients?.find { it.nutrient?.name == "Fiber, total dietary" }
-                        ?.amount?.toBigDecimal()?.times(multiplierBD)
-                        ?.setScale(nutritionInformationScale, RoundingMode.HALF_UP).toString()
-                        .plus(getString(R.string.g))
-
-                val cholesterol =
-                    foodInfo.foodNutrients?.find { it.nutrient?.name == "Cholesterol" }
-                        ?.amount?.toBigDecimal()?.times(multiplierBD)
-                        ?.setScale(nutritionInformationScale, RoundingMode.HALF_UP).toString()
-                        .plus(getString(R.string.mg))
-
-                val fats_s =
-                    foodInfo.foodNutrients?.find { it.nutrient?.name == "Fatty acids, total saturated" }
-                        ?.amount?.toBigDecimal()?.times(multiplierBD)
-                        ?.setScale(nutritionInformationScale, RoundingMode.HALF_UP).toString()
-                        .plus(getString(R.string.g))
-
-                val fats_m =
-                    foodInfo.foodNutrients?.find { it.nutrient?.name == "Fatty acids, total monounsaturated" }
-                        ?.amount?.toBigDecimal()?.times(multiplierBD)
-                        ?.setScale(nutritionInformationScale, RoundingMode.HALF_UP).toString()
-                        .plus(getString(R.string.g))
-
-                val fats_p =
-                    foodInfo.foodNutrients?.find { it.nutrient?.name == "Fatty acids, total polyunsaturated" }
-                        ?.amount?.toBigDecimal()?.times(multiplierBD)
-                        ?.setScale(nutritionInformationScale, RoundingMode.HALF_UP).toString()
-                        .plus(getString(R.string.g))
-
-
-                binding.detailedProteinsValue.text = protein
-                binding.detailedNutritionProteinsValue.text = protein
-
-                binding.detailedFatsValue.text = fats
-                binding.detailedNutritionFatsValue.text = fats
-
-                binding.detailedCarbsValue.text = carbs
-                binding.detailedNutritionCarbsValue.text = carbs
-
-                binding.detailedKcalValue.text = calories
-                binding.detailedNutritionCaloriesValue.text = calories
-
-                binding.detailedNutritionSugarsValue.text = sugars
-                binding.detailedNutritionFiberValue.text = fiber
-                binding.detailedNutritionCholesterolValue.text = cholesterol
-                binding.detailedNutritionSValue.text = fats_s
-                binding.detailedNutritionMonoValue.text = fats_m
-                binding.detailedNutritionPolyValue.text = fats_p
-
-                val quantityList = arrayListOf<String>()
-
-                // default value for every entry
-                quantityList.add("grams")
-
-                foodInfo.foodPortions?.forEach {
-                    it.portionDescription?.let { description ->
-                        // skip unspecified portions
-                        if (!description.contains("not specified")) {
-                            if (it.gramWeight != null) dropdownMultipliers.add(it.gramWeight)
-                            else return@let
-                            quantityList.add(
-                                regexDescriptionChecker
-                                    .checkValidity(description).plus("\u0020(${it.gramWeight}g)")
-                            )
-                        }
-
-                    }
-                }
-                binding.detailedQuantityDropdown.setAdapter(
-                    ArrayAdapter(
-                        applicationContext, R.layout.spinner_default,
-                        quantityList
-                    )
-                )
-            } catch (e: Exception) {
-                e.printStackTrace()
-            }
-        }
-
     }
 
 

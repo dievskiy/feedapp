@@ -8,8 +8,8 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import com.feedapp.app.data.models.Product
 import com.feedapp.app.data.models.day.Day
+import com.feedapp.app.data.models.day.Meal
 
 @Dao
 interface DayDao {
@@ -41,11 +41,10 @@ interface DayDao {
     @Query("delete from days")
     fun deleteAllDays()
 
-    @Query("select * from products")
-    fun getAllProducts(): List<Product>
+    @Query("select * from meals")
+    fun getAllProducts(): List<Meal>
 
     @Query("update days set waterNum=:waterNum where dayId == :id")
     fun updateWaterGlasses(waterNum: Int, id: Int)
-
 
 }

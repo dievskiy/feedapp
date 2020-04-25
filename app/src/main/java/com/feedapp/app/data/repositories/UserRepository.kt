@@ -41,7 +41,9 @@ class UserRepository @Inject internal constructor(
     private val carbsType = BasicNutrientType.CARBS
     private val caloriesType = BasicNutrientType.CALORIES
 
-    private val _recentProducts = liveData { emit(getRecentProducts()) }
+    private val _recentProducts: LiveData<List<RecentProduct>> = liveData(IO) {
+        emit(userDao.getRecentProducts() ?: listOf())
+    }
 
     val recentProducts: LiveData<List<RecentProduct>>
         get() = _recentProducts
@@ -98,13 +100,6 @@ class UserRepository @Inject internal constructor(
         }
     }
 
-    suspend fun getRecentProducts() =
-        coroutineScope { withContext(IO) { userDao.getRecentProducts() } }
-
-    // saving recent searched products to db
-    fun saveToRecent(recentProduct: RecentProduct) {
-        userDao.insertRecentProducts(recentProduct)
-    }
 
     fun saveMeasure(metricB: Boolean) {
         _user.value?.let { user ->
@@ -321,6 +316,17 @@ class UserRepository @Inject internal constructor(
             e.printStackTrace()
             callback?.onFailure()
         }
+    }
+
+    /**
+     * save product to recent
+     */
+    fun saveToRecent(recent: RecentProduct) {
+        // if rows >= 5, delete first
+        if (userDao.getNumRecent() >= 5) {
+            userDao.deleteFirstRecent()
+        }
+        userDao.insertRecentProducts(recent)
     }
 
 
