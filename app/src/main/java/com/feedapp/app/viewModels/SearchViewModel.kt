@@ -43,5 +43,9 @@ class SearchViewModel @Inject constructor(
 
     fun setHasSearched(b: Boolean) = searchRepository.hasSearched.postValue(b)
 
+    suspend fun getSearchSuggestions(query: String): List<String> =
+        searchRepository.getSearchSuggestions(query)
+
+
 
 }

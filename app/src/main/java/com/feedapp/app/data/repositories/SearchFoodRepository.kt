@@ -11,6 +11,7 @@ import com.feedapp.app.data.models.ColorGenerator
 import com.feedapp.app.data.models.FoodProduct
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers.IO
+import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -50,7 +51,7 @@ class SearchFoodRepository
 
     fun searchByQuery(query: String) = CoroutineScope(IO).launch {
         isSearching.postValue(true)
-        search(query)
+        search(query.trim())
     }
 
     private fun search(query: String) =
@@ -80,6 +81,25 @@ class SearchFoodRepository
         }
 
     fun changeMultiplierValue(d: Double) = _multiplier.postValue(d)
+
+    /**
+     * return list of max 5 suggestions for the query
+     */
+    suspend fun getSearchSuggestions(q: String): List<String> = coroutineScope {
+        val query = q.replace(" ".toRegex(), "")
+        var list = foodProductDao.searchBySuggestion(query)
+            ?.sortedWith(compareBy { it.length })
+
+        val size = list?.size
+
+        size?.let {
+            // if bigger than 5, sublist it
+            if (size > 5) {
+                list = list?.subList(0, 5)
+            }
+        }
+        list ?: listOf()
+    }
 
 
 }

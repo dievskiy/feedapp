@@ -1,1 +1,0 @@
-/* * Copyright (c) 2020 Ruslan Potekhin */package com.feedapp.app.data.interfacesimport com.feedapp.app.data.models.FoodProductinterface SearchMealsResult {    fun startDetailedActivity(        foodOffline: FoodProduct    )}

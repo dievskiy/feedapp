@@ -41,4 +41,7 @@ interface FoodProductDao {
     @Query("select * from food where name == :name")
     fun searchByNameExact(name: String): FoodProduct
 
+    @Query("select name from food where name like '%' || :suggestion || '%'")
+    fun searchBySuggestion(suggestion: String): List<String>?
+
 }

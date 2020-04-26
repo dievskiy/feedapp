@@ -23,11 +23,11 @@ import com.feedapp.app.data.models.day.MealType
 import com.feedapp.app.databinding.ActivityHomeBinding
 import com.feedapp.app.ui.fragments.home.HomeFragment.Companion.REQUEST_CODE_STATISTICS
 import com.feedapp.app.ui.listeners.BottomNavigationItemListener
+import com.feedapp.app.ui.viewclasses.TargetViewFactory
 import com.feedapp.app.util.intentDate
 import com.feedapp.app.util.intentMealType
 import com.feedapp.app.util.toast
 import com.feedapp.app.viewModels.HomeViewModel
-import com.getkeepsafe.taptargetview.TapTarget
 import com.getkeepsafe.taptargetview.TapTargetView
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.leinardi.android.speeddial.SpeedDialActionItem
@@ -69,7 +69,6 @@ class HomeActivity : ClassicActivity(), BottomNavigationValuesUpdate {
             setViewListeners()
             setAddMealFab()
             checkHomeUiGuide()
-
         }
 
     }
@@ -79,22 +78,10 @@ class HomeActivity : ClassicActivity(), BottomNavigationValuesUpdate {
      * Check if introduction screen for Add button showed
      */
     private fun checkHomeUiGuide() {
+
         if (!viewModel.isHomeGuideShowed()) {
             TapTargetView.showFor(this,
-                TapTarget.forView(
-                    findViewById(R.id.fab_add_meal),
-                    getString(R.string.introduction_add_meals),
-                    ""
-                )
-                    .outerCircleAlpha(0.96f)
-                    .titleTextSize(22)
-                    .titleTextColor(R.color.white)
-                    .dimColor(R.color.black)
-                    .drawShadow(true)
-                    .cancelable(true)
-                    .tintTarget(true)
-                    .transparentTarget(false)
-                    .targetRadius(60),
+                TargetViewFactory(this, findViewById(R.id.fab_add_meal)).generateTargetView(),
                 object : TapTargetView.Listener() {
                     override fun onTargetDismissed(view: TapTargetView?, userInitiated: Boolean) {
                         view?.isFocusable = false
@@ -303,12 +290,12 @@ class HomeActivity : ClassicActivity(), BottomNavigationValuesUpdate {
                             val bundle = Bundle()
                             bundle.putString(EXTRAS_RECIPES_QUERY, it)
                             navController.navigate(R.id.navigation_recipes, bundle)
+                            binding.fabAddMeal.hide()
                         }
                     }
                 }
 
             }
-
         }
     }
 

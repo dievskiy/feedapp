@@ -22,7 +22,7 @@ import com.feedapp.app.util.getValidLetter
 @SuppressLint("SetTextI18n")
 class RecentProductsRecyclerAdapter(
     val context: Context,
-    private val recentProductResult: RecentProductResult
+    private val searchResult: RecentProductResult
 ) : ListAdapter<RecentProduct, RecentProductsViewHolder>(DIFF_CALLBACK) {
 
     val intent = Intent(context, DetailedFoodActivity::class.java)
@@ -56,7 +56,7 @@ class RecentProductsRecyclerAdapter(
 
         }
         holder.mainLayout.setOnClickListener {
-            recentProductResult.startDetailedActivity(food.foodProductId, food.name)
+            searchResult.startDetailedActivity(food.foodProductId, food.name)
         }
 
     }

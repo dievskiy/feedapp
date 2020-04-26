@@ -38,13 +38,21 @@
                     android:layout_alignParentTop="true"
                     android:layout_alignParentEnd="true">
 
-                    <com.google.android.material.appbar.MaterialToolbar
-                        android:id="@+id/activity_search_mtoolbar"
+
+                    <com.mancj.materialsearchbar.MaterialSearchBar
+                        android:id="@+id/activity_search_searchBar"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:theme="@style/ToolBarTheme"
-                        app:title="@string/search"
-                        app:titleTextAppearance="@style/TextUsualBold" />
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentStart="true"
+                        android:layout_alignParentTop="true"
+                        android:layout_alignParentEnd="true"
+                        android:layout_margin="8dp"
+                        app:mt_hint="@string/hint_search_bar_offline"
+                        app:mt_maxSuggestionsCount="3"
+                        app:mt_placeholder="@string/search"
+                        app:mt_roundedSearchBarEnabled="true"
+                        app:mt_searchBarColor="@color/search_bar_color"
+                        app:mt_speechMode="false" />
 
                 </com.google.android.material.appbar.AppBarLayout>
 

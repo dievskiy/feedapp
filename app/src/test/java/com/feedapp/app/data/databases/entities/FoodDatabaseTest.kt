@@ -1,3 +1,7 @@
+/*
+ * Copyright (c) 2020 Ruslan Potekhin
+ */
+
 package com.feedapp.app.data.databases.entities
 
 import android.os.Build
@@ -7,8 +11,6 @@ import com.feedapp.app.data.databases.dbclasses.FoodDatabase
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.launch
-import org.junit.After
-import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
@@ -25,7 +27,7 @@ internal class FoodDatabaseTest {
 
 
     @Test
-    fun testAll(){
+    fun testAll() {
         CoroutineScope(IO).launch {
             val foodProductDao: FoodProductDao =
                 FoodDatabase.invoke(
@@ -34,14 +36,11 @@ internal class FoodDatabaseTest {
 
             foodLoad(foodProductDao)
         }
-
-
-
     }
+
     private fun foodLoad(foodProductDao: FoodProductDao) {
         assert(foodProductDao.getAllFood().toString().isNotBlank())
     }
-
 
 
 }

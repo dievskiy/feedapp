@@ -4,36 +4,41 @@
 
 package com.feedapp.app.ui.activities
 
-import android.app.SearchManager
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.view.Menu
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.View
-import androidx.appcompat.widget.SearchView
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.feedapp.app.R
 import com.feedapp.app.data.interfaces.RecentProductResult
-import com.feedapp.app.data.interfaces.SearchMealsResult
-import com.feedapp.app.data.models.FoodProduct
 import com.feedapp.app.data.models.day.DayDate
 import com.feedapp.app.databinding.ActivitySearchBinding
 import com.feedapp.app.ui.activities.HomeActivity.Companion.RESULT_CODE_UPDATE_DAY
 import com.feedapp.app.ui.adapters.FoodProductRecyclerAdapter
 import com.feedapp.app.ui.adapters.RecentProductsRecyclerAdapter
 import com.feedapp.app.ui.viewclasses.ClassicItemDecoration
+import com.feedapp.app.ui.viewclasses.SearchActionListener
+import com.feedapp.app.ui.viewclasses.SearchByQuery
+import com.feedapp.app.ui.viewclasses.SearchSuggestionAdapter
+import com.feedapp.app.util.hideKeyboard
 import com.feedapp.app.util.intentDate
 import com.feedapp.app.util.intentMealType
 import com.feedapp.app.util.toast
 import com.feedapp.app.viewModels.SearchViewModel
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers.IO
+import kotlinx.coroutines.Dispatchers.Main
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 
-class SearchActivity @Inject constructor() : ClassicActivity(), SearchMealsResult,
-    RecentProductResult {
+class SearchActivity @Inject constructor() : ClassicActivity(),
+    RecentProductResult, SearchByQuery {
 
     @Inject
     lateinit var modelFactory: ViewModelProvider.Factory
@@ -55,7 +60,6 @@ class SearchActivity @Inject constructor() : ClassicActivity(), SearchMealsResul
         binding = DataBindingUtil.setContentView(this, R.layout.activity_search)
         binding.viewmodel = viewModel
         binding.lifecycleOwner = this
-        setSupportActionBar(binding.activitySearchMtoolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setDisplayShowHomeEnabled(true)
 
@@ -63,14 +67,13 @@ class SearchActivity @Inject constructor() : ClassicActivity(), SearchMealsResul
         subscribeObservers()
         setBindingListeners()
 
+
     }
 
     private fun setUpView() {
         setAdapters()
         setViews()
         setUpListeners()
-
-
     }
 
     private fun setUpListeners() {
@@ -85,13 +88,11 @@ class SearchActivity @Inject constructor() : ClassicActivity(), SearchMealsResul
             } ?: toast(getString(R.string.no_query))
 
         }
-
-        binding.activitySearchMtoolbar.setNavigationOnClickListener {
-            onBackPressed()
-        }
     }
 
+
     private fun setViews() {
+        setSearchBar()
         binding.activitySearchRv.run {
             layoutManager = LinearLayoutManager(applicationContext)
             adapter = offlineAdapter
@@ -103,6 +104,44 @@ class SearchActivity @Inject constructor() : ClassicActivity(), SearchMealsResul
             adapter = recentAdapter
             addItemDecoration(ClassicItemDecoration(context))
         }
+    }
+
+
+    private fun setSearchBar() {
+
+        binding.activitySearchSearchBar.setCustomSuggestionAdapter(
+            SearchSuggestionAdapter(
+                layoutInflater,
+                this,
+                resources.getInteger(R.integer.search_view_height_int)
+            )
+        )
+
+        // set up material search bar for product search
+        binding.activitySearchSearchBar.addTextChangeListener(object : TextWatcher {
+            override fun afterTextChanged(s: Editable?) {}
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                s ?: return
+
+                // show suggestions from 2 chars
+                if (s.length >= 2) {
+                    binding.activitySearchSearchBar.apply {
+                        CoroutineScope(IO).launch {
+                            // update suggestions list when query changed
+                            val list = viewModel.getSearchSuggestions(s.toString())
+                            withContext(Main) {
+                                updateLastSuggestions(list)
+                            }
+                        }
+                    }
+                } else {
+                    binding.activitySearchSearchBar.clearSuggestions()
+                }
+            }
+        })
+
+        binding.activitySearchSearchBar.setOnSearchActionListener(SearchActionListener(this))
     }
 
     private fun setAdapters() {
@@ -160,45 +199,11 @@ class SearchActivity @Inject constructor() : ClassicActivity(), SearchMealsResul
 
     }
 
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        super.onCreateOptionsMenu(menu)
-        menuInflater.inflate(R.menu.search_menu, menu)
-        val manager = getSystemService(Context.SEARCH_SERVICE) as SearchManager
-        val searchItem = menu?.findItem(R.id.search)
-        val searchView: SearchView? = searchItem?.actionView as SearchView
-
-        searchView?.let {
-            it.setSearchableInfo(manager.getSearchableInfo(componentName))
-
-            it.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
-                override fun onQueryTextSubmit(query: String?): Boolean {
-                    if (query == null || query.length < 3) return true
-                    searchByQuery(query)
-                    it.clearFocus()
-                    it.setQuery("", false)
-                    searchItem.collapseActionView()
-                    return true
-                }
-
-                override fun onQueryTextChange(newText: String?): Boolean {
-                    return false
-                }
-            })
-        }
-        return true
-    }
-
-    private fun searchByQuery(q: String) {
+    override fun searchByQuery(q: String) {
+        binding.activitySearchSearchBar.clearFocus()
+        binding.activitySearchSearchBar.disableSearch()
+        hideKeyboard()
         viewModel.searchByQuery(q)
-    }
-
-    override fun startDetailedActivity(foodOffline: FoodProduct) {
-        val intent = Intent(this, DetailedFoodActivity::class.java)
-        intent.putExtra(intentDate, dateString)
-        intent.putExtra(intentMealType, mealTypeCode)
-        intent.putExtra("id", foodOffline.id)
-        intent.putExtra("title", foodOffline.name)
-        startActivityForResult(intent, HomeActivity.REQUEST_CODE_ADD_MEAL)
     }
 
     override fun startDetailedActivity(recentFdcId: Int, name: String) {
