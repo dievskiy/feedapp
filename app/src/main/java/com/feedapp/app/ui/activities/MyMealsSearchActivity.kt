@@ -28,9 +28,7 @@ class MyMealsSearchActivity @Inject constructor() : ClassicActivity(), MyProduct
 
     private val viewModel by lazy {
         ViewModelProvider(this, modelFactory).get(MyMealsSearchViewModel::class.java)
-
     }
-
 
     private lateinit var binding: ActivityMyMealsSearchBinding
     private val adapterToSet = MyProductsSearchRecyclerAdapter(this)
@@ -69,9 +67,7 @@ class MyMealsSearchActivity @Inject constructor() : ClassicActivity(), MyProduct
             } else {
                 binding.activityMySearchNoproducts.visibility = View.GONE
             }
-
         })
-
     }
 
     override fun startDetailedActivity(id: Int, title: String) {

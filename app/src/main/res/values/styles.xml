@@ -232,4 +232,18 @@
 
     </style>
 
+    <style name="TextAbout">
+        <item name="android:textSize">16sp</item>
+    </style>
+
+    <style name="TextAbout.Title" parent="TextAbout">
+        <item name="android:textColor">@color/colorText</item>
+    </style>
+
+
+    <style name="TextAbout.Description" parent="TextAbout">
+        <item name="android:textColor">@color/delete_ripple</item>
+
+    </style>
+
 </resources>

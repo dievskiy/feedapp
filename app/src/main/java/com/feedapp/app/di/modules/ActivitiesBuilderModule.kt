@@ -37,4 +37,7 @@ abstract class ActivitiesBuilderModule {
 
     @ContributesAndroidInjector(modules = [StatisticsViewModelModule::class, StatisticsFragmentModule::class])
     abstract fun contributeRecipeHistoryActivity(): StatisticsActivity
+
+    @ContributesAndroidInjector()
+    abstract fun contributeAboutActivity(): AboutActivity
 }

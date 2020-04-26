@@ -1,0 +1,1177 @@
+{
+  "formatVersion": 1,
+  "database": {
+    "version": 2,
+    "identityHash": "321dfd9c1a288947a30b683adc986ca9",
+    "entities": [
+      {
+        "tableName": "user",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`uid` INTEGER PRIMARY KEY AUTOINCREMENT, `caloriesNeeded` INTEGER NOT NULL, `proteinsNeeded` INTEGER NOT NULL, `carbsNeeded` INTEGER NOT NULL, `fatsNeeded` INTEGER NOT NULL, `measureType` INTEGER NOT NULL, `intolerance` TEXT, `diet` TEXT)",
+        "fields": [
+          {
+            "fieldPath": "uid",
+            "columnName": "uid",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "caloriesNeeded",
+            "columnName": "caloriesNeeded",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "proteinsNeeded",
+            "columnName": "proteinsNeeded",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "carbsNeeded",
+            "columnName": "carbsNeeded",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "fatsNeeded",
+            "columnName": "fatsNeeded",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "measureType",
+            "columnName": "measureType",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "intolerance",
+            "columnName": "intolerance",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "diet",
+            "columnName": "diet",
+            "affinity": "TEXT",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "uid"
+          ],
+          "autoGenerate": true
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "meals",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `products` TEXT NOT NULL, `mealType` INTEGER NOT NULL)",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "products",
+            "columnName": "products",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "mealType",
+            "columnName": "mealType",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "id"
+          ],
+          "autoGenerate": true
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "food",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER NOT NULL, `cryptoxanthin` REAL, `totalfolates` REAL, `ergocalciferol_d2` REAL, `niacin_b3` REAL, `cobalamin_b12` REAL, `energy_without_dietary_fibre` REAL, `carbs` REAL, `fluoride` REAL, `pantothenic_acid_b5` REAL, `thiamin_b1` REAL, `folicacid` REAL, `retinol` REAL, `alpha_carotene` REAL, `pyridoxine_b6` REAL, `protein` REAL, `fat` REAL, `tin` REAL, `chloride` REAL, `omega_g` REAL, `zinc` REAL, `o_poly_fats_g` REAL, `energy` REAL, `molybdenum` REAL, `phosphorus` REAL, `provitamin_a` REAL, `alcohol` REAL, `total_dietary_fibre` REAL, `sat_fats_g` REAL, `vitamin_c` REAL, `vitamin_e` REAL, `magnesium` REAL, `galactose` REAL, `moisture` REAL, `folatenatural` REAL, `sucrose` REAL, `arsenic` REAL, `omega` REAL, `sodium` REAL, `beta_carotene` REAL, `name` TEXT NOT NULL, `cadmium` REAL, `vitamin_a_retinol_equivalents` REAL, `sugar` REAL, `o_poly_fats` REAL, `cholecalciferol_d3` REAL, `potassium` REAL, `mercury` REAL, `dietary_folate_equivalents` REAL, `cobalt` REAL, `lactose` REAL, `manganese` REAL, `biotin_b7` REAL, `maltose` REAL, `maltotriose` REAL, `mono_fats` REAL, `selenium` REAL, `copper` REAL, `iodine` REAL, `t_poly_fats_g` REAL, `nickel` REAL, `glucose` REAL, `chromium` REAL, `antimony` REAL, `calcium` REAL, `sulphur` REAL, `nitrogen` REAL, `fructose` REAL, `lead` REAL, `sat_fats` REAL, `mono_fats_g` REAL, `ash` REAL, `aluminium` REAL, `t_poly_fats` REAL, `iron` REAL, `starch` REAL, `riboflavin_b2` REAL, PRIMARY KEY(`id`))",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "cryptoxanthin",
+            "columnName": "cryptoxanthin",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "totalfolates",
+            "columnName": "totalfolates",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "ergocalciferol_d2",
+            "columnName": "ergocalciferol_d2",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "niacin_b3",
+            "columnName": "niacin_b3",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "cobalamin_b12",
+            "columnName": "cobalamin_b12",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "energy_without_dietary_fibre",
+            "columnName": "energy_without_dietary_fibre",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "carbs",
+            "columnName": "carbs",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "fluoride",
+            "columnName": "fluoride",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "pantothenic_acid_b5",
+            "columnName": "pantothenic_acid_b5",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "thiamin_b1",
+            "columnName": "thiamin_b1",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "folicacid",
+            "columnName": "folicacid",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "retinol",
+            "columnName": "retinol",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "alpha_carotene",
+            "columnName": "alpha_carotene",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "pyridoxine_b6",
+            "columnName": "pyridoxine_b6",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "protein",
+            "columnName": "protein",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "fat",
+            "columnName": "fat",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "tin",
+            "columnName": "tin",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "chloride",
+            "columnName": "chloride",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "omega_g",
+            "columnName": "omega_g",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "zinc",
+            "columnName": "zinc",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "o_poly_fats_g",
+            "columnName": "o_poly_fats_g",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "energy",
+            "columnName": "energy",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "molybdenum",
+            "columnName": "molybdenum",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "phosphorus",
+            "columnName": "phosphorus",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "provitamin_a",
+            "columnName": "provitamin_a",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "alcohol",
+            "columnName": "alcohol",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "total_dietary_fibre",
+            "columnName": "total_dietary_fibre",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "sat_fats_g",
+            "columnName": "sat_fats_g",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "vitamin_c",
+            "columnName": "vitamin_c",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "vitamin_e",
+            "columnName": "vitamin_e",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "magnesium",
+            "columnName": "magnesium",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "galactose",
+            "columnName": "galactose",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "moisture",
+            "columnName": "moisture",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "folatenatural",
+            "columnName": "folatenatural",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "sucrose",
+            "columnName": "sucrose",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "arsenic",
+            "columnName": "arsenic",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "omega",
+            "columnName": "omega",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "sodium",
+            "columnName": "sodium",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "beta_carotene",
+            "columnName": "beta_carotene",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "name",
+            "columnName": "name",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "cadmium",
+            "columnName": "cadmium",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "vitamin_a_retinol_equivalents",
+            "columnName": "vitamin_a_retinol_equivalents",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "sugar",
+            "columnName": "sugar",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "o_poly_fats",
+            "columnName": "o_poly_fats",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "cholecalciferol_d3",
+            "columnName": "cholecalciferol_d3",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "potassium",
+            "columnName": "potassium",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "mercury",
+            "columnName": "mercury",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "dietary_folate_equivalents",
+            "columnName": "dietary_folate_equivalents",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "cobalt",
+            "columnName": "cobalt",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "lactose",
+            "columnName": "lactose",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "manganese",
+            "columnName": "manganese",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "biotin_b7",
+            "columnName": "biotin_b7",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "maltose",
+            "columnName": "maltose",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "maltotriose",
+            "columnName": "maltotriose",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "mono_fats",
+            "columnName": "mono_fats",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "selenium",
+            "columnName": "selenium",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "copper",
+            "columnName": "copper",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "iodine",
+            "columnName": "iodine",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "t_poly_fats_g",
+            "columnName": "t_poly_fats_g",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "nickel",
+            "columnName": "nickel",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "glucose",
+            "columnName": "glucose",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "chromium",
+            "columnName": "chromium",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "antimony",
+            "columnName": "antimony",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "calcium",
+            "columnName": "calcium",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "sulphur",
+            "columnName": "sulphur",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "nitrogen",
+            "columnName": "nitrogen",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "fructose",
+            "columnName": "fructose",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "lead",
+            "columnName": "lead",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "sat_fats",
+            "columnName": "sat_fats",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "mono_fats_g",
+            "columnName": "mono_fats_g",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "ash",
+            "columnName": "ash",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "aluminium",
+            "columnName": "aluminium",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "t_poly_fats",
+            "columnName": "t_poly_fats",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "iron",
+            "columnName": "iron",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "starch",
+            "columnName": "starch",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "riboflavin_b2",
+            "columnName": "riboflavin_b2",
+            "affinity": "REAL",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "id"
+          ],
+          "autoGenerate": false
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "products",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `foodProductId` INTEGER NOT NULL, `eatenGrams` REAL NOT NULL, `consumedCalories` REAL NOT NULL, `name` TEXT NOT NULL, `consumedCryptoxanthin` REAL, `consumedTotalfolates` REAL, `consumedErgocalciferol_d2` REAL, `consumedNiacin_b3` REAL, `consumedCobalamin_b12` REAL, `consumedEnergy_without_dietary_fibre` REAL, `consumedCarbs` REAL, `consumedFluoride` REAL, `consumedPantothenic_acid_b5` REAL, `consumedThiamin_b1` REAL, `consumedFolicacid` REAL, `consumedRetinol` REAL, `consumedAlpha_carotene` REAL, `consumedPyridoxine_b6` REAL, `consumedProtein` REAL, `consumedFat` REAL, `consumedTin` REAL, `consumedChloride` REAL, `consumedOmega_g` REAL, `consumedZinc` REAL, `consumedO_poly_fats_g` REAL, `consumedEnergy` REAL, `consumedMolybdenum` REAL, `consumedPhosphorus` REAL, `consumedProvitamin_a` REAL, `consumedAlcohol` REAL, `consumedTotal_dietary_fiber` REAL, `consumedSat_fats_g` REAL, `consumedVitamin_c` REAL, `consumedVitamin_e` REAL, `consumedMagnesium` REAL, `consumedGalactose` REAL, `consumedMoisture` REAL, `consumedFolatenatural` REAL, `consumedSucrose` REAL, `consumedArsenic` REAL, `consumedOmega` REAL, `consumedSodium` REAL, `consumedBeta_carotene` REAL, `consumedCadmium` REAL, `consumedVitamin_a_retinol_equivalents` REAL, `consumedSugar` REAL, `consumedO_poly_fats` REAL, `consumedCholecalciferol_d3` REAL, `consumedPotassium` REAL, `consumedMercury` REAL, `consumedDietary_folate_equivalents` REAL, `consumedCobalt` REAL, `consumedLactose` REAL, `consumedManganese` REAL, `consumedBiotin_b7` REAL, `consumedMaltose` REAL, `consumedMaltotriose` REAL, `consumedMono_fats` REAL, `consumedSelenium` REAL, `consumedCopper` REAL, `consumedIodine` REAL, `consumedT_poly_fats_g` REAL, `consumedNickel` REAL, `consumedGlucose` REAL, `consumedChromium` REAL, `consumedAntimony` REAL, `consumedCalcium` REAL, `consumedSulphur` REAL, `consumedNitrogen` REAL, `consumedFructose` REAL, `consumedLead` REAL, `consumedSat_fats` REAL, `consumedMono_fats_g` REAL, `consumedAsh` REAL, `consumedAluminium` REAL, `consumedT_poly_fats` REAL, `consumedIron` REAL, `consumedStarch` REAL, `consumedRiboflavin_b2` REAL, `consumedCholesterol` REAL, `consumedVitaminD` REAL, `consumedVitaminA` REAL)",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "foodProductId",
+            "columnName": "foodProductId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "eatenGrams",
+            "columnName": "eatenGrams",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "consumedCalories",
+            "columnName": "consumedCalories",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "name",
+            "columnName": "name",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "consumedCryptoxanthin",
+            "columnName": "consumedCryptoxanthin",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "consumedTotalfolates",
+            "columnName": "consumedTotalfolates",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "consumedErgocalciferol_d2",
+            "columnName": "consumedErgocalciferol_d2",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "consumedNiacin_b3",
+            "columnName": "consumedNiacin_b3",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "consumedCobalamin_b12",
+            "columnName": "consumedCobalamin_b12",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "consumedEnergy_without_dietary_fibre",
+            "columnName": "consumedEnergy_without_dietary_fibre",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "consumedCarbs",
+            "columnName": "consumedCarbs",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "consumedFluoride",
+            "columnName": "consumedFluoride",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "consumedPantothenic_acid_b5",
+            "columnName": "consumedPantothenic_acid_b5",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "consumedThiamin_b1",
+            "columnName": "consumedThiamin_b1",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "consumedFolicacid",
+            "columnName": "consumedFolicacid",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "consumedRetinol",
+            "columnName": "consumedRetinol",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "consumedAlpha_carotene",
+            "columnName": "consumedAlpha_carotene",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "consumedPyridoxine_b6",
+            "columnName": "consumedPyridoxine_b6",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "consumedProtein",
+            "columnName": "consumedProtein",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "consumedFat",
+            "columnName": "consumedFat",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "consumedTin",
+            "columnName": "consumedTin",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "consumedChloride",
+            "columnName": "consumedChloride",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "consumedOmega_g",
+            "columnName": "consumedOmega_g",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "consumedZinc",
+            "columnName": "consumedZinc",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "consumedO_poly_fats_g",
+            "columnName": "consumedO_poly_fats_g",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "consumedEnergy",
+            "columnName": "consumedEnergy",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "consumedMolybdenum",
+            "columnName": "consumedMolybdenum",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "consumedPhosphorus",
+            "columnName": "consumedPhosphorus",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "consumedProvitamin_a",
+            "columnName": "consumedProvitamin_a",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "consumedAlcohol",
+            "columnName": "consumedAlcohol",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "consumedTotal_dietary_fiber",
+            "columnName": "consumedTotal_dietary_fiber",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "consumedSat_fats_g",
+            "columnName": "consumedSat_fats_g",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "consumedVitamin_c",
+            "columnName": "consumedVitamin_c",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "consumedVitamin_e",
+            "columnName": "consumedVitamin_e",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "consumedMagnesium",
+            "columnName": "consumedMagnesium",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "consumedGalactose",
+            "columnName": "consumedGalactose",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "consumedMoisture",
+            "columnName": "consumedMoisture",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "consumedFolatenatural",
+            "columnName": "consumedFolatenatural",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "consumedSucrose",
+            "columnName": "consumedSucrose",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "consumedArsenic",
+            "columnName": "consumedArsenic",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "consumedOmega",
+            "columnName": "consumedOmega",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "consumedSodium",
+            "columnName": "consumedSodium",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "consumedBeta_carotene",
+            "columnName": "consumedBeta_carotene",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "consumedCadmium",
+            "columnName": "consumedCadmium",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "consumedVitamin_a_retinol_equivalents",
+            "columnName": "consumedVitamin_a_retinol_equivalents",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "consumedSugar",
+            "columnName": "consumedSugar",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "consumedO_poly_fats",
+            "columnName": "consumedO_poly_fats",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "consumedCholecalciferol_d3",
+            "columnName": "consumedCholecalciferol_d3",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "consumedPotassium",
+            "columnName": "consumedPotassium",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "consumedMercury",
+            "columnName": "consumedMercury",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "consumedDietary_folate_equivalents",
+            "columnName": "consumedDietary_folate_equivalents",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "consumedCobalt",
+            "columnName": "consumedCobalt",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "consumedLactose",
+            "columnName": "consumedLactose",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "consumedManganese",
+            "columnName": "consumedManganese",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "consumedBiotin_b7",
+            "columnName": "consumedBiotin_b7",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "consumedMaltose",
+            "columnName": "consumedMaltose",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "consumedMaltotriose",
+            "columnName": "consumedMaltotriose",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "consumedMono_fats",
+            "columnName": "consumedMono_fats",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "consumedSelenium",
+            "columnName": "consumedSelenium",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "consumedCopper",
+            "columnName": "consumedCopper",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "consumedIodine",
+            "columnName": "consumedIodine",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "consumedT_poly_fats_g",
+            "columnName": "consumedT_poly_fats_g",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "consumedNickel",
+            "columnName": "consumedNickel",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "consumedGlucose",
+            "columnName": "consumedGlucose",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "consumedChromium",
+            "columnName": "consumedChromium",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "consumedAntimony",
+            "columnName": "consumedAntimony",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "consumedCalcium",
+            "columnName": "consumedCalcium",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "consumedSulphur",
+            "columnName": "consumedSulphur",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "consumedNitrogen",
+            "columnName": "consumedNitrogen",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "consumedFructose",
+            "columnName": "consumedFructose",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "consumedLead",
+            "columnName": "consumedLead",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "consumedSat_fats",
+            "columnName": "consumedSat_fats",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "consumedMono_fats_g",
+            "columnName": "consumedMono_fats_g",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "consumedAsh",
+            "columnName": "consumedAsh",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "consumedAluminium",
+            "columnName": "consumedAluminium",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "consumedT_poly_fats",
+            "columnName": "consumedT_poly_fats",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "consumedIron",
+            "columnName": "consumedIron",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "consumedStarch",
+            "columnName": "consumedStarch",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "consumedRiboflavin_b2",
+            "columnName": "consumedRiboflavin_b2",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "consumedCholesterol",
+            "columnName": "consumedCholesterol",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "consumedVitaminD",
+            "columnName": "consumedVitaminD",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "consumedVitaminA",
+            "columnName": "consumedVitaminA",
+            "affinity": "REAL",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "id"
+          ],
+          "autoGenerate": true
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "days",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`dayId` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `meals` TEXT NOT NULL, `waterNum` INTEGER NOT NULL, `month` TEXT NOT NULL, `day` TEXT NOT NULL, `year` TEXT NOT NULL)",
+        "fields": [
+          {
+            "fieldPath": "dayId",
+            "columnName": "dayId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "meals",
+            "columnName": "meals",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "waterNum",
+            "columnName": "waterNum",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "date.month",
+            "columnName": "month",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "date.day",
+            "columnName": "day",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "date.year",
+            "columnName": "year",
+            "affinity": "TEXT",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "dayId"
+          ],
+          "autoGenerate": true
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "recentProducts",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`recentId` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `name` TEXT NOT NULL, `foodProductId` INTEGER NOT NULL)",
+        "fields": [
+          {
+            "fieldPath": "recentId",
+            "columnName": "recentId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "name",
+            "columnName": "name",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "foodProductId",
+            "columnName": "foodProductId",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "recentId"
+          ],
+          "autoGenerate": true
+        },
+        "indices": [],
+        "foreignKeys": []
+      }
+    ],
+    "setupQueries": [
+      "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"321dfd9c1a288947a30b683adc986ca9\")"
+    ]
+  }
+}

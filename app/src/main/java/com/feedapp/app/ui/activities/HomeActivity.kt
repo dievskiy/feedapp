@@ -73,7 +73,6 @@ class HomeActivity : ClassicActivity(), BottomNavigationValuesUpdate {
 
     }
 
-
     /**
      * Check if introduction screen for Add button showed
      */

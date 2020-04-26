@@ -1,3 +1,7 @@
+/*
+ * Copyright (c) 2020 Ruslan Potekhin
+ */
+
 package com.feedapp.app.ui.adapters
 
 import android.content.Context
@@ -55,7 +59,9 @@ class RecipesRecyclerAdapter(
                 fullImageUri = spoonacularBaseImageUrl.plus(result.imageUrls[0])
                 requestManager.load(fullImageUri).into(image)
             }
+
             mainLayout.setOnClickListener {
+                // if limit reached, stop
                 if(onSearchLimit.ifLimitReached()) {
                     onSearchLimit.limitReached()
                 }else {

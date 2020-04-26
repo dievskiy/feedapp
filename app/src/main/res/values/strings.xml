@@ -219,6 +219,7 @@
     <string name="dialog_sign_in_again">Please log into your account again to delete it</string>
     <string name="introduction_add_meals">Click this button to add consumed meals</string>
     <string name="hint_search_bar_offline">orange</string>
-    <string name="about">about</string>
+    <string name="title_settings">Settings</string>
+    <string name="title_about">About</string>
 </resources>
 
