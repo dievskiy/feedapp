@@ -82,12 +82,12 @@ class StatisticsMonthFragment : DaggerFragment() {
 
             AlertDialog.Builder(requireActivity())
                 .setTitle(getString(R.string.statistics))
-                .setPositiveButton(R.string.ok) { _, _ ->
+                .setPositiveButton(R.string.download) { _, _ ->
                     val openSiteIntent =
                         Intent(Intent.ACTION_VIEW, Uri.parse("https://feedapp-85670.appspot.com/"))
                     startActivity(openSiteIntent)
                 }
-                .setNegativeButton(R.string.download, null)
+                .setNegativeButton(R.string.cancel, null)
                 .setView(dialogView)
                 .show()
         } catch (e: java.lang.Exception) {

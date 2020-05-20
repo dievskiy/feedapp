@@ -162,7 +162,7 @@ class SearchActivity @Inject constructor() : ClassicActivity(),
             val intent = Intent(this, MyMealsSearchActivity::class.java)
             intent.putExtra(intentDate, dateString)
             intent.putExtra(intentMealType, mealTypeCode)
-            startActivity(intent)
+            startActivityForResult(intent, HomeActivity.REQUEST_CODE_ADD_MEAL)
         }
     }
 
