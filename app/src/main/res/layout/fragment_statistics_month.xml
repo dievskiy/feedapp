@@ -127,7 +127,7 @@
                         android:id="@+id/btn_save_pdf"
                         style="@style/MaterialButtonStyle"
                         android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
+                        android:layout_height="55dp"
                         android:layout_below="@id/dropdown_container"
                         android:layout_centerHorizontal="true"
                         android:layout_marginBottom="8dp"

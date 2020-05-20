@@ -20,7 +20,10 @@
         android:theme="@style/MainTheme"
         tools:ignore="LockedOrientationActivity"
         tools:replace="android:allowBackup">
-        <activity android:name=".ui.activities.AboutActivity"></activity>
+        <activity android:name=".ui.activities.AboutActivity"
+            android:exported="false">
+
+        </activity>
         <activity
             android:name="com.facebook.FacebookActivity"
             android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
@@ -39,10 +42,12 @@
         </activity>
         <activity
             android:name=".ui.activities.StatisticsActivity"
-            android:exported="false"></activity>
+            android:exported="false">
+        </activity>
         <activity
             android:name=".ui.activities.DetailedRecipeActivity"
-            android:exported="false"></activity>
+            android:exported="false">
+        </activity>
         <activity android:name=".ui.activities.MyMealsSearchActivity" />
         <activity
             android:name=".ui.activities.AddCustomProductActivity"
