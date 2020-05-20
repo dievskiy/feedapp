@@ -57,6 +57,8 @@ class MyMealsSearchActivity @Inject constructor() : ClassicActivity(), MyProduct
         }
 
         setObservers()
+        viewModel.updateProducts()
+
     }
 
     private fun setObservers() {

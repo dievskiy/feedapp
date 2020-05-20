@@ -13,4 +13,7 @@ class MyMealsSearchViewModel @Inject constructor(private val foodRepository: Foo
 
     val myProducts = foodRepository.myProducts
 
+    fun updateProducts() =
+        foodRepository.updateProducts()
+
 }

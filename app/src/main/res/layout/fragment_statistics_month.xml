@@ -1,4 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (c) 2020 Ruslan Potekhin
+  -->
+
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
@@ -42,6 +46,7 @@
                 android:layout_below="@id/activity_history_chart_container">
 
                 <RelativeLayout
+
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="6dp">
@@ -49,8 +54,8 @@
                     <RelativeLayout
                         android:id="@+id/dropdown_container"
                         android:layout_width="match_parent"
-                        android:layout_marginBottom="10dp"
-                        android:layout_height="wrap_content">
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="10dp">
 
                         <TextView
                             android:id="@+id/title_month"
@@ -117,9 +122,23 @@
                         </com.google.android.material.textfield.TextInputLayout>
                     </RelativeLayout>
 
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btn_save_pdf"
+                        style="@style/MaterialButtonStyle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_below="@id/dropdown_container"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginBottom="8dp"
+                        android:text="@string/save_as_pdf" />
+
                 </RelativeLayout>
 
+
             </androidx.cardview.widget.CardView>
+
+
         </RelativeLayout>
     </androidx.core.widget.NestedScrollView>
 
