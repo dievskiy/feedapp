@@ -1,13 +1,22 @@
+/*
+ * Copyright (c) 2020 Ruslan Potekhin
+ */
+
 package com.feedapp.app.ui.fragments.statistics
 
+import android.app.AlertDialog
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
+import android.widget.ImageView
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import com.bumptech.glide.Glide
 import com.feedapp.app.R
 import com.feedapp.app.databinding.FragmentStatisticsMonthBinding
 import com.feedapp.app.viewModels.StatisticsViewModel
@@ -53,16 +62,44 @@ class StatisticsMonthFragment : DaggerFragment() {
     }
 
     private fun setUpView() {
+        setUpListeners()
         setUpChart()
         setUpDropdownMenus()
         loadChart()
+    }
+
+    private fun setUpListeners() {
+        binding.btnSavePdf.setOnClickListener {
+            showSavePDFDialog()
+        }
+    }
+
+    private fun showSavePDFDialog() {
+        try {
+            val dialogView = layoutInflater.inflate(R.layout.dialog_save_pdf, null)
+            val imageView = dialogView.findViewById<ImageView>(R.id.dialog_save_pdf_image)
+            Glide.with(requireContext()).load("https://i.imgur.com/damZ7lc.jpg").into(imageView)
+
+            AlertDialog.Builder(requireActivity())
+                .setTitle(getString(R.string.statistics))
+                .setPositiveButton(R.string.ok) { _, _ ->
+                    val openSiteIntent =
+                        Intent(Intent.ACTION_VIEW, Uri.parse("https://feedapp-85670.appspot.com/"))
+                    startActivity(openSiteIntent)
+                }
+                .setNegativeButton(R.string.download, null)
+                .setView(dialogView)
+                .show()
+        } catch (e: java.lang.Exception) {
+            e.printStackTrace()
+        }
     }
 
     private fun setUpNutrientMenu() {
         binding.nutrientDropdown.apply {
             setAdapter(
                 ArrayAdapter(
-                    activity!!,
+                    requireActivity(),
                     R.layout.spinner_default,
                     viewModel.nutrientArrayList.value ?: arrayListOf()
                 )
@@ -82,7 +119,7 @@ class StatisticsMonthFragment : DaggerFragment() {
         binding.monthDropdown.apply {
             setAdapter(
                 ArrayAdapter(
-                    activity!!,
+                    requireActivity(),
                     R.layout.spinner_default,
                     viewModel.monthArrayList.value ?: arrayListOf()
                 )
@@ -126,7 +163,7 @@ class StatisticsMonthFragment : DaggerFragment() {
     private object BarValueFormatter : ValueFormatter() {
         override fun getFormattedValue(value: Float): String {
             val rounded = value.roundToInt()
-            if(rounded == 0) return ""
+            if (rounded == 0) return ""
             return rounded.toString()
         }
     }
