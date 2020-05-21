@@ -57,6 +57,8 @@ class MyMealsSearchActivity @Inject constructor() : ClassicActivity(), MyProduct
         }
 
         setObservers()
+        viewModel.updateProducts()
+
     }
 
     private fun setObservers() {
@@ -78,6 +80,20 @@ class MyMealsSearchActivity @Inject constructor() : ClassicActivity(), MyProduct
         intent.putExtra("title", title)
         intent.putExtra(intentDate, date)
         intent.putExtra(intentMealType, mealType)
-        startActivity(intent)
+        startActivityForResult(intent, HomeActivity.REQUEST_CODE_ADD_MEAL)
     }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        when (requestCode) {
+            // pass update code from DetailedActivity to the HomeActivity
+            HomeActivity.REQUEST_CODE_ADD_MEAL -> {
+                if (resultCode == HomeActivity.RESULT_CODE_UPDATE_DAY) {
+                    setResult(HomeActivity.RESULT_CODE_UPDATE_DAY)
+                }
+            }
+        }
+    }
+
+
 }

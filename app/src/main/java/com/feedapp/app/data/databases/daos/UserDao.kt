@@ -41,9 +41,9 @@ interface UserDao {
     fun insertRecentProducts(recentProduct: RecentProduct)
 
     /**
-     * return 5 recent products
+     * return 10 recent products
      */
-    @Query("select * from recentProducts order by recentId desc limit 5")
+    @Query("select * from recentProducts order by recentId desc limit 10")
     fun getRecentProducts(): List<RecentProduct>?
 
     @Query("select measureType from user where uid == 0")
