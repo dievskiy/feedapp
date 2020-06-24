@@ -13,8 +13,8 @@
 - [x] Download statistics as pdf
 - [ ] Better UI
 
-![](https://i.imgur.com/s5uJvwr.jpg)
-![](https://i.imgur.com/keSgN8D.jpg)
-
+Main Fragment | Recipes Fragment
+-------------------------|-------------------------
+![](https://i.imgur.com/s5uJvwr.jpg)   |  ![](https://i.imgur.com/keSgN8D.jpg)
 
    [gp]: <https://play.google.com/store/apps/details?id=com.feedapp.app>
