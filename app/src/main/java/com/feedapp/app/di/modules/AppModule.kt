@@ -16,7 +16,7 @@ import com.feedapp.app.R
 import com.feedapp.app.data.api.interfaces.RecipeApiSearch
 import com.feedapp.app.data.databases.daos.DayDao
 import com.feedapp.app.data.databases.daos.FoodProductDao
-import com.feedapp.app.data.databases.daos.ProductDao
+import com.feedapp.app.data.databases.daos.RecentDao
 import com.feedapp.app.data.databases.daos.UserDao
 import com.feedapp.app.data.databases.dbclasses.FoodDatabase
 import com.feedapp.app.data.databases.dbclasses.UserDatabase
@@ -24,6 +24,7 @@ import com.feedapp.app.data.models.calculations.LeftNutrientCalculator
 import com.feedapp.app.data.models.calculations.RecipesDetailsCalculator
 import com.feedapp.app.data.models.prefs.SharedPrefsHelper
 import com.feedapp.app.data.repositories.FoodRepository
+import com.feedapp.app.data.repositories.RecentDelegate
 import com.feedapp.app.data.repositories.RecipeSearchRepository
 import com.feedapp.app.data.repositories.UserRepository
 import com.feedapp.app.ui.adapters.DayRecyclerAdapter
@@ -134,6 +135,7 @@ class AppModule {
         return database.getProductDao()
     }
 
+
     @Singleton
     @Provides
     fun provideDayDao(database: UserDatabase): DayDao {
@@ -146,11 +148,6 @@ class AppModule {
         return database.getUserDao()
     }
 
-    @Singleton
-    @Provides
-    fun provideProductDao(database: UserDatabase): ProductDao {
-        return database.getProductDao()
-    }
 
     @Singleton
     @Provides
@@ -168,6 +165,20 @@ class AppModule {
         leftCalculator: LeftNutrientCalculator
     ): UserRepository {
         return UserRepository(userDao, leftCalculator)
+    }
+
+    @Provides
+    fun provideRecentDelegate(
+        recentDao: RecentDao
+    ): RecentDelegate {
+        return RecentDelegate(recentDao)
+    }
+
+    @Provides
+    fun provideRecentDao(
+        userDatabase: UserDatabase
+    ): RecentDao {
+        return userDatabase.getRecentDao()
     }
 
 

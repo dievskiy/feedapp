@@ -15,9 +15,8 @@ import com.feedapp.app.data.models.FoodProduct
 import com.feedapp.app.data.models.day.Meal
 
 
-/*
-    Database class to obtain information about food products from local DB
-
+/**
+ * Database class to obtain information about food products from local DB
  */
 @Database(entities = [FoodProduct::class, Meal::class], version = 1, exportSchema = true)
 @TypeConverters(Converters::class)
@@ -28,7 +27,7 @@ abstract class FoodDatabase : RoomDatabase() {
     companion object {
 
         private const val FOOD_DATABASE_NAME = "foodProducts"
-        private const val FOOD_DATABASE_DIR = "databases/food.db"
+        private const val FOOD_DATABASE_PATH = "databases/food.db"
 
         @Volatile
         private var instance: FoodDatabase? = null
@@ -49,7 +48,7 @@ abstract class FoodDatabase : RoomDatabase() {
                 FoodDatabase::class.java,
                 FOOD_DATABASE_NAME
             )
-            .createFromAsset(FOOD_DATABASE_DIR)
+            .createFromAsset(FOOD_DATABASE_PATH)
             .build()
 
     }

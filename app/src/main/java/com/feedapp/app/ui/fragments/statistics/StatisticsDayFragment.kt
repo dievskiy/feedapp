@@ -13,12 +13,11 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.feedapp.app.R
-import com.feedapp.app.data.interfaces.StatisticsProductDeletion
 import com.feedapp.app.data.models.Product
 import com.feedapp.app.data.models.day.DayDate
 import com.feedapp.app.databinding.FragmentStatisticsDayBinding
+import com.feedapp.app.ui.activities.HomeActivity
 import com.feedapp.app.ui.adapters.StatisticsDayProductsAdapter
-import com.feedapp.app.util.intentDate
 import com.feedapp.app.viewModels.StatisticsViewModel
 import com.github.mikephil.charting.data.PieData
 import com.github.mikephil.charting.interfaces.datasets.IPieDataSet
@@ -28,21 +27,24 @@ import kotlinx.coroutines.Dispatchers.Default
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-class StatisticsDayFragment : DaggerFragment(), StatisticsProductDeletion {
+class StatisticsDayFragment : DaggerFragment() {
 
     @Inject
     lateinit var modelFactory: ViewModelProvider.Factory
 
     private lateinit var viewModel: StatisticsViewModel
     private lateinit var binding: FragmentStatisticsDayBinding
-    private val productsAdapter = StatisticsDayProductsAdapter(arrayListOf(), this)
+    private val productsAdapter =
+        StatisticsDayProductsAdapter(arrayListOf()) { product -> deleteProduct(product) }
     var dayDate: DayDate? = null
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        dayDate = activity?.intent?.getSerializableExtra(intentDate) as DayDate?
+        dayDate =
+            activity?.intent?.getSerializableExtra(HomeActivity.INTENT_EXTRAS_DATE) as DayDate?
         setUpView()
         setUpObservers()
+
     }
 
 
@@ -123,7 +125,7 @@ class StatisticsDayFragment : DaggerFragment(), StatisticsProductDeletion {
         return binding.root
     }
 
-    override fun deleteProduct(product: Product) {
+    fun deleteProduct(product: Product) {
         dayDate?.let {
             viewModel.deleteProduct(it, product = product).invokeOnCompletion {
                 onDeleteProduct()

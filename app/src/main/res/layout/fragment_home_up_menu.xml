@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ Copyright (c) 2020 Ruslan Potekhin
   -->
 
@@ -48,11 +47,11 @@
                 style="@style/MainTheme"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:maxLength="9"
+                android:maxLength="16"
                 android:singleLine="true"
-                android:text="@{viewmodel.userLeftValues.calories.second.booleanValue() ? `kcal over` : `kcal left`}"
                 android:textAlignment="center"
                 android:textSize="15sp"
+                app:kcalLeftOrOver="@{viewmodel.userLeftValues.calories.second.booleanValue()}"
                 app:layout_constraintEnd_toEndOf="@+id/fragment_home_up_pBar"
                 app:layout_constraintStart_toStartOf="@+id/fragment_home_up_pBar"
                 app:layout_constraintTop_toBottomOf="@id/up_menu_calories_text" />
@@ -145,36 +144,36 @@
 
             <TextView
                 android:id="@+id/up_menu_carbs_left"
+                nutrientLeftOrOver="@{viewmodel.userLeftValues.carbsLeft}"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:singleLine="true"
                 android:maxWidth="80dp"
-                android:text="@{String.valueOf(viewmodel.userLeftValues.carbsLeft.first).concat(viewmodel.userLeftValues.carbsLeft.second.booleanValue() ? ` over` : ` left`)}"
+                android:singleLine="true"
                 android:textSize="15sp"
                 app:layout_constraintStart_toStartOf="@id/up_menu_carbs_bar"
                 app:layout_constraintTop_toBottomOf="@+id/up_menu_carbs_bar" />
 
             <TextView
                 android:id="@+id/up_menu_proteins_left"
+                nutrientLeftOrOver="@{viewmodel.userLeftValues.proteinsLeft}"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:singleLine="true"
-                android:maxWidth="80dp"
                 android:layout_marginTop="8dp"
-                android:text="@{String.valueOf(viewmodel.userLeftValues.proteinsLeft.first.intValue()).concat(viewmodel.userLeftValues.proteinsLeft.second.booleanValue() ? ` over` : ` left`)}"
+                android:maxWidth="80dp"
+                android:singleLine="true"
                 android:textSize="15sp"
                 app:layout_constraintStart_toStartOf="@id/up_menu_proteins_bar"
                 app:layout_constraintTop_toBottomOf="@+id/up_menu_proteins_bar" />
 
             <TextView
                 android:id="@+id/up_menu_fats_left"
+                nutrientLeftOrOver="@{viewmodel.userLeftValues.fatsLeft}"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:maxWidth="80dp"
                 android:singleLine="true"
-                android:text="@{String.valueOf(viewmodel.userLeftValues.fatsLeft.first).concat(viewmodel.userLeftValues.fatsLeft.second.booleanValue() ? ` over` : ` left`)}"
                 android:textSize="15sp"
                 app:layout_constraintStart_toStartOf="@id/up_menu_fats_bar"
                 app:layout_constraintTop_toBottomOf="@+id/up_menu_fats_bar" />

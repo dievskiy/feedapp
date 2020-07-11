@@ -1,26 +1,48 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ Copyright (c) 2020 Ruslan Potekhin
   -->
 
 <resources>
     <array name="Exercises">
-        <item>Little or no</item>
-        <item>Light exercise</item>
-        <item>Moderate exercise</item>
-        <item>Hard exercise</item>
-        <item>Very hard exercise</item>
+        <item>@string/activity_little_or_no</item>
+        <item>@string/activity_light_exercise</item>
+        <item>@string/activity_moderate_exercise</item>
+        <item>@string/activity_hard_exercise</item>
+        <item>@string/activity_very_hard_exercise</item>
     </array>
     <array name="Sex">
-        <item>Male</item>
-        <item>Female</item>
+        <item>@string/sex_male</item>
+        <item>@string/sex_female</item>
     </array>
 
     <array name="MealTypeArray">
-        <item>Breakfast</item>
-        <item>Lunch</item>
-        <item>Snack</item>
-        <item>Dinner</item>
+        <item>@string/breakfast</item>
+        <item>@string/lunch</item>
+        <item>@string/snack</item>
+        <item>@string/dinner</item>
+    </array>
+
+    <array name="StatisticsNutrients">
+        <item>@string/Calories</item>
+        <item>@string/fats</item>
+        <item>@string/carbs</item>
+        <item>@string/proteins</item>
+        <item>@string/sugar</item>
+    </array>
+
+    <array name="Months">
+        <item>@string/january</item>
+        <item>@string/february</item>
+        <item>@string/march</item>
+        <item>@string/april</item>
+        <item>@string/may</item>
+        <item>@string/june</item>
+        <item>@string/jule</item>
+        <item>@string/august</item>
+        <item>@string/september</item>
+        <item>@string/october</item>
+        <item>@string/november</item>
+        <item>@string/december</item>
     </array>
 
 
@@ -62,5 +84,6 @@
         <item>Primal</item>
         <item>Whole30</item>
     </string-array>
+
 
 </resources>

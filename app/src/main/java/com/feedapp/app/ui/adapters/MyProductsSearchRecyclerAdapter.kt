@@ -11,14 +11,13 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import com.feedapp.app.R
-import com.feedapp.app.data.interfaces.MyProductsSearchResult
 import com.feedapp.app.data.models.FoodProduct
 import com.feedapp.app.ui.viewholders.MyProductsSearchVH
 import com.feedapp.app.util.getValidLetter
 
 
 @SuppressLint("SetTextI18n")
-class MyProductsSearchRecyclerAdapter(private val myProductsSearchResult: MyProductsSearchResult) :
+class MyProductsSearchRecyclerAdapter(private val myProductsSearchResult: ((Int, String) -> Unit)) :
     ListAdapter<FoodProduct, MyProductsSearchVH>(DIFF_CALLBACK) {
 
     companion object {
@@ -41,14 +40,14 @@ class MyProductsSearchRecyclerAdapter(private val myProductsSearchResult: MyProd
         val food = getItem(position)
         holder.textTitle.text = food.name
         holder.mainLayout.setOnClickListener {
-            myProductsSearchResult.startDetailedActivity(food.id, food.name)
+            myProductsSearchResult.invoke(food.id, food.name)
         }
 
         // set Color to image
         holder.image.setColorFilter(defaultColor)
 
         // check letter
-        val letter = food.name?.get(0).toString().getValidLetter()
+        val letter = food.name.getOrNull(0).toString().getValidLetter()
         holder.imageLetter.text = letter
     }
 

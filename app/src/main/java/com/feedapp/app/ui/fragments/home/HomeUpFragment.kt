@@ -40,7 +40,7 @@ class HomeUpFragment @Inject constructor() : DaggerFragment() {
         binding =
             DataBindingUtil.inflate(inflater, R.layout.fragment_home_up_menu, container, false)
         binding.viewmodel = viewModel
-        binding.lifecycleOwner = requireActivity()
+        binding.lifecycleOwner = viewLifecycleOwner
 
         setObservers()
 

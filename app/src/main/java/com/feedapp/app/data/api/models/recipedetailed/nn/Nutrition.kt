@@ -1,12 +1,14 @@
+/*
+ * Copyright (c) 2020 Ruslan Potekhin
+ */
+
 package com.feedapp.app.data.api.models.recipedetailed.nn
 
 import com.feedapp.app.data.models.BasicNutrientType
 
 class Nutrition(
-//    var caloricBreakdown: CaloricBreakdown = CaloricBreakdown(),
     var ingredients: ArrayList<IngredientX> = arrayListOf(),
     var nutrients: ArrayList<NutrientX> = arrayListOf()
-//    var weightPerServing: WeightPerServing = WeightPerServing()
 ) {
     fun getAmountByNutrient(type: BasicNutrientType): Float {
         return when (type) {

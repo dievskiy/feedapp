@@ -13,7 +13,6 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import com.feedapp.app.R
-import com.feedapp.app.data.interfaces.RecentProductResult
 import com.feedapp.app.data.models.RecentProduct
 import com.feedapp.app.ui.activities.DetailedFoodActivity
 import com.feedapp.app.ui.viewholders.RecentProductsViewHolder
@@ -22,7 +21,7 @@ import com.feedapp.app.util.getValidLetter
 @SuppressLint("SetTextI18n")
 class RecentProductsRecyclerAdapter(
     val context: Context,
-    private val searchResult: RecentProductResult
+    private val searchResult: ((Int, String) -> Unit)
 ) : ListAdapter<RecentProduct, RecentProductsViewHolder>(DIFF_CALLBACK) {
 
     val intent = Intent(context, DetailedFoodActivity::class.java)
@@ -31,14 +30,14 @@ class RecentProductsRecyclerAdapter(
         val defaultColor = Color.rgb(253, 245, 230)
         val DIFF_CALLBACK = object : DiffUtil.ItemCallback<RecentProduct>() {
             override fun areItemsTheSame(oldItem: RecentProduct, newItem: RecentProduct): Boolean {
-                return oldItem.recentId == newItem.recentId
+                return oldItem.name == newItem.name
             }
 
             override fun areContentsTheSame(
                 oldItem: RecentProduct,
                 newItem: RecentProduct
             ): Boolean {
-                return oldItem.recentId == newItem.recentId
+                return oldItem.name == newItem.name
             }
 
         }
@@ -56,7 +55,7 @@ class RecentProductsRecyclerAdapter(
 
         }
         holder.mainLayout.setOnClickListener {
-            searchResult.startDetailedActivity(food.foodProductId, food.name)
+            searchResult.invoke(food.foodProductId, food.name)
         }
 
     }

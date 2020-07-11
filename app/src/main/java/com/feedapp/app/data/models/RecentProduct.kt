@@ -9,8 +9,7 @@ import androidx.room.PrimaryKey
 
 @Entity(tableName = "recentProducts")
 data class RecentProduct(
-    @PrimaryKey(autoGenerate = true)
-    val recentId: Int = 0,
+    @PrimaryKey
     val name: String,
     val foodProductId: Int
 )

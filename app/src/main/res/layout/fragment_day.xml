@@ -28,7 +28,6 @@
             android:layout_marginStart="8dp"
             android:layout_marginEnd="8dp"
             android:elevation="1dp"
-            android:outlineSpotShadowColor="@color/white"
             app:cardBackgroundColor="@color/home_card_color"
             app:cardCornerRadius="15dp">
 
@@ -51,7 +50,7 @@
                     android:paddingTop="6dp"
                     android:layout_centerVertical="true"
                     android:layout_marginEnd="16dp"
-                    android:text="@{String.valueOf((float) viewmodel.currentDay.waterNum * 0.25f) + ` L`}"
+                    waterSign="@{viewmodel.currentDay.waterNum}"
                     android:textSize="15sp" />
             </RelativeLayout>
 

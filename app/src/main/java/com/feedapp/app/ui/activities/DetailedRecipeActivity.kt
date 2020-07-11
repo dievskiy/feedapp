@@ -21,8 +21,11 @@ import com.bumptech.glide.RequestManager
 import com.feedapp.app.R
 import com.feedapp.app.data.models.BasicNutrientType
 import com.feedapp.app.databinding.ActivityDetailedRecipeBinding
+import com.feedapp.app.ui.activities.SearchActivity.Companion.INTENT_EXTRAS_ID
+import com.feedapp.app.ui.activities.SearchActivity.Companion.INTENT_EXTRAS_TITLE
 import com.feedapp.app.ui.adapters.RecipeIngredientAdapter
 import com.feedapp.app.ui.adapters.RecipeStepAdapter
+import com.feedapp.app.ui.fragments.home.RecipesFragment.Companion.INTENT_EXTRAS_IMAGE_URI
 import com.feedapp.app.ui.viewclasses.DayRecyclerViewItemDecoration
 import com.feedapp.app.util.hideKeyboard
 import com.feedapp.app.util.toast
@@ -73,9 +76,9 @@ class DetailedRecipeActivity @Inject constructor() : ClassicActivity() {
     }
 
     private fun setUpView() {
-        val title = intent.getStringExtra("title") ?: "Recipe"
-        val id = intent.getIntExtra("id", 0)
-        val imageUri = intent.getStringExtra("imageUri")
+        val title = intent.getStringExtra(INTENT_EXTRAS_TITLE) ?: "Recipe"
+        val id = intent.getIntExtra(INTENT_EXTRAS_ID, 0)
+        val imageUri = intent.getStringExtra(INTENT_EXTRAS_IMAGE_URI)
 
         setUpAppbar(title, imageUri)
         setUpListeners()
@@ -195,7 +198,7 @@ class DetailedRecipeActivity @Inject constructor() : ClassicActivity() {
             view.findViewById<AutoCompleteTextView>(R.id.dialog_recipes_dropdown)
         mealTypeDropdown.apply {
             setAdapter(
-                ArrayAdapter(applicationContext, R.layout.spinner_default, viewModel.getMealList())
+                ArrayAdapter(applicationContext, R.layout.spinner_default, resources.getStringArray(R.array.MealTypeArray))
             )
 
             setOnClickListener {
@@ -215,7 +218,7 @@ class DetailedRecipeActivity @Inject constructor() : ClassicActivity() {
                 .setPositiveButton(getString(R.string.track)) { _, _ ->
                     val servings = edtServings.text.toString()
                     if (!viewModel.isServingsCorrect(servings)) {
-                        toast("Invalid number")
+                        toast(getString(R.string.toast_invalid_number))
                         return@setPositiveButton
                     }
                     viewModel.trackRecipe(

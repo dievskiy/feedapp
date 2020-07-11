@@ -21,7 +21,6 @@ import com.feedapp.app.ui.viewclasses.WaterModifier
 import com.feedapp.app.util.VIEW_DAY_RECYCLER_VIEW_SPACE_HEIGHT
 import com.feedapp.app.viewModels.HomeViewModel
 import dagger.android.support.DaggerFragment
-import kotlinx.android.synthetic.main.fragment_day.*
 import kotlinx.coroutines.InternalCoroutinesApi
 import javax.inject.Inject
 
@@ -50,7 +49,7 @@ class DayFragment : DaggerFragment() {
             DataBindingUtil.inflate(inflater, R.layout.fragment_day, container, false)
         binding.apply {
             viewmodel = viewModel
-            lifecycleOwner = requireActivity()
+            lifecycleOwner = viewLifecycleOwner
         }
         return binding.root
 
@@ -63,7 +62,7 @@ class DayFragment : DaggerFragment() {
         val layoutManagerToSet = LinearLayoutManager(activity)
         layoutManagerToSet.initialPrefetchItemCount = 4
 
-        fragment_day_recycler.apply {
+        binding.fragmentDayRecycler.apply {
             layoutManager = layoutManagerToSet
             addItemDecoration(DayRecyclerViewItemDecoration(VIEW_DAY_RECYCLER_VIEW_SPACE_HEIGHT))
             setHasFixedSize(true)
@@ -78,6 +77,7 @@ class DayFragment : DaggerFragment() {
                 }
             }
         } catch (e: Exception) {
+            e.printStackTrace()
         }
 
         setObservers()
@@ -90,7 +90,6 @@ class DayFragment : DaggerFragment() {
             kotlinx.coroutines.internal.synchronized(viewModel.isResettingDateOrSwiping.value == false) {
                 dayRecyclerAdapter.updateList(it.meals)
                 (binding.waterContainer as WaterContainer).fillWaterGlassViews(it.waterNum)
-
             }
         })
     }

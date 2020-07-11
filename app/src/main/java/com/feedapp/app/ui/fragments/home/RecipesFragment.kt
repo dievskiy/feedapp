@@ -29,13 +29,14 @@ import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.Target
 import com.feedapp.app.R
 import com.feedapp.app.data.api.models.recipesearch.RecipeSearchModel
-import com.feedapp.app.data.interfaces.SearchRecipeLoadException
 import com.feedapp.app.data.models.connection.ConnectionLiveData
 import com.feedapp.app.data.models.day.MealType
 import com.feedapp.app.data.repositories.RecipeSearchRepository
 import com.feedapp.app.databinding.FragmentRecipesBinding
 import com.feedapp.app.ui.activities.DetailedRecipeActivity
 import com.feedapp.app.ui.activities.HomeActivity
+import com.feedapp.app.ui.activities.SearchActivity.Companion.INTENT_EXTRAS_ID
+import com.feedapp.app.ui.activities.SearchActivity.Companion.INTENT_EXTRAS_TITLE
 import com.feedapp.app.ui.adapters.OnSearchLimit
 import com.feedapp.app.ui.adapters.RecipesRecyclerAdapter
 import com.feedapp.app.ui.fragments.recipesbox.CardItem
@@ -48,7 +49,7 @@ import com.mancj.materialsearchbar.MaterialSearchBar
 import dagger.android.support.DaggerFragment
 import javax.inject.Inject
 
-class RecipesFragment : DaggerFragment(), OnSearchLimit, SearchRecipeLoadException {
+class RecipesFragment : DaggerFragment(), OnSearchLimit {
 
     @Inject
     lateinit var modelFactory: ViewModelProvider.Factory
@@ -72,6 +73,10 @@ class RecipesFragment : DaggerFragment(), OnSearchLimit, SearchRecipeLoadExcepti
     private val cardAdapterS = CardPagerAdapter()
     private val cardAdapterD = CardPagerAdapter()
 
+    companion object{
+        const val INTENT_EXTRAS_IMAGE_URI = "imageUri"
+    }
+
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -88,7 +93,16 @@ class RecipesFragment : DaggerFragment(), OnSearchLimit, SearchRecipeLoadExcepti
         binding.lifecycleOwner = requireActivity()
 
         // setup vh_recipes_card
-        resultAdapter = RecipesRecyclerAdapter(requireActivity(), requestManager, this)
+        resultAdapter = RecipesRecyclerAdapter({ id, imageUri, title ->
+            run {
+                val intent = Intent(context, DetailedRecipeActivity::class.java)
+                intent.putExtra(INTENT_EXTRAS_ID, id)
+                intent.putExtra(INTENT_EXTRAS_IMAGE_URI, imageUri)
+                intent.putExtra(INTENT_EXTRAS_TITLE, title)
+                intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+                activity?.startActivity(intent)
+            }
+        }, requestManager, this)
         binding.fragmentRecipesSResultRv.run {
             addItemDecoration(ClassicStaggeredItemDecoration(12))
             layoutManager = StaggeredGridLayoutManager(2, 1)
@@ -267,9 +281,9 @@ class RecipesFragment : DaggerFragment(), OnSearchLimit, SearchRecipeLoadExcepti
                 ?.setOnClickListener { _ ->
                     val intent = Intent(activity, DetailedRecipeActivity::class.java)
                     val id = model.results[i].id
-                    intent.putExtra("imageUri", fullImageUri)
-                    intent.putExtra("id", id)
-                    intent.putExtra("title", title)
+                    intent.putExtra(INTENT_EXTRAS_IMAGE_URI, fullImageUri)
+                    intent.putExtra(INTENT_EXTRAS_ID, id)
+                    intent.putExtra(INTENT_EXTRAS_TITLE, title)
                     startActivity(intent)
                 }
 
@@ -282,7 +296,6 @@ class RecipesFragment : DaggerFragment(), OnSearchLimit, SearchRecipeLoadExcepti
 
     private fun setObservers() {
         viewModel.run {
-
             searchRecipes.observe(viewLifecycleOwner, Observer {
                 resultAdapter.submitList(it.results)
             })
@@ -342,10 +355,6 @@ class RecipesFragment : DaggerFragment(), OnSearchLimit, SearchRecipeLoadExcepti
 
     override fun limitReached() {
         searchLimitReached()
-    }
-
-    override fun onError() {
-        activity?.toast("Error loading data")
     }
 
 }

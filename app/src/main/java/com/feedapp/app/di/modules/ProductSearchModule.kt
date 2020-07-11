@@ -16,9 +16,9 @@ class ProductSearchModule {
     @Provides
     fun provideSearchFoodRepository(
         foodProductDao: FoodProductDao
-    )
-            : SearchFoodRepository {
+    ): SearchFoodRepository {
         return SearchFoodRepository(foodProductDao)
     }
+
 
 }

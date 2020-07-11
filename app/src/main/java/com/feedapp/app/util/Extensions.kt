@@ -36,7 +36,7 @@ fun String.getValidLetter(): String {
 
 
 fun caloriesToEnergy(calories: Float): Float {
-    return calories / CALORIES_TO_ENERGY_MULTIPLICATOR
+    return calories / ENERGY_TO_CALORIES_MULTIPLICATOR
 }
 
 fun String.containsNumbers(): Boolean {

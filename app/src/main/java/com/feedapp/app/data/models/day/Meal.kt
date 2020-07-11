@@ -6,22 +6,26 @@ package com.feedapp.app.data.models.day
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import androidx.room.TypeConverters
+import com.feedapp.app.data.databases.converters.Converters
 import com.feedapp.app.data.models.Product
 
 
 /**
  *
  * meal means breakfast, lunch, snack or dinner. It's collection of [Product] with type
-  */
+ */
 
 @Entity(tableName = "meals")
-class Meal constructor(
+@TypeConverters(Converters::class)
+data class Meal constructor(
     @PrimaryKey(autoGenerate = true)
     var id: Int = 0,
-    var products: ArrayList<Product> = arrayListOf(),
-    var mealType: MealType = MealType.BREAKFAST
+    val products: ArrayList<Product>,
+    val mealType: MealType
 ) {
 
+    constructor() : this(id = 0, products = arrayListOf<Product>(), mealType = MealType.BREAKFAST)
 
     override fun toString(): String {
         return "id of the meal = $id | mealType = $mealType"
@@ -36,7 +40,9 @@ class Meal constructor(
         }
     }
 
-    // Get total calories from all products from meal
+    /**
+     * Get total calories from all products from meal
+     */
     fun getTotalCalories(): Float {
         var total = 0F
         products.forEach { total += it.consumedCalories }

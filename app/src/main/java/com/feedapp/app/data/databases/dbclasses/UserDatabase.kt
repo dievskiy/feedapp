@@ -11,7 +11,7 @@ import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import com.feedapp.app.data.databases.converters.Converters
 import com.feedapp.app.data.databases.daos.DayDao
-import com.feedapp.app.data.databases.daos.ProductDao
+import com.feedapp.app.data.databases.daos.RecentDao
 import com.feedapp.app.data.databases.daos.UserDao
 import com.feedapp.app.data.models.FoodProduct
 import com.feedapp.app.data.models.Product
@@ -29,8 +29,8 @@ import com.feedapp.app.data.models.user.User
 abstract class UserDatabase : RoomDatabase() {
 
     abstract fun getUserDao(): UserDao
-    abstract fun getProductDao(): ProductDao
     abstract fun getDayDao(): DayDao
+    abstract fun getRecentDao(): RecentDao
 
     companion object {
         @Volatile
@@ -50,8 +50,9 @@ abstract class UserDatabase : RoomDatabase() {
         )
             .build()
 
-
     }
+
+
 
 
 }

@@ -12,8 +12,8 @@ import android.view.ViewGroup
 import androidx.core.widget.NestedScrollView
 import androidx.lifecycle.ViewModelProvider
 import com.feedapp.app.R
+import com.feedapp.app.ui.activities.HomeActivity
 import com.feedapp.app.ui.activities.StatisticsActivity
-import com.feedapp.app.util.intentDate
 import com.feedapp.app.viewModels.HomeViewModel
 import dagger.android.support.DaggerFragment
 import kotlinx.android.synthetic.main.fragment_home.*
@@ -59,7 +59,7 @@ class HomeFragment : DaggerFragment() {
 
     private fun startStatisticsActivity() {
         val intent = Intent(activity, StatisticsActivity::class.java)
-        intent.putExtra(intentDate, viewModel.currentDay.value?.date)
+        intent.putExtra(HomeActivity.INTENT_EXTRAS_DATE, viewModel.currentDay.value?.date)
         activity?.startActivityForResult(
             intent,
             REQUEST_CODE_STATISTICS
@@ -79,11 +79,13 @@ class HomeFragment : DaggerFragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        childFragmentManager.beginTransaction()
-            .replace(R.id.home_up_menu_container, homeUpFragment)
-            .replace(R.id.home_down_menu_container, downMenuFragment)
-            .commit()
+        if (!homeUpFragment.isAdded || !downMenuFragment.isAdded) {
+            childFragmentManager.beginTransaction()
+                .replace(R.id.home_up_menu_container, homeUpFragment)
+                .replace(R.id.home_down_menu_container, downMenuFragment)
+                .commit()
 
+        }
     }
 
     companion object {

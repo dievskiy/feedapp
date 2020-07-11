@@ -20,7 +20,7 @@ import javax.inject.Inject
 
 class DetailedRecipeViewModel @Inject constructor(
     private val recipeSearchRepository: RecipeSearchRepository,
-    private val userRepository: UserRepository,
+    userRepository: UserRepository,
     private val dayRepository: DayRepository,
     private val recipesDetailsCalculator: RecipesDetailsCalculator
 ) :
@@ -71,7 +71,6 @@ class DetailedRecipeViewModel @Inject constructor(
     fun isServingsCorrect(servings: String): Boolean =
         recipesDetailsCalculator.checkServingsAmount(servings)
 
-    fun getMealList() = recipesDetailsCalculator.getMealList()
 
     fun getDropDownInitialText() =
         recipesDetailsCalculator.getDropDownInitialText(mealTypePosition.value)

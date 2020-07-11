@@ -8,22 +8,22 @@ import androidx.annotation.Keep
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.feedapp.app.util.CALORIES_TO_ENERGY_MULTIPLICATOR
+import com.feedapp.app.data.models.localdb.IProduct
 
-/*
+/**
  * Class that is exported from FoodDatabase
  */
 @Keep
 @Entity(tableName = "food")
 data class FoodProduct(
-    @PrimaryKey @ColumnInfo(name = "id") var id: Int,
+    @PrimaryKey @ColumnInfo(name = "id") override var id: Int,
     @ColumnInfo(name = "cryptoxanthin") val cryptoxanthin: Float? = 0f,
     @ColumnInfo(name = "totalfolates") val totalfolates: Float? = 0f,
     @ColumnInfo(name = "ergocalciferol_d2") val ergocalciferol_d2: Float? = 0f,
     @ColumnInfo(name = "niacin_b3") val niacin_b3: Float? = 0f,
     @ColumnInfo(name = "cobalamin_b12") val cobalamin_b12: Float? = 0f,
     @ColumnInfo(name = "energy_without_dietary_fibre") val energy_without_dietary_fibre: Float? = 0f,
-    @ColumnInfo(name = "carbs") val carbs: Float? = 0f,
+    @ColumnInfo(name = "carbs") override val carbs: Float,
     @ColumnInfo(name = "fluoride") val fluoride: Float? = 0f,
     @ColumnInfo(name = "pantothenic_acid_b5") val pantothenic_acid_b5: Float? = 0f,
     @ColumnInfo(name = "thiamin_b1") val thiamin_b1: Float? = 0f,
@@ -31,8 +31,8 @@ data class FoodProduct(
     @ColumnInfo(name = "retinol") val retinol: Float? = 0f,
     @ColumnInfo(name = "alpha_carotene") val alpha_carotene: Float? = 0f,
     @ColumnInfo(name = "pyridoxine_b6") val pyridoxine_b6: Float? = 0f,
-    @ColumnInfo(name = "protein") val protein: Float? = 0f,
-    @ColumnInfo(name = "fat") val fat: Float? = 0f,
+    @ColumnInfo(name = "protein") override val proteins: Float,
+    @ColumnInfo(name = "fat") override val fats: Float,
     @ColumnInfo(name = "tin") val tin: Float? = 0f,
     @ColumnInfo(name = "chloride") val chloride: Float? = 0f,
     @ColumnInfo(name = "omega_g") val omega_g: Float? = 0f,
@@ -56,7 +56,7 @@ data class FoodProduct(
     @ColumnInfo(name = "omega") val omega: Float? = 0f,
     @ColumnInfo(name = "sodium") val sodium: Float? = 0f,
     @ColumnInfo(name = "beta_carotene") val beta_carotene: Float? = 0f,
-    @ColumnInfo(name = "name") var name: String,
+    @ColumnInfo(name = "name") override var name: String,
     @ColumnInfo(name = "cadmium") val cadmium: Float? = 0f,
     @ColumnInfo(name = "vitamin_a_retinol_equivalents") val vitamin_a_retinol_equivalents: Float? = 0f,
     @ColumnInfo(name = "sugar") val sugar: Float? = 0f,
@@ -92,21 +92,28 @@ data class FoodProduct(
     @ColumnInfo(name = "t_poly_fats") val t_poly_fats: Float? = 0f,
     @ColumnInfo(name = "iron") val iron: Float? = 0f,
     @ColumnInfo(name = "starch") val starch: Float? = 0f,
-    @ColumnInfo(name = "riboflavin_b2") val riboflavin_b2: Float? = 0f
-) : Comparable<FoodProduct> {
+    @ColumnInfo(name = "riboflavin_b2") val riboflavin_b2: Float? = 0f,
+    @ColumnInfo(name="calories") override val calories: Float
+) : Comparable<FoodProduct>, IProduct{
 
     override fun compareTo(other: FoodProduct): Int {
-        if(energy == other.energy && name == other.name && protein == other.protein && sat_fats == other.sat_fats_g
-            && alcohol == other.alcohol) return 0
+        if (energy == other.energy && name == other.name && proteins == other.proteins && sat_fats == other.sat_fats_g
+            && alcohol == other.alcohol
+        ) return 0
         return 1
     }
-    constructor() : this(id = 12,name = "")
 
-    fun calories(): Float {
-        return energy?.times(CALORIES_TO_ENERGY_MULTIPLICATOR) ?: 0f
-    }
+    constructor() : this(
+        id = 12,
+        name = "",
+        carbs = 0f,
+        proteins = 0f,
+        fats = 0f,
+        calories = 0f
+    )
+
     override fun toString(): String {
-        return "name = $name id = $id protein = $protein carbs = $carbs fats = $fat"
+        return "name = $name id = $id protein = $proteins carbs = $carbs fats = $fats calories = $calories"
     }
 
 }

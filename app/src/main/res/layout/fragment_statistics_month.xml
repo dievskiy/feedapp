@@ -65,7 +65,7 @@
                             android:layout_alignParentStart="true"
                             android:layout_marginStart="16dp"
                             android:layout_marginTop="10dp"
-                            android:text="Month" />
+                            android:text="@string/month" />
 
                         <TextView
                             android:id="@+id/title_nutrient"
@@ -77,7 +77,7 @@
                             android:layout_marginTop="10dp"
                             android:layout_marginEnd="16dp"
                             android:layout_toEndOf="@+id/month_til"
-                            android:text="Nutrient" />
+                            android:text="@string/nutrient" />
 
                         <com.google.android.material.textfield.TextInputLayout
                             android:id="@+id/month_til"
