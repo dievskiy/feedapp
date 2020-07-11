@@ -1,1 +1,0 @@
-/* * Copyright (c) 2020 Ruslan Potekhin */package com.feedapp.app.data.interfacesimport com.feedapp.app.data.models.FragmentNavigationTypeinterface BottomNavigationValuesUpdate {    fun updateBottomPosition(type: FragmentNavigationType)}

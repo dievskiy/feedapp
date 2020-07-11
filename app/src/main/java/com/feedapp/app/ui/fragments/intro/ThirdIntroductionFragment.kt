@@ -57,7 +57,9 @@ class ThirdIntroductionFragment : Fragment(), ISlidePolicy {
 
 
     private fun setViewListeners() {
-        val activityIntent = Intent(activity!!, HomeActivity::class.java)
+        val activityIntent = Intent(requireActivity(), HomeActivity::class.java)
+        activityIntent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+
         val browserIntent = Intent(Intent.ACTION_VIEW)
         browserIntent.data = Uri.parse("https://sites.google.com/view/feedapp")
 
@@ -67,7 +69,9 @@ class ThirdIntroductionFragment : Fragment(), ISlidePolicy {
                 it.isClickable = false
                 CoroutineScope(IO).launch {
                     introViewModel.saveUser()
-                    withContext(Main) { startActivity(activityIntent) }
+                    withContext(Main) {
+                        startActivity(activityIntent)
+                    }
                 }
 
 

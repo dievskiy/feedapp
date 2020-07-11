@@ -30,17 +30,11 @@ class StatisticsRepository @Inject internal constructor(
     val barDataSet: MutableLiveData<BarDataSet> = MutableLiveData()
     val pieDataSet: MutableLiveData<PieDataSet> = MutableLiveData()
 
-    val monthArrayList: MutableLiveData<ArrayList<String>> =
-        MutableLiveData(getMonthArrayList())
-
-    val nutrientArrayList: MutableLiveData<ArrayList<String>> =
-        MutableLiveData(getNutrientArrayList())
-
     val products: MutableLiveData<ArrayList<Product>> = MutableLiveData(arrayListOf())
 
-    private val monthPosition = MutableLiveData(calendar.get(Calendar.MONTH))
+    val monthPosition = MutableLiveData(calendar.get(Calendar.MONTH))
     private val currentYear = calendar.get(Calendar.YEAR)
-    private val nutrient = MutableLiveData(StatisticsNutrientType.CALORIES)
+    val nutrient = MutableLiveData(StatisticsNutrientType.CALORIES)
 
     init {
         setNewBarDataset(StatisticsNutrientType.CALORIES, getDefaultMonth())
@@ -113,17 +107,6 @@ class StatisticsRepository @Inject internal constructor(
         )
     }
 
-    private fun getMonthArrayList(): java.util.ArrayList<String> {
-        val a = arrayListOf<String>()
-        for (month in MonthEnum.values()) a.add(month.toString())
-        return a
-    }
-
-    private fun getNutrientArrayList(): java.util.ArrayList<String> {
-        val a = arrayListOf<String>()
-        for (type in StatisticsNutrientType.values()) a.add(type.toString())
-        return a
-    }
 
     private fun getBarEntries(
         nutrientType: StatisticsNutrientType,
@@ -169,14 +152,6 @@ class StatisticsRepository @Inject internal constructor(
         } catch (e: IndexOutOfBoundsException) {
             e.printStackTrace()
         }
-    }
-
-    fun getMonthDropdownInitialText(): String {
-        return MonthEnum.values()[monthPosition.value ?: 0].toString()
-    }
-
-    fun getNutrientDropdownInitialText(): String {
-        return nutrient.value?.toString() ?: StatisticsNutrientType.CALORIES.toString()
     }
 
     fun updateBarDataset(nutrient: Int?, month: Int?) {

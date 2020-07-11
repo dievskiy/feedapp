@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (c) 2020 Ruslan Potekhin
+  -->
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="viewmodel"
+            type="com.feedapp.app.viewModels.HomeViewModel" />
+    </data>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cardview_lottie"
+            style="@style/CardViewUsual"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:elevation="1dp"
+            android:outlineSpotShadowColor="@color/white"
+            app:cardBackgroundColor="@color/home_card_color"
+            app:cardCornerRadius="15dp">
+
+
+            <RelativeLayout
+                android:descendantFocusability="afterDescendants"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <include
+                    android:id="@+id/waterContainer"
+                    layout="@layout/water_container" />
+
+                <TextView
+                    android:id="@+id/water_text_amount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:textAlignment="center"
+                    android:paddingTop="6dp"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="16dp"
+                    waterSign="@{viewmodel.currentDay.waterNum}"
+                    android:textSize="15sp" />
+            </RelativeLayout>
+
+        </androidx.cardview.widget.CardView>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/fragment_day_recycler"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/cardview_lottie"
+            android:overScrollMode="never" />
+    </RelativeLayout>
+
+</layout>

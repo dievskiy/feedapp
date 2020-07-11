@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.feedapp.app.R
+import com.feedapp.app.data.models.prefs.SharedPrefsHelper
 import com.feedapp.app.databinding.FragmentMyMealsBinding
 import com.feedapp.app.ui.adapters.MyProductsRecyclerAdapter
 import com.feedapp.app.ui.viewclasses.MealsItemTouchCallback
@@ -38,6 +39,10 @@ class MyMealsFragment : DaggerFragment() {
     lateinit var modelFactory: ViewModelProvider.Factory
     @Inject
     lateinit var myMealsViewModel: MyMealsViewModel
+
+    @Inject
+    lateinit var spHelper: SharedPrefsHelper
+
     lateinit var binding: FragmentMyMealsBinding
     private val productsAdapter = MyProductsRecyclerAdapter()
 
@@ -67,8 +72,8 @@ class MyMealsFragment : DaggerFragment() {
             TapTargetView.showFor(requireActivity(),
                 TapTarget.forView(
                     fab,
-                    "Here you can create your own products!",
-                    "When product is created, you can delete it by swiping left"
+                    getString(R.string.intro_my_meals_title),
+                    getString(R.string.intro_my_meals_desc)
                 )
                     .outerCircleAlpha(0.96f)
                     .titleTextSize(22)
@@ -84,7 +89,7 @@ class MyMealsFragment : DaggerFragment() {
                         // prevent bugs with nestedscrollview's focusability
                         view.isFocusable = false
                         super.onTargetClick(view)
-                        myMealsViewModel.saveProductsUiGuideShowed()
+                        spHelper.saveProductsUiGuideShowed()
                     }
                 })
         } catch (e: Exception) {
@@ -113,7 +118,7 @@ class MyMealsFragment : DaggerFragment() {
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
                 myMealsViewModel.myProducts.value?.get(viewHolder.adapterPosition)?.let {
                     myMealsViewModel.deleteCustomProduct(it)
-                    context?.toast("Product deleted")
+                    context?.toast(getString(R.string.toast_product_deleted))
                 }
             }
         }
@@ -124,7 +129,7 @@ class MyMealsFragment : DaggerFragment() {
 
 
     private fun setObservers() {
-        if (!myMealsViewModel.isProductsUiGuideShowed()) checkProductsUiGuide()
+        if (!spHelper.isProductsUiGuideShowed()) checkProductsUiGuide()
 
         myMealsViewModel.myProducts.observe(viewLifecycleOwner, Observer { it ->
             CoroutineScope(Main).launch {

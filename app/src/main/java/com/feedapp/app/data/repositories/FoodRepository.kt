@@ -10,6 +10,7 @@ import androidx.lifecycle.MutableLiveData
 import com.feedapp.app.data.databases.daos.FoodProductDao
 import com.feedapp.app.data.models.FoodProduct
 import com.feedapp.app.data.models.FoodProductFBWrapper
+import com.feedapp.app.util.ENERGY_TO_CALORIES_MULTIPLICATOR
 import com.feedapp.app.util.caloriesToEnergy
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.DocumentReference
@@ -140,10 +141,6 @@ class FoodRepository @Inject constructor(
         }
     }
 
-    fun deleteAllCustomProducts() {
-        foodProductDao.deleteCustomProducts()
-    }
-
     suspend fun saveProduct(
         name: String,
         energy: Float,
@@ -161,13 +158,14 @@ class FoodRepository @Inject constructor(
             id = lastId + 1,
             name = name,
             energy = energy,
-            protein = proteinsInHundred,
-            fat = fatsInHundred,
+            proteins = proteinsInHundred,
+            fats = fatsInHundred,
             carbs = carbsInHundred,
             sugar = sugar,
             sat_fats_g = sFats,
             mono_fats_g = uFats,
-            o_poly_fats_g = tFats
+            o_poly_fats_g = tFats,
+            calories = energy * ENERGY_TO_CALORIES_MULTIPLICATOR
         )
         insertProduct(product)
     }

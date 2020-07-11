@@ -1,4 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (c) 2020 Ruslan Potekhin
+  -->
+
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
@@ -20,6 +24,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/fragment_recipes_sResult_rl"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
             android:text="@string/error_recipes_no_found"
             android:textAlignment="center"
             android:visibility="@{(viewmodel.isRecipesEmpty &amp;&amp; viewmodel.hasSearched &amp;&amp; viewmodel.isConnected()) ? View.VISIBLE : View.GONE}" />

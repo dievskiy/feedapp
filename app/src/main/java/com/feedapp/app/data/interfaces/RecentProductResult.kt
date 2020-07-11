@@ -1,1 +1,0 @@
-/* * Copyright (c) 2020 Ruslan Potekhin */package com.feedapp.app.data.interfacesinterface RecentProductResult {    fun startDetailedActivity(recentFdcId: Int, name: String)}

@@ -23,7 +23,7 @@ data class Day constructor(
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "dayId")
     var dayId: Int = 0,
-    var meals: List<Meal> = listOf(),
+    val meals: List<Meal> = listOf(),
     @Embedded
     var date: DayDate,
     var waterNum: Int = 0

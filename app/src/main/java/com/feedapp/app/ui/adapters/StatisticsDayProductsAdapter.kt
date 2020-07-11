@@ -8,14 +8,13 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.feedapp.app.R
-import com.feedapp.app.data.interfaces.StatisticsProductDeletion
 import com.feedapp.app.data.models.Product
 import com.feedapp.app.ui.viewholders.StatisticsDayViewHolder
 
 
 class StatisticsDayProductsAdapter(
     val products: ArrayList<Product>,
-    private val deleter: StatisticsProductDeletion
+    private val deleter: ((Product) -> Unit)
 ) : RecyclerView.Adapter<StatisticsDayViewHolder>() {
 
     override fun onBindViewHolder(holder: StatisticsDayViewHolder, position: Int) {
@@ -23,7 +22,7 @@ class StatisticsDayProductsAdapter(
             val product = products[position]
             holder.name.text = product.name
             holder.image.setOnClickListener {
-                deleter.deleteProduct(product)
+                deleter.invoke(product)
                 products.remove(product)
             }
 

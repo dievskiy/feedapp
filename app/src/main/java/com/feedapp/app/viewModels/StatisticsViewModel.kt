@@ -5,8 +5,6 @@
 package com.feedapp.app.viewModels
 
 import android.annotation.SuppressLint
-import android.app.Application
-import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -14,6 +12,7 @@ import androidx.lifecycle.viewModelScope
 import com.feedapp.app.data.interfaces.BasicOperationCallback
 import com.feedapp.app.data.models.Event
 import com.feedapp.app.data.models.Product
+import com.feedapp.app.data.models.StatisticsNutrientType
 import com.feedapp.app.data.models.day.Day
 import com.feedapp.app.data.models.day.DayDate
 import com.feedapp.app.data.repositories.DayRepository
@@ -31,27 +30,23 @@ import javax.inject.Inject
 
 @SuppressLint("DefaultLocale")
 class StatisticsViewModel @Inject constructor(
-    application: Application,
     private val statisticsRepository: StatisticsRepository,
     private val dayRepository: DayRepository
 ) : ViewModel() {
 
-    var context: Context? = null
 
     val barDataSet: LiveData<BarDataSet> = statisticsRepository.barDataSet
     val pieDataSet: LiveData<PieDataSet> = statisticsRepository.pieDataSet
-    val monthArrayList: LiveData<ArrayList<String>> = statisticsRepository.monthArrayList
-    val nutrientArrayList: LiveData<ArrayList<String>> = statisticsRepository.nutrientArrayList
     val products: LiveData<ArrayList<Product>> = statisticsRepository.products
+
+    val monthPosition: LiveData<Int> = statisticsRepository.monthPosition
+    val nutrientPosition: LiveData<StatisticsNutrientType> = statisticsRepository.nutrient
 
     // check if day data has been changed
     val dataChanged = MutableLiveData(false)
 
     private fun updateProducts(day: Day) = statisticsRepository.updateProducts(day)
 
-    init {
-        context = application.applicationContext
-    }
 
     fun getNewPieData(date: DayDate?) =
         viewModelScope.launch(IO) {
@@ -60,11 +55,6 @@ class StatisticsViewModel @Inject constructor(
             statisticsRepository.setNewPieDataset(day)
             updateProducts(day)
         }
-
-
-    fun getMonthDropdownInitialText() = statisticsRepository.getMonthDropdownInitialText()
-
-    fun getNutrientDropdownInitialText() = statisticsRepository.getNutrientDropdownInitialText()
 
     fun updateBarDataset(
         nutrientInt: Int? = null,
@@ -79,6 +69,7 @@ class StatisticsViewModel @Inject constructor(
     private val deleteCallback = object : BasicOperationCallback {
         override fun onSuccess() {
         }
+
         override fun onFailure() {
             _deleteProduct.value = Event("")
         }

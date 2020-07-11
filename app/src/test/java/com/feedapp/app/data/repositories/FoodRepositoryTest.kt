@@ -1,15 +1,16 @@
+/*
+ * Copyright (c) 2020 Ruslan Potekhin
+ */
+
 package com.feedapp.app.data.repositories
 
 import android.os.Build
 import androidx.test.platform.app.InstrumentationRegistry
-import com.feedapp.app.data.databases.daos.FoodProductDao
 import com.feedapp.app.data.databases.dbclasses.FoodDatabase
 import com.feedapp.app.data.models.FoodProduct
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.launch
-import org.junit.After
-import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
@@ -24,7 +25,7 @@ internal class FoodRepositoryTest {
         CoroutineScope(IO).launch {
             val context = InstrumentationRegistry.getInstrumentation().targetContext
             val foodProductDao = FoodDatabase.invoke(context).getProductDao()
-            val repository: FoodRepository =
+            val repository =
                 FoodRepository(context = context, foodProductDao = foodProductDao)
 
             testInsertAndDelete(repository)
@@ -40,16 +41,20 @@ internal class FoodRepositoryTest {
         val proteinAmount = 12.11f
         val foodProduct = FoodProduct(
             id = id,
-            name = "food",
-            protein = proteinAmount
+            name = "Cake",
+            proteins = proteinAmount,
+            calories = 0f,
+            fats = 0f,
+            carbs = 0f
         )
+
         repository.insertProduct(product = foodProduct)
         val received = repository.searchById(id)
 
         // test insertion and query
         assert(received is FoodProduct)
         assert(received == foodProduct)
-        assert(received?.protein!!.equals(proteinAmount))
+        assert(received?.proteins!!.equals(proteinAmount))
         // test deletion
         repository.deleteProduct(product = foodProduct)
 

@@ -95,7 +95,6 @@ class RecipeSearchRepository
                 }
 
                 override fun onFailure(call: Call<RecipeSearchModel?>, t: Throwable) {
-                    Log.d(TAG, "RecipeSearchViewModel:: Retrofit call failed")
                     t.printStackTrace()
                     isSearching.postValue(false)
                 }
@@ -215,12 +214,11 @@ class RecipeSearchRepository
                     if (response.code() == 200) {
                         setDataToRecipe(mealType, response)
                     } else {
-                        Log.d(TAG, "Fail request data. Response code = ${response.code()}")
+                        Log.i(TAG, "Fail request data. Response code = ${response.code()}")
                     }
                 }
 
                 override fun onFailure(call: Call<RecipeSearchModel?>, t: Throwable) {
-                    Log.d(TAG, "RecipeSearchViewModel:: Retrofit call failed")
                     t.printStackTrace()
                 }
             })

@@ -12,6 +12,7 @@ import com.feedapp.app.data.models.ConverterToProduct
 import com.feedapp.app.data.models.FoodProduct
 import com.feedapp.app.data.models.Product
 import com.feedapp.app.data.models.day.*
+import com.feedapp.app.data.models.localdb.IProduct
 import com.feedapp.app.util.DAY_FRAGMENTS_START_POSITION
 import com.feedapp.app.util.getDayDate
 import com.google.firebase.auth.FirebaseAuth
@@ -112,11 +113,14 @@ class DayRepository @Inject internal constructor(
         dateString: DayDate,
         mealType: Int,
         offlineProduct: FoodProduct?,
-        grams: Float
+        grams: Float,
+        productLocal: IProduct?
     ) =
         try {
             val converter = ConverterToProduct()
-            val product = offlineProduct?.let { converter.convertFoodProduct(it, grams) }
+            val product = productLocal?.let {
+                converter.convertLocal(it, grams)
+            } ?: offlineProduct?.let { converter.convertFoodProduct(it, grams) }
             product?.let { addProductToDay(dateString, mealType, product) }
         } catch (e: Exception) {
             e.printStackTrace()

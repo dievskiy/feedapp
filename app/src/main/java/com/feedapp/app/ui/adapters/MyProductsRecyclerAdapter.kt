@@ -1,3 +1,7 @@
+/*
+ * Copyright (c) 2020 Ruslan Potekhin
+ */
+
 package com.feedapp.app.ui.adapters
 
 import android.annotation.SuppressLint
@@ -12,18 +16,19 @@ import com.feedapp.app.ui.viewholders.MyProductsRecyclerViewHolder
 import com.feedapp.app.util.getValidLetter
 
 @SuppressLint("SetTextI18n")
-class MyProductsRecyclerAdapter : ListAdapter<FoodProduct, MyProductsRecyclerViewHolder>(DIFF_CALLBACK) {
+class MyProductsRecyclerAdapter :
+    ListAdapter<FoodProduct, MyProductsRecyclerViewHolder>(DIFF_CALLBACK) {
 
-    companion object{
+    companion object {
         val defaultColor = Color.rgb(253, 245, 230)
-        val DIFF_CALLBACK = object :DiffUtil.ItemCallback<FoodProduct>(){
+        val DIFF_CALLBACK = object : DiffUtil.ItemCallback<FoodProduct>() {
             override fun areItemsTheSame(oldItem: FoodProduct, newItem: FoodProduct): Boolean {
                 return oldItem.id == newItem.id
             }
 
             override fun areContentsTheSame(oldItem: FoodProduct, newItem: FoodProduct): Boolean {
                 return oldItem.name == newItem.name && oldItem.energy == newItem.energy
-                        && oldItem.protein == newItem.protein && oldItem.fat == newItem.fat
+                        && oldItem.proteins == newItem.proteins && oldItem.fats == newItem.fats
                         && oldItem.carbs == newItem.carbs
             }
 
@@ -34,14 +39,16 @@ class MyProductsRecyclerAdapter : ListAdapter<FoodProduct, MyProductsRecyclerVie
         val product = getItem(position)
 
         holder.textName.text = product.name
-        holder.textCalories.text = product.calories()
-            .toInt().toString().plus("\u0020kcal")
+        holder.textCalories.text = holder.textCalories.context.getString(
+            R.string.day_item_kcal, product.calories
+                .toInt()
+        )
 
         // set Color to image
         holder.image.setColorFilter(defaultColor)
 
         // set Letter
-        val letter = product.name?.get(0).toString().getValidLetter()
+        val letter = product.name.getOrNull(0).toString().getValidLetter()
         holder.imageLetter.text = letter
 
     }
@@ -55,7 +62,6 @@ class MyProductsRecyclerAdapter : ListAdapter<FoodProduct, MyProductsRecyclerVie
             .inflate(R.layout.vh_my_meals, parent, false)
         return MyProductsRecyclerViewHolder(holder)
     }
-
 
 
 }

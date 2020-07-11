@@ -5,8 +5,10 @@
 package com.feedapp.app.viewModels
 
 import androidx.lifecycle.*
+import com.feedapp.app.data.interfaces.BasicOperationCallback
 import com.feedapp.app.data.models.FragmentNavigationType
 import com.feedapp.app.data.models.day.Day
+import com.feedapp.app.data.models.localdb.LocalDBUrls
 import com.feedapp.app.data.models.prefs.SharedPrefsHelper
 import com.feedapp.app.data.models.user.User
 import com.feedapp.app.data.models.user.UserLeftValues
@@ -14,6 +16,9 @@ import com.feedapp.app.data.repositories.DayRepository
 import com.feedapp.app.data.repositories.UserRepository
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.launch
+import java.io.File
+import java.io.FileOutputStream
+import java.net.URL
 import javax.inject.Inject
 
 
@@ -60,7 +65,7 @@ class HomeViewModel @Inject internal constructor(
 
 
     fun updateDayAndDate(position: Int? = null) {
-        isResettingDateOrSwiping?.value?.let {
+        isResettingDateOrSwiping.value?.let {
             if (it) return
         } ?: return
         viewModelScope.launch(IO) {
@@ -85,6 +90,28 @@ class HomeViewModel @Inject internal constructor(
 
     fun setWater(i: Int) {
         dayRepository.updateWaterNum(i)
+    }
+
+    fun downloadLocalDB(
+        filePath: String,
+        code: String,
+        result: BasicOperationCallback
+    ) = viewModelScope.launch(IO) {
+        fun download(link: String, path: String) {
+            try {
+                URL(link).openStream().use { input ->
+                    FileOutputStream(File(path)).use { output ->
+                        input.copyTo(output)
+                        input.close()
+                        result.onSuccess()
+                    }
+                }
+            } catch (e: Exception) {
+                e.printStackTrace()
+                result.onFailure()
+            }
+        }
+        LocalDBUrls.getURLByCode(code)?.let { download(it, filePath) }
     }
 
 

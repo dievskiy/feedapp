@@ -1,3 +1,7 @@
+/*
+ * Copyright (c) 2020 Ruslan Potekhin
+ */
+
 package com.feedapp.app.ui.adapters
 
 import android.graphics.Color
@@ -8,21 +12,15 @@ import androidx.recyclerview.widget.RecyclerView
 import com.feedapp.app.R
 import com.feedapp.app.data.models.day.Meal
 import com.feedapp.app.ui.viewholders.DayRecyclerViewHolder
+import com.feedapp.app.util.TranslationResolver
 import kotlin.math.roundToInt
 
 
 class DayRecyclerAdapter(val meals: ArrayList<Meal>) :
     RecyclerView.Adapter<DayRecyclerViewHolder>() {
 
-    private var titleColor = Color.BLACK
+    private val titleColor = Color.parseColor("#6E6E6E")
     private val viewPool = RecyclerView.RecycledViewPool()
-
-    init {
-        try {
-            titleColor = Color.parseColor("#6E6E6E")
-        }catch (e: Exception){}
-    }
-
 
     override fun onBindViewHolder(holder: DayRecyclerViewHolder, position: Int) {
         try {
@@ -30,8 +28,9 @@ class DayRecyclerAdapter(val meals: ArrayList<Meal>) :
             val layoutManagerToSet = LinearLayoutManager(holder.rv.context)
             val adapterToSet = ItemDayRecyclerAdapter(meal.products)
 
-            meal.mealType?.let {
-                holder.textTitle.text = it.toString()
+            meal.mealType.let {
+                holder.textTitle.text =
+                    TranslationResolver.getTranslationMealType(it, holder.textTitle.context)
                 holder.textTitle.setTextColor(titleColor)
             }
             holder.textTotal.text = holder.textTotal.context.getString(
@@ -68,9 +67,6 @@ class DayRecyclerAdapter(val meals: ArrayList<Meal>) :
     }
 
 }
-
-
-
 
 
 

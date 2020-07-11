@@ -6,7 +6,7 @@ package com.feedapp.app.data.models
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.feedapp.app.util.CALORIES_TO_ENERGY_MULTIPLICATOR
+import com.feedapp.app.util.ENERGY_TO_CALORIES_MULTIPLICATOR
 import com.feedapp.app.util.round
 
 /**
@@ -42,7 +42,7 @@ data class Product constructor(
     var consumedOmega_g: Float? = null,
     var consumedZinc: Float? = null,
     var consumedO_poly_fats_g: Float? = null,
-    var consumedEnergy: Float? = consumedCalories * 1 / CALORIES_TO_ENERGY_MULTIPLICATOR,
+    var consumedEnergy: Float? = consumedCalories / ENERGY_TO_CALORIES_MULTIPLICATOR,
     var consumedMolybdenum: Float? = null,
     var consumedPhosphorus: Float? = null,
     var consumedProvitamin_a: Float? = null,

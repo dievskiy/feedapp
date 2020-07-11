@@ -1,3 +1,7 @@
+/*
+ * Copyright (c) 2020 Ruslan Potekhin
+ */
+
 package com.feedapp.app.data.databases.entities
 
 import com.feedapp.app.data.models.FoodProduct
@@ -23,7 +27,11 @@ internal class FoodProductTest {
         val product = FoodProduct(
             id = id,
             name = name,
-            energy = energy
+            energy = energy,
+            calories = 0f,
+            carbs = 0f,
+            proteins = 0f,
+            fats = 0f
         )
         assert(product.energy == energy)
         assert(product.id == id)

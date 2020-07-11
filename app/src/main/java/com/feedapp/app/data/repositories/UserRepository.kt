@@ -12,7 +12,6 @@ import com.feedapp.app.data.interfaces.BasicOperationCallback
 import com.feedapp.app.data.interfaces.UserDeleteCallback
 import com.feedapp.app.data.models.BasicNutrientType
 import com.feedapp.app.data.models.MeasureType
-import com.feedapp.app.data.models.RecentProduct
 import com.feedapp.app.data.models.calculations.LeftNutrientCalculator
 import com.feedapp.app.data.models.day.Day
 import com.feedapp.app.data.models.user.User
@@ -27,7 +26,6 @@ import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
-import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 
@@ -41,17 +39,10 @@ class UserRepository @Inject internal constructor(
     private val carbsType = BasicNutrientType.CARBS
     private val caloriesType = BasicNutrientType.CALORIES
 
-    private val _recentProducts: LiveData<List<RecentProduct>> = liveData(IO) {
-        emit(userDao.getRecentProducts() ?: listOf())
-    }
-
-    val recentProducts: LiveData<List<RecentProduct>>
-        get() = _recentProducts
-
     private val _user: MutableLiveData<User?> =
-        liveData { emit(getUserPrepared()) } as MutableLiveData<User?>
+        liveData(IO) { emit(getUserPrepared()) } as MutableLiveData<User?>
 
-    val user: LiveData<User?> = _user
+    val user: LiveData<User?> get() = _user
 
     val userLeftValues: MutableLiveData<UserLeftValues> =
         MutableLiveData(UserLeftValues())
@@ -79,9 +70,7 @@ class UserRepository @Inject internal constructor(
      * Search user from local room db, if its null - download from firebase
      */
     private suspend fun getUserPrepared() = coroutineScope {
-        withContext(IO) {
-            userDao.getUser() ?: downloadUserFromFB()
-        }
+        userDao.getUser() ?: downloadUserFromFB()
     }
 
 
@@ -263,7 +252,9 @@ class UserRepository @Inject internal constructor(
 
     }
 
-    // check if string nutrient value is valid
+    /**
+     * check if string nutrient value is valid
+     */
     private fun isNewNutrientValueValid(newValueToSave: String): Boolean {
         for (c in newValueToSave) if (!c.isDigit()) return false
         if (newValueToSave.toInt() !in 1..10000) return false
@@ -317,17 +308,4 @@ class UserRepository @Inject internal constructor(
             callback?.onFailure()
         }
     }
-
-    /**
-     * save product to recent
-     */
-    fun saveToRecent(recent: RecentProduct) {
-        // if rows >= 5, delete first
-        if (userDao.getNumRecent() >= 5) {
-            userDao.deleteFirstRecent()
-        }
-        userDao.insertRecentProducts(recent)
-    }
-
-
 }

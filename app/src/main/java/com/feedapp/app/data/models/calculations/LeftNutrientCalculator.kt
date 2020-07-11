@@ -11,7 +11,6 @@ import kotlin.math.roundToInt
 
 class LeftNutrientCalculator {
 
-
     /**
      * calculate left amount
      */

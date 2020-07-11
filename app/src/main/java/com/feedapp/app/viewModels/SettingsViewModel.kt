@@ -4,9 +4,6 @@
 
 package com.feedapp.app.viewModels
 
-import android.app.ActivityManager
-import android.content.Context
-import android.content.SharedPreferences
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -17,26 +14,32 @@ import com.feedapp.app.data.models.BasicNutrientType
 import com.feedapp.app.data.models.BasicNutrientType.*
 import com.feedapp.app.data.models.DataResponseStatus
 import com.feedapp.app.data.models.Event
+import com.feedapp.app.data.models.localdb.LocalDBUrls
 import com.feedapp.app.data.models.user.User
 import com.feedapp.app.data.models.user.UserDeleteOperation
+import com.feedapp.app.data.repositories.RecentDelegate
 import com.feedapp.app.data.repositories.UserRepository
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.launch
+import java.io.File
+import java.io.FileOutputStream
+import java.net.URL
 import javax.inject.Inject
 
+enum class Operation {
+    SUCCESS, FAILED
+}
 
 class SettingsViewModel @Inject internal constructor(
     private val userRepository: UserRepository,
-    private val sp: SharedPreferences
-) : ViewModel(), UserDeleteCallback {
-
-    var context: Context? = null
+    private val recentDelegate: RecentDelegate
+) : ViewModel() {
 
     val status = MutableLiveData(DataResponseStatus.NONE)
-
-    private val spCautionName = "ShouldShowCautionDialog"
-
     var user: LiveData<User?> = userRepository.user
+
+    private val _toastDatabase = MutableLiveData<Event<Operation>>()
+    val toastDatabase: LiveData<Event<Operation>> get() = _toastDatabase
 
     private val toastDelete = MutableLiveData<Event<UserDeleteOperation>>()
 
@@ -44,7 +47,6 @@ class SettingsViewModel @Inject internal constructor(
 
     val toast: LiveData<Event<UserDeleteOperation>>
         get() = toastDelete
-
 
     val reauth: LiveData<Event<Boolean>>
         get() = firebaseReauth
@@ -71,41 +73,21 @@ class SettingsViewModel @Inject internal constructor(
         status.postValue(DataResponseStatus.SUCCESS)
     }
 
-
-    override fun onDeletionSuccess() {
-        // if firebase acc deleted, delete also all local data
-        try {
-            context ?: throw java.lang.Exception()
-            (context!!.getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager)
-                .clearApplicationUserData()
-        } catch (e: java.lang.Exception) {
-            e.printStackTrace()
-            onDeletionError()
-        }
-    }
-
-    override fun onDeletionError() {
-        toastDeletion(UserDeleteOperation.FAILED)
-    }
-
-    override fun reauthRequired() {
-        toastDeletion(UserDeleteOperation.REAUTH)
-    }
-
-    fun deleteAllData() = viewModelScope.launch(IO) {
+    fun deleteAllData(listener: UserDeleteCallback) = viewModelScope.launch(IO) {
         try {
             userRepository.deleteFirebaseAccount(object :
                 UserDeleteCallback {
                 override fun onDeletionSuccess() {
-                    this@SettingsViewModel.onDeletionSuccess()
+                    listener.onDeletionSuccess()
                 }
 
                 override fun onDeletionError() {
-                    this@SettingsViewModel.onDeletionError()
+                    listener.onDeletionError()
+                    toastDeletion(UserDeleteOperation.FAILED)
                 }
 
                 override fun reauthRequired() {
-                    this@SettingsViewModel.reauthRequired()
+                    toastDeletion(UserDeleteOperation.REAUTH)
                     firebaseReauth(true)
                 }
 
@@ -139,9 +121,9 @@ class SettingsViewModel @Inject internal constructor(
         }
     }
 
-    fun shouldShowCautionDialog(): Boolean = sp.getBoolean(spCautionName, true)
-
-    fun saveShowedCautionDialog() = sp.edit().putBoolean(spCautionName, false).apply()
+    fun deleteRecentProducts() = viewModelScope.launch(IO) {
+        recentDelegate.deleteRecentProducts()
+    }
 
     fun getNutrientValue(nutrient: BasicNutrientType): String {
         return when (nutrient) {
@@ -152,5 +134,28 @@ class SettingsViewModel @Inject internal constructor(
         }
     }
 
+
+    fun downloadDatabase(
+        filePath: String,
+        code: String,
+        listener: BasicOperationCallback
+    ) = viewModelScope.launch(IO) {
+        fun download(link: String, path: String) {
+            try {
+                URL(link).openStream().use { input ->
+                    FileOutputStream(File(path)).use { output ->
+                        input.copyTo(output)
+                        _toastDatabase.postValue(Event(Operation.SUCCESS))
+                    }
+                }
+            } catch (e: Exception) {
+                e.printStackTrace()
+                _toastDatabase.postValue(Event(Operation.FAILED))
+                listener.onFailure()
+            }
+        }
+
+        LocalDBUrls.getURLByCode(code)?.let { download(it, filePath) }
+    }
 
 }

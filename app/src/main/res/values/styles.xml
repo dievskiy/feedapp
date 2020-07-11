@@ -176,14 +176,14 @@
     <style name="CardViewUsual">
         <item name="android:layout_marginStart">2dp</item>
         <item name="android:layout_marginEnd">2dp</item>
+        <item name="cardBackgroundColor">@color/statusBar</item>
         <item name="cardPreventCornerOverlap">false</item>
         <item name="cardUseCompatPadding">true</item>
         <item name="cardCornerRadius">8dp</item>
     </style>
 
     <style name="TitleBold">
-
-        <item name="android:textSize">18sp</item>
+        <item name="android:textSize">17sp</item>
         <item name="android:textStyle">bold</item>
         <item name="android:textColor">@color/black</item>
     </style>

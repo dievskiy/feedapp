@@ -12,16 +12,16 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.feedapp.app.R
-import com.feedapp.app.data.interfaces.MyProductsSearchResult
 import com.feedapp.app.data.models.day.DayDate
 import com.feedapp.app.databinding.ActivityMyMealsSearchBinding
+import com.feedapp.app.ui.activities.HomeActivity.Companion.INTENT_EXTRAS_MEAL_TYPE
+import com.feedapp.app.ui.activities.SearchActivity.Companion.INTENT_EXTRAS_ID
+import com.feedapp.app.ui.activities.SearchActivity.Companion.INTENT_EXTRAS_TITLE
 import com.feedapp.app.ui.adapters.MyProductsSearchRecyclerAdapter
-import com.feedapp.app.util.intentDate
-import com.feedapp.app.util.intentMealType
 import com.feedapp.app.viewModels.MyMealsSearchViewModel
 import javax.inject.Inject
 
-class MyMealsSearchActivity @Inject constructor() : ClassicActivity(), MyProductsSearchResult {
+class MyMealsSearchActivity @Inject constructor() : ClassicActivity() {
 
     @Inject
     lateinit var modelFactory: ViewModelProvider.Factory
@@ -31,7 +31,8 @@ class MyMealsSearchActivity @Inject constructor() : ClassicActivity(), MyProduct
     }
 
     private lateinit var binding: ActivityMyMealsSearchBinding
-    private val adapterToSet = MyProductsSearchRecyclerAdapter(this)
+    private val adapterToSet =
+        MyProductsSearchRecyclerAdapter { id, title -> startDetailedActivity(id, title) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -72,14 +73,16 @@ class MyMealsSearchActivity @Inject constructor() : ClassicActivity(), MyProduct
         })
     }
 
-    override fun startDetailedActivity(id: Int, title: String) {
-        val mealType: Int = intent?.extras?.getInt(intentMealType) ?: 0
-        val date: DayDate? = intent?.extras?.getSerializable(intentDate) as DayDate?
+    fun startDetailedActivity(id: Int, title: String) {
+        val mealType: Int = intent?.extras?.getInt(INTENT_EXTRAS_MEAL_TYPE) ?: 0
+        val date: DayDate? =
+            intent?.extras?.getSerializable(HomeActivity.INTENT_EXTRAS_DATE) as DayDate?
         val intent = Intent(this, DetailedFoodActivity::class.java)
-        intent.putExtra("id", id)
-        intent.putExtra("title", title)
-        intent.putExtra(intentDate, date)
-        intent.putExtra(intentMealType, mealType)
+        intent.putExtra(INTENT_EXTRAS_ID, id)
+        intent.putExtra(INTENT_EXTRAS_TITLE, title)
+        intent.putExtra(HomeActivity.INTENT_EXTRAS_DATE, date)
+        intent.putExtra(INTENT_EXTRAS_MEAL_TYPE, mealType)
+        intent.putExtra(INTENT_EXTRAS_CUSTOM_PRODUCT, true)
         startActivityForResult(intent, HomeActivity.REQUEST_CODE_ADD_MEAL)
     }
 
@@ -95,5 +98,8 @@ class MyMealsSearchActivity @Inject constructor() : ClassicActivity(), MyProduct
         }
     }
 
+    companion object {
+        const val INTENT_EXTRAS_CUSTOM_PRODUCT = "custom"
+    }
 
 }

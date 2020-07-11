@@ -4,11 +4,14 @@
 
 package com.feedapp.app.ui.activities
 
+import android.content.DialogInterface
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
 import android.os.Handler
 import android.view.View
+import android.widget.CheckBox
+import androidx.appcompat.app.AlertDialog
 import androidx.core.widget.NestedScrollView
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
@@ -17,25 +20,40 @@ import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.navigation.ui.setupWithNavController
 import com.feedapp.app.R
-import com.feedapp.app.data.interfaces.BottomNavigationValuesUpdate
+import com.feedapp.app.data.interfaces.BasicOperationCallback
 import com.feedapp.app.data.models.FragmentNavigationType
 import com.feedapp.app.data.models.day.MealType
+import com.feedapp.app.data.models.localdb.LocalDBSAvailable
+import com.feedapp.app.data.models.localdb.LocalDBUris
+import com.feedapp.app.data.models.prefs.SharedPrefsHelper
 import com.feedapp.app.databinding.ActivityHomeBinding
 import com.feedapp.app.ui.fragments.home.HomeFragment.Companion.REQUEST_CODE_STATISTICS
 import com.feedapp.app.ui.listeners.BottomNavigationItemListener
 import com.feedapp.app.ui.viewclasses.TargetViewFactory
-import com.feedapp.app.util.intentDate
-import com.feedapp.app.util.intentMealType
 import com.feedapp.app.util.toast
 import com.feedapp.app.viewModels.HomeViewModel
 import com.getkeepsafe.taptargetview.TapTargetView
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.firebase.analytics.FirebaseAnalytics
+import com.google.firebase.analytics.ktx.analytics
+import com.google.firebase.analytics.ktx.logEvent
+import com.google.firebase.ktx.Firebase
 import com.leinardi.android.speeddial.SpeedDialActionItem
 import com.leinardi.android.speeddial.SpeedDialView
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers.Main
+import kotlinx.coroutines.launch
+import java.io.File
+import java.util.*
 import javax.inject.Inject
 
 
-class HomeActivity : ClassicActivity(), BottomNavigationValuesUpdate {
+class HomeActivity : ClassicActivity() {
+
+    private lateinit var firebaseAnalytics: FirebaseAnalytics
+
+    @Inject
+    lateinit var spHelper: SharedPrefsHelper
 
     @Inject
     lateinit var modelFactory: ViewModelProvider.Factory
@@ -52,10 +70,13 @@ class HomeActivity : ClassicActivity(), BottomNavigationValuesUpdate {
         const val RESULT_CODE_UPDATE_DAY = 102
         const val EXTRAS_UPDATE_DAY = "updateDay"
         const val EXTRAS_RECIPES_QUERY = "recipesName"
+        const val INTENT_EXTRAS_DATE = "Day"
+        const val INTENT_EXTRAS_MEAL_TYPE = "MealType"
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        firebaseAnalytics = Firebase.analytics
         setStatusBar()
         if (!viewModel.introShowed()) {
             startIntroduction()
@@ -69,9 +90,95 @@ class HomeActivity : ClassicActivity(), BottomNavigationValuesUpdate {
             setViewListeners()
             setAddMealFab()
             checkHomeUiGuide()
+            checkLocalDatabase()
+
+
+
         }
 
     }
+
+    /**
+     * Checks if database for current locale is available to download and downloads it
+     */
+    private fun checkLocalDatabase() {
+        var code = getCountry()
+        val isAvailable =
+            LocalDBSAvailable.values().asList()
+                .find { code.contains(it.toString(), ignoreCase = true) }
+        if (isAvailable != null) {
+            code = isAvailable.toString()
+
+            val cacheDirPath = this@HomeActivity.cacheDir?.toString() ?: return
+            val filePath = LocalDBUris.getDBPath(cacheDirPath, code)
+            val file = File(filePath)
+
+            // if file doesn't exist, ask user to download db from Internet
+            if (!file.exists() && spHelper.shouldAskDownloadDB()) {
+                showDownloadDialog(
+                    DialogInterface.OnClickListener { _, _ ->
+                        firebaseAnalytics.logEvent("database_download"){
+                            param("isDownloading", "true")
+                        }
+                        viewModel.downloadLocalDB(filePath, code, object : BasicOperationCallback {
+                            override fun onSuccess() {
+                                if (spHelper.saveLocalDBDownloaded(code))
+                                    CoroutineScope(Main).launch {
+                                        toast(getString(R.string.db_local_download_success))
+                                    }
+                            }
+
+                            override fun onFailure() {
+                                CoroutineScope(Main).launch {
+                                    toast(getString(R.string.db_local_download_failure))
+                                }
+                            }
+
+                        })
+                    },
+                    code,
+                    code
+                )
+            }
+        }
+    }
+
+    private fun getCountry(): String = Locale.getDefault().toLanguageTag()
+
+    /**
+     * show dialog to user if he wants to download database on his local language
+     */
+    private fun showDownloadDialog(
+        listener: DialogInterface.OnClickListener,
+        countryDisplayName: String,
+        code: String
+    ) {
+        val view = layoutInflater.inflate(R.layout.dialog_download_db, null)
+        val dontAskAgain = view.findViewById<CheckBox>(R.id.checkBox_dont_ask)
+
+        AlertDialog.Builder(this)
+            .setView(view)
+            .setTitle(getString(R.string.dialog_download_local_db_title))
+            .setMessage(
+                getString(
+                    R.string.dialog_download_local_db_message,
+                    countryDisplayName,
+                    code
+                )
+            )
+            .setPositiveButton(R.string.ok, listener)
+            .setNegativeButton(R.string.cancel) { _, _ ->
+                if (dontAskAgain.isChecked) {
+                    spHelper.saveDontAskDownloadDB()
+                }
+            }
+            .show()
+
+        firebaseAnalytics.logEvent("dialog"){
+            param("downloadDatabase", "showed")
+        }
+    }
+
 
     /**
      * Check if introduction screen for Add button showed
@@ -98,10 +205,9 @@ class HomeActivity : ClassicActivity(), BottomNavigationValuesUpdate {
         }
     }
 
-
     private fun startIntroduction() {
         val introIntent = Intent(this, IntroductionActivity::class.java)
-        introIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+        introIntent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
         startActivity(introIntent)
     }
 
@@ -110,7 +216,8 @@ class HomeActivity : ClassicActivity(), BottomNavigationValuesUpdate {
     private fun setNavView() {
         val navView: BottomNavigationView = findViewById(R.id.nav_view)
         navController = findNavController(R.id.nav_host_fragment)
-        val navListener = BottomNavigationItemListener(navController, this)
+        val navListener =
+            BottomNavigationItemListener(navController) { t -> updateBottomPosition(t) }
         navView.apply {
             setupWithNavController(navController)
             setOnNavigationItemSelectedListener(navListener)
@@ -209,7 +316,7 @@ class HomeActivity : ClassicActivity(), BottomNavigationValuesUpdate {
             when (it) {
                 FragmentNavigationType.PRODUCTS -> {
                     binding.fabAddMeal.apply {
-                        close(true)
+                        close(false)
                         hide()
                     }
                     binding.fabAddProduct.show()
@@ -221,14 +328,14 @@ class HomeActivity : ClassicActivity(), BottomNavigationValuesUpdate {
                 }
                 FragmentNavigationType.RECIPES -> {
                     binding.fabAddMeal.apply {
-                        close(true)
+                        close(false)
                         hide()
                     }
                     binding.fabAddProduct.hide()
                 }
                 FragmentNavigationType.SETTINGS -> {
                     binding.fabAddMeal.apply {
-                        close(true)
+                        close(false)
                         hide()
                     }
                     binding.fabAddProduct.hide()
@@ -245,22 +352,16 @@ class HomeActivity : ClassicActivity(), BottomNavigationValuesUpdate {
      */
     private val fabListener = SpeedDialView.OnActionSelectedListener { actionItem ->
         val intent = Intent(this, SearchActivity::class.java)
-        intent.putExtra(intentDate, viewModel.currentDay.value?.date)
-        binding.fabAddMeal.close()
-        when (actionItem.id) {
-            R.id.fab_meals_breakfast -> {
-                intent.putExtra(intentMealType, MealType.BREAKFAST.code)
-            }
-            R.id.fab_meals_lunch -> {
-                intent.putExtra(intentMealType, MealType.LUNCH.code)
-            }
-            R.id.fab_meals_snack -> {
-                intent.putExtra(intentMealType, MealType.SNACK.code)
-            }
-            R.id.fab_meals_dinner -> {
-                intent.putExtra(intentMealType, MealType.DINNER.code)
-            }
+        intent.putExtra(INTENT_EXTRAS_DATE, viewModel.currentDay.value?.date)
+        val code = when (actionItem.id) {
+            R.id.fab_meals_breakfast -> MealType.BREAKFAST.code
+            R.id.fab_meals_lunch -> MealType.LUNCH.code
+            R.id.fab_meals_snack -> MealType.SNACK.code
+            R.id.fab_meals_dinner -> MealType.DINNER.code
+            else -> MealType.BREAKFAST.code
         }
+
+        intent.putExtra(INTENT_EXTRAS_MEAL_TYPE, code)
 
         startActivityForResult(intent, REQUEST_CODE_ADD_MEAL)
 
@@ -299,7 +400,7 @@ class HomeActivity : ClassicActivity(), BottomNavigationValuesUpdate {
     }
 
 
-    override fun updateBottomPosition(type: FragmentNavigationType) {
+    private fun updateBottomPosition(type: FragmentNavigationType) {
         viewModel.currentBottomPosition.postValue(type)
     }
 

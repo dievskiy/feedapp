@@ -53,7 +53,10 @@ class StatisticsActivity : ClassicActivity() {
 
     private fun setUpTabLayout() {
         val viewPager = findViewById<ViewPager>(R.id.pager)
-        viewPager.adapter = StatisticsPagerAdapter(supportFragmentManager)
+        viewPager.adapter = StatisticsPagerAdapter(
+            supportFragmentManager,
+            arrayOf(getString(R.string.month), getString(R.string.day))
+        )
         binding.tablayout.setupWithViewPager(viewPager)
     }
 

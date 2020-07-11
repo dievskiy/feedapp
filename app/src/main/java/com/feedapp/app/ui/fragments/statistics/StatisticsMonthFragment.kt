@@ -96,42 +96,38 @@ class StatisticsMonthFragment : DaggerFragment() {
     }
 
     private fun setUpNutrientMenu() {
-        binding.nutrientDropdown.apply {
-            setAdapter(
-                ArrayAdapter(
-                    requireActivity(),
-                    R.layout.spinner_default,
-                    viewModel.nutrientArrayList.value ?: arrayListOf()
-                )
-            )
-            setOnItemClickListener { _, _, position, _ ->
-                viewModel.updateBarDataset(nutrientInt = position)
+        try {
+            val nutrients = resources.getStringArray(R.array.StatisticsNutrients)
+            binding.nutrientDropdown.apply {
+                setAdapter(ArrayAdapter(requireActivity(), R.layout.spinner_default, nutrients))
+                setOnItemClickListener { _, _, position, _ ->
+                    viewModel.updateBarDataset(nutrientInt = position)
+                }
+                // remove white space in the bottom of dropdown menu
+                setDropDownBackgroundResource(R.drawable.white_background)
+                setText(nutrients[viewModel.nutrientPosition.value?.code ?: 0], false)
             }
-            // remove white space in the bottom of dropdown menu
-            setDropDownBackgroundResource(R.drawable.white_background)
-            setText(viewModel.getNutrientDropdownInitialText(), false)
-
-
+        } catch (e: RuntimeException) {
         }
     }
 
     private fun setUpMonthMenu() {
-        binding.monthDropdown.apply {
-            setAdapter(
-                ArrayAdapter(
-                    requireActivity(),
-                    R.layout.spinner_default,
-                    viewModel.monthArrayList.value ?: arrayListOf()
+        try {
+            val months = resources.getStringArray(R.array.Months)
+            binding.monthDropdown.apply {
+                setAdapter(
+                    ArrayAdapter(requireActivity(), R.layout.spinner_default, months)
                 )
-            )
-            setOnItemClickListener { _, _, position, _ ->
-                viewModel.updateBarDataset(monthInt = position)
+                setOnItemClickListener { _, _, position, _ ->
+                    viewModel.updateBarDataset(monthInt = position)
+                }
+                // remove white space in the bottom of dropdown menu
+                setDropDownBackgroundResource(R.drawable.white_background)
+                setText(months[viewModel.monthPosition.value ?: 0], false)
             }
-            // remove white space in the bottom of dropdown menu
-            setDropDownBackgroundResource(R.drawable.white_background)
-            setText(viewModel.getMonthDropdownInitialText(), false)
-
+        } catch (e: RuntimeException) {
         }
+
     }
 
     private fun setUpDropdownMenus() {
