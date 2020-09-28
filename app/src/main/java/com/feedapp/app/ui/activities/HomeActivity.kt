@@ -30,6 +30,7 @@ import com.feedapp.app.databinding.ActivityHomeBinding
 import com.feedapp.app.ui.fragments.home.HomeFragment.Companion.REQUEST_CODE_STATISTICS
 import com.feedapp.app.ui.listeners.BottomNavigationItemListener
 import com.feedapp.app.ui.viewclasses.TargetViewFactory
+import com.feedapp.app.util.showDialog
 import com.feedapp.app.util.toast
 import com.feedapp.app.viewModels.HomeViewModel
 import com.getkeepsafe.taptargetview.TapTargetView
@@ -91,9 +92,6 @@ class HomeActivity : ClassicActivity() {
             setAddMealFab()
             checkHomeUiGuide()
             checkLocalDatabase()
-
-
-
         }
 
     }
@@ -156,23 +154,17 @@ class HomeActivity : ClassicActivity() {
         val view = layoutInflater.inflate(R.layout.dialog_download_db, null)
         val dontAskAgain = view.findViewById<CheckBox>(R.id.checkBox_dont_ask)
 
-        AlertDialog.Builder(this)
-            .setView(view)
-            .setTitle(getString(R.string.dialog_download_local_db_title))
-            .setMessage(
-                getString(
-                    R.string.dialog_download_local_db_message,
-                    countryDisplayName,
-                    code
-                )
-            )
-            .setPositiveButton(R.string.ok, listener)
-            .setNegativeButton(R.string.cancel) { _, _ ->
-                if (dontAskAgain.isChecked) {
-                    spHelper.saveDontAskDownloadDB()
-                }
+        showDialog(
+            view,
+            getString(R.string.dialog_download_local_db_title),
+            getString(R.string.dialog_download_local_db_message, countryDisplayName, code),
+            R.string.ok,
+            R.string.cancel,
+            listener,
+            DialogInterface.OnClickListener { _, _ ->
+                if (dontAskAgain.isChecked) spHelper.saveDontAskDownloadDB()
             }
-            .show()
+        )
 
         firebaseAnalytics.logEvent("dialog"){
             param("downloadDatabase", "showed")
