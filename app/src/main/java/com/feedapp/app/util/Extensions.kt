@@ -6,12 +6,15 @@ package com.feedapp.app.util
 
 import android.app.Activity
 import android.content.Context
+import android.content.DialogInterface
 import android.net.ConnectivityManager
 import android.util.TypedValue
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
+import com.feedapp.app.R
 import java.math.BigDecimal
 import java.math.RoundingMode
 import java.util.*
@@ -22,6 +25,24 @@ fun Context.toast(message: String) {
 
 fun Context.toastLong(message: String) {
     Toast.makeText(this, message, Toast.LENGTH_LONG).show()
+}
+
+fun Context.showDialog(
+    view: View?,
+    title: String,
+    message: String?,
+    positiveText: Int,
+    negativeText: Int,
+    okListener: DialogInterface.OnClickListener,
+    cancelListener: DialogInterface.OnClickListener?
+) {
+    AlertDialog.Builder(this)
+        .setView(view)
+        .setTitle(title)
+        .setMessage(message)
+        .setPositiveButton(positiveText, okListener)
+        .setNegativeButton(negativeText, cancelListener)
+        .show()
 }
 
 fun String.getValidLetter(): String {

@@ -243,7 +243,7 @@ class SearchActivity @Inject constructor() : ClassicActivity() {
 
     }
 
-    fun searchByQuery(q: String) {
+    private fun searchByQuery(q: String) {
         binding.activitySearchSearchBar.clearFocus()
         binding.activitySearchSearchBar.disableSearch()
         hideKeyboard()
@@ -251,7 +251,7 @@ class SearchActivity @Inject constructor() : ClassicActivity() {
     }
 
 
-    fun startDetailedActivity(food: IProduct) {
+    private fun startDetailedActivity(food: IProduct) {
         val intent = Intent(this, DetailedFoodActivity::class.java)
         intent.putExtra(HomeActivity.INTENT_EXTRAS_DATE, dateString)
         intent.putExtra(HomeActivity.INTENT_EXTRAS_MEAL_TYPE, mealTypeCode)
