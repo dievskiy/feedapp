@@ -1,6 +1,6 @@
 # FeedApp
 
-[Calorie tracking app][gp] is written in Kotlin using Architecture Compontents such as Dagger, Room, MVVM, Coroutines and Data binding. It also supports recipe search through API and has beautiful statistic tools. App uses Firebase SDK: Firestore, Analytics, Crashlytics, Cloud Messaging and Authentication.
+[Calorie tracking app][gp] written in Kotlin using Architecture Compontents such as Dagger, Room, MVVM, Coroutines and Data binding. It also supports recipe search through API and has beautiful statistic tools. App uses Firebase SDK: Firestore, Analytics, Crashlytics, Cloud Messaging and Authentication.
 
 #### main features
 * track consumed food
